@@ -1,39 +1,46 @@
+<!-- <template>
+  <div class="row">
+    <nav>
+      <div class="col-lg-6"></div>
+      <div class="col-lg-6">
+        <router-link to='/' class="btn btn-light mx-4">Home</router-link>
+        <router-link to='/signup' class="btn btn-light mx-4">Sign Up</router-link>
+        <router-link to='/login' class="btn btn-light mx-4">Login</router-link>
+      </div>
+    </nav>
+  </div> -->
+  <!-- <template>
+  <div class="row">
+    <nav>
+    <div class="col-6"></div>
+    <div class="col-4">
+    
+      <router-link to='/' style="text-decoration: none;" class="text-dark mx-4">Home</router-link>
+      <router-link to='/login' style="text-decoration: none;" class="text-dark mx-4">Login</router-link>
+      <router-link to='/signup' style="text-decoration: none;" class="text-dark mx-4">Sign Up</router-link>
+    </div>
+    <div class="col-2"></div>
+    </nav>
+  </div> -->
+
+
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-  <ComparisonPage/>
-  <HomePage/>
-  <LoginPage/>
-  <SignUpPage/>
+  <div>
+    <MainNavbar/>
+    <router-view></router-view>
+  </div>
+
 
 </template>
 
 <script>
-import ComparisonPage from './components/ComparisonPage.vue';
-import HomePage from './components/HomePage.vue';
-import LoginPage from './components/LoginPage.vue';
-import SignUpPage from './components/SignUpPage.vue';
 
-
+import MainNavbar from './components/MainNavbar.vue';
 export default {
   name: 'App',
-  components: {
-    HomePage,
-    ComparisonPage,
-    LoginPage,
-    SignUpPage
-
+  components:{
+    MainNavbar,
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

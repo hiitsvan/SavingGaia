@@ -8,7 +8,10 @@ const routes=[
     {
         name: 'HomePage',
         component: HomePage,
-        path: '/'
+        path: '/',
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         name: 'SignUpPage',
@@ -23,7 +26,10 @@ const routes=[
     {
         name: 'ComparisonPage',
         component: ComparisonPage,
-        path: '/comparison'
+        path: '/comparison',
+        meta: {
+            requiresAuth: true
+        }
     }
 ];
 
