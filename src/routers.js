@@ -1,7 +1,7 @@
-import HomePage from './components/HomePage.vue';
-import SignUpPage from './components/SignUpPage.vue';
-import LoginPage from './components/LoginPage.vue';
-import ComparisonPage from './components/ComparisonPage.vue';
+import HomePage from './components/pages/HomePage.vue';
+import SignUpPage from './components/pages/SignUpPage.vue';
+import LoginPage from './components/pages/LoginPage.vue';
+import ComparisonPage from './components/pages/ComparisonPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes=[

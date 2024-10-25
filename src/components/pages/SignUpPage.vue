@@ -17,7 +17,8 @@
   </template>
   
   <script>
-  import { auth } from '../firebase/index'; // Adjust the path as necessary
+  
+  import { auth } from '../../firebase/index'; // Adjust the path as necessary
   import { createUserWithEmailAndPassword } from 'firebase/auth';
   
   export default {
@@ -34,7 +35,7 @@
           await createUserWithEmailAndPassword(auth, this.email, this.password);
           this.error = null; // Clear any previous errors
           // Optionally, redirect to another page after successful sign-up
-          this.$router.push('/LoginPage'); // Adjust the route as necessary
+          this.$router.push('/LoginPage'); 
         } catch (err) {
           this.error = err.message;
         }

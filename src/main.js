@@ -6,9 +6,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './routers'; // Assuming you have router setup
 import store from './store'; // Import the Vuex store
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import 'bootstrap';
-import './assets/styles/custom.scss';
+import './assets/styles/custom.css';
 
 
 const app = createApp(App);

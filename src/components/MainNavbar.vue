@@ -7,7 +7,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <div class="ms-auto"> <!-- Use ms-auto for Bootstrap 5 -->
+          <div class="ms-auto"> 
             <router-link to="/" class="btn btn-light mx-2">Home</router-link>
             <router-link to="/signup" class="btn btn-light mx-2">Sign Up</router-link>
             <router-link to="/login" class="btn btn-light mx-2">Login</router-link>
