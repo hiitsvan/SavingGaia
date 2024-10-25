@@ -1,7 +1,7 @@
 <template>
     <section class="relative h-screen">
         <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
-            <source src="../../../public/media/rain_forest.mp4" type="video/mp4">
+            <source src="/media/rain_forest.mp4" type="video/mp4">
         </video>
         <div id="introEcoLah" class="absolute inset-0 flex flex-col justify-center items-center text-white text-center font-bold text-4xl sm:text-6xl space-y-4 bg-black bg-opacity-50">
             <div class="tracking-wide">
@@ -19,7 +19,7 @@
     <!-- Statistic Sections -->
     <section class="relative h-screen">
         <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
-            <source src="../../../public/media/Drought.mp4" type="video/mp4">
+            <source src="/media/Drought.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
             <h2 class="text-white text-4xl sm:text-5xl font-bold text-center">
@@ -31,7 +31,7 @@
 
     <section class="relative h-screen">
         <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
-            <source src="../../../public/media/forestFire.mp4" type="video/mp4">
+            <source src="/media/forestFire.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
             <h2 class="text-white text-4xl sm:text-5xl font-bold text-center">
@@ -43,7 +43,7 @@
 
     <section class="relative h-screen">
         <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
-            <source src="../../../public/media/Hungry.mp4" type="video/mp4">
+            <source src="/media/Hungry.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
             <h2 class="text-white text-4xl sm:text-5xl font-bold text-center">
@@ -55,7 +55,7 @@
 
     <section class="relative h-screen">
         <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
-            <source src="../../../public/media/waves.mp4" type="video/mp4">
+            <source src="/media/waves.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
             <h2 class="text-white text-4xl sm:text-5xl font-bold text-center">
@@ -78,7 +78,7 @@
         <div class="container mx-auto flex justify-center space-x-6">
             <!-- Card 1 -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-sm">
-                <img src="../../../public/media/Study.jpg" alt="Study" class="w-full h-48 object-cover">
+                <img src="media/Study.jpg" alt="Study" class="w-full h-48 object-cover">
                 <div class="p-6">
                     <span class="text-green-600 text-sm uppercase">Educate</span>
                     <h2 class="text-xl font-bold mt-2">Learn More</h2>
@@ -88,7 +88,7 @@
 
             <!-- Card 2 -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-sm">
-                <img src="../../../public/media/Newspaper.jpg" alt="News" class="w-full h-48 object-cover">
+                <img src="/media/Newspaper.jpg" alt="News" class="w-full h-48 object-cover">
                 <div class="p-6">
                     <span class="text-green-600 text-sm uppercase">Latest News</span>
                     <h2 class="text-xl font-bold mt-2">Read More</h2>
@@ -98,7 +98,7 @@
 
             <!-- Card 3 -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-sm">
-                <img src="../../../public/media/Volunteer.jpg" alt="Volunteer" class="w-full h-48 object-cover">
+                <img src="/media/Volunteer.jpg" alt="Volunteer" class="w-full h-48 object-cover">
                 <div class="p-6">
                     <span class="text-green-600 text-sm uppercase">Volunteer</span>
                     <h2 class="text-xl font-bold mt-2">Work More</h2>
