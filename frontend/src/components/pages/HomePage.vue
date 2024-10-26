@@ -2,7 +2,7 @@
   <div>
     <section class="bgVideo current">
         <video autoplay muted loop>
-            <source src="/media/rain_forest.mp4" type="video/mp4">
+            <source src="media/rain_forest.mp4" type="video/mp4">
         </video>
         <div id="introEcoLah">
             <span>E</span>
@@ -15,53 +15,61 @@
         </div>
     </section>
 
-    <section class="pity">
-        <video autoplay muted loop>
-            <source src="/media/Drought.mp4" type="video/mp4">
-        </video>
-        <div class="videoContainer">
-            <h2 class="videoHeading">
-                <span class="fade-in-first">1.3 BILLION cm3 Of Water</span><br>
-                <span class="fade-in-second">Is Lost Every Year</span>
-            </h2>
+    <div class="sticky_parent">
+        <div class="sticky">
+            <div class="scroll_section">
+                <section class="pity">
+                    <video autoplay muted loop>
+                        <source src="media/Drought.mp4" type="video/mp4">
+                    </video>
+                    <div class="videoContainer">
+                        <h2 class="videoHeading">
+                            <span class="fade-in-first">1.3 BILLION cm3 Of Water</span><br>
+                            <span class="fade-in-second">Is Lost Every Year</span>
+                        </h2>
+                    </div>
+                </section>
+            
+                <section class="pity">
+                    <video autoplay muted loop>
+                        <source src="media/forestFire.mp4" type="video/mp4">
+                    </video>
+                    <div class="videoContainer">
+                        <h2 class="videoHeading">
+                            <span class="fade-in-first">10 MILLION HECTARES Of Trees</span><br>
+                            <span class="fade-in-second">Are Burned Down Every Year</span>
+                        </h2>
+                    </div>
+                </section>
+            
+                <section class="pity">
+                    <video autoplay muted loop>
+                        <source src="media/Hungry.mp4" type="video/mp4">
+                    </video>
+                    <div class="videoContainer">
+                        <h2 class="videoHeading">
+                            <span class="fade-in-first">2.5 BILLION TONS Of Food</span><br>
+                            <span class="fade-in-second">Is Wasted Every Year</span>
+                        </h2>
+                    </div>
+                </section>
+            
+                <section class="pity">
+                    <video autoplay muted loop>
+                        <source src="media/waves.mp4" type="video/mp4">
+                    </video>
+                    <div class="videoContainer">
+                        <h2 class="videoHeading">
+                            <span class="fade-in-first">Global Sea Levels Increased</span><br>
+                            <span class="fade-in-second">By 21cm Since 1900</span>
+                        </h2>
+                    </div>
+                </section>
+            </div>
         </div>
-    </section>
+    </div>
 
-    <section class="pity">
-        <video autoplay muted loop>
-            <source src="/media/forestFire.mp4" type="video/mp4">
-        </video>
-        <div class="videoContainer">
-            <h2 class="videoHeading">
-                <span class="fade-in-first">10 MILLION HECTARES Of Trees</span><br>
-                <span class="fade-in-second">Are Burned Down Every Year</span>
-            </h2>
-        </div>
-    </section>
-
-    <section class="pity">
-        <video autoplay muted loop>
-            <source src="/media/Hungry.mp4" type="video/mp4">
-        </video>
-        <div class="videoContainer">
-            <h2 class="videoHeading">
-                <span class="fade-in-first">2.5 BILLION TONS Of Food</span><br>
-                <span class="fade-in-second">Is Wasted Every Year</span>
-            </h2>
-        </div>
-    </section>
-
-    <section class="pity">
-        <video autoplay muted loop>
-            <source src="/media/waves.mp4" type="video/mp4">
-        </video>
-        <div class="videoContainer">
-            <h2 class="videoHeading">
-                <span class="fade-in-first">Global Sea Levels Increased</span><br>
-                <span class="fade-in-second">By 21cm Since 1900</span>
-            </h2>
-        </div>
-    </section>
+    
 
     <section class="hero">
         <div class="hero-content" style="position: absolute; top: 20px; left: 20px; background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 8px;">
@@ -83,7 +91,7 @@
                 </article>
 
                 <article class="card__article">
-                    <img src="/media/Newspaper.jpg" alt="News" class="card__img">
+                    <img src="media/Newspaper.jpg" alt="News" class="card__img">
                     <div class="card__data">
                         <span class="card__description">Latest News</span>
                         <h2 class="card__title">Read More</h2>
@@ -92,7 +100,7 @@
                 </article>
 
                 <article class="card__article">
-                    <img src="/media/Volunteer.jpg" alt="Volunteer" class="card__img">
+                    <img src="media/Volunteer.jpg" alt="Volunteer" class="card__img">
                     <div class="card__data">
                         <span class="card__description">Volunteer</span>
                         <h2 class="card__title">Work More</h2>
@@ -179,6 +187,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </section>
   </div>
+  <script src="homepage.js"></script>
 </template>
 
 <script>
