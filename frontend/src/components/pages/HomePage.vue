@@ -2,7 +2,7 @@
   <div>
     <section class="bgVideo current">
         <video autoplay muted loop>
-            <source src="media/rain_forest.mp4" type="video/mp4">
+            <source src="/media/rain_forest.mp4" type="video/mp4">
         </video>
         <div id="introEcoLah">
             <span>E</span>
@@ -20,7 +20,7 @@
             <div class="scroll_section">
                 <section class="pity">
                     <video autoplay muted loop>
-                        <source src="media/Drought.mp4" type="video/mp4">
+                        <source src="/media/Drought.mp4" type="video/mp4">
                     </video>
                     <div class="videoContainer">
                         <h2 class="videoHeading">
@@ -32,7 +32,7 @@
             
                 <section class="pity">
                     <video autoplay muted loop>
-                        <source src="media/forestFire.mp4" type="video/mp4">
+                        <source src="/media/forestFire.mp4" type="video/mp4">
                     </video>
                     <div class="videoContainer">
                         <h2 class="videoHeading">
@@ -44,7 +44,7 @@
             
                 <section class="pity">
                     <video autoplay muted loop>
-                        <source src="media/Hungry.mp4" type="video/mp4">
+                        <source src="/media/Hungry.mp4" type="video/mp4">
                     </video>
                     <div class="videoContainer">
                         <h2 class="videoHeading">
@@ -56,7 +56,7 @@
             
                 <section class="pity">
                     <video autoplay muted loop>
-                        <source src="media/waves.mp4" type="video/mp4">
+                        <source src="/media/waves.mp4" type="video/mp4">
                     </video>
                     <div class="videoContainer">
                         <h2 class="videoHeading">
@@ -91,7 +91,7 @@
                 </article>
 
                 <article class="card__article">
-                    <img src="media/Newspaper.jpg" alt="News" class="card__img">
+                    <img src="/media/Newspaper.jpg" alt="News" class="card__img">
                     <div class="card__data">
                         <span class="card__description">Latest News</span>
                         <h2 class="card__title">Read More</h2>
@@ -100,7 +100,7 @@
                 </article>
 
                 <article class="card__article">
-                    <img src="media/Volunteer.jpg" alt="Volunteer" class="card__img">
+                    <img src="/media/Volunteer.jpg" alt="Volunteer" class="card__img">
                     <div class="card__data">
                         <span class="card__description">Volunteer</span>
                         <h2 class="card__title">Work More</h2>
