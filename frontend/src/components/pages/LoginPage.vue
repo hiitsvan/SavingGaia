@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { auth } from '../../firebase/index';
+import { auth } from '../../../../backend/firebase/index';
 import { signInWithEmailAndPassword } from 'firebase/auth'; // Assuming Firebase is already set up
 
 

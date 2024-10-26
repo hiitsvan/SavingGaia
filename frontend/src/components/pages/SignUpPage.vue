@@ -18,7 +18,7 @@
   
   <script>
   
-  import { auth } from '../../firebase/index'; // Adjust the path as necessary
+  import { auth } from '../../../../backend/firebase/index'; // Adjust the path as necessary
   import { createUserWithEmailAndPassword } from 'firebase/auth';
   
   export default {

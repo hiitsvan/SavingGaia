@@ -145,7 +145,7 @@ video {
 
 /* Hero Section */
 .hero {
-    background-image: url('/public/media/Botanic.jpg');
+    background-image: url('/frontend/public/media/Botanic.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh;
