@@ -9,7 +9,7 @@ body {
     color: #333;
     background-color: #f7f8fa;
     line-height: 1.6;
-    display: flex;
+    display: block;
 }
 
 /* Fade-In Animation with Delay (using opacity) */
