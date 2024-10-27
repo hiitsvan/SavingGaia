@@ -104,7 +104,7 @@
                     <div class="card__data">
                         <span class="card__description">Volunteer</span>
                         <h2 class="card__title">Work More</h2>
-                        <a href="Opportunities.Vue" class="card__button">Read More</a>
+                        <a href="Opportunities.vue" class="card__button">Read More</a>
                     </div>
                 </article>
             </div>
