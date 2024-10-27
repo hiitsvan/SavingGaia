@@ -181,7 +181,7 @@
   
   <script>
   export default {
-    name: 'Opportunities',
+    name: 'OpportunitiesPage',
     data() {
       return {
         hours: Array.from({ length: 24 }, (_, i) => {
