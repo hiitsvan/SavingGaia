@@ -1,0 +1,309 @@
+/* Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    background-color: #f7f8fa;
+    line-height: 1.6;
+    display: flex;
+}
+
+/* Fade-In Animation with Delay (using opacity) */
+.fade-up {
+    opacity: 0;
+    animation: fadeInOpacity 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+.delay-1 {
+    animation-delay: 0.3s;
+}
+.delay-2 {
+    animation-delay: 0.6s;
+}
+.delay-3 {
+    animation-delay: 0.9s;
+}
+
+/* Keyframes for the fade-up effect (using opacity) */
+@keyframes fadeInOpacity {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Filter Panel Styles */
+.filter-panel {
+    width: 250px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.filter-panel h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.filter-panel p {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group label {
+    font-weight: 600;
+    font-size: 0.9em;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.filter-group input[type="text"], 
+.filter-group select {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.9em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.checkbox input {
+    margin-right: 8px;
+}
+
+/* Time Dropdown Styling */
+.time-dropdown {
+    width: 100%;
+    padding: 8px;
+    font-size: 0.9em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 150px; /* Limits the dropdown height */
+    overflow-y: auto; /* Adds scrollbar if options exceed max-height */
+}
+
+
+/* Main Content Adjustments */
+.main-content {
+    margin-left: 270px; /* Space for the filter panel */
+    padding: 20px;
+    width: calc(100% - 270px);
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #d4f4b2;
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    position: relative;
+    z-index: 10;
+}
+.navwrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.logo-wrap {
+    display: flex;
+    align-items: center;
+}
+.logo-image {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+.heading-2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+}
+.nav-menu {
+    display: flex;
+    gap: 30px;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 10px 30px;
+    border-radius: 30px;
+}
+.nav-link {
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.nav-link:hover {
+    color: #00a351;
+}
+.nav-selected {
+    color: #00a351;
+    font-weight: 700;
+}
+.logout {
+    color: #ff4c4c;
+}
+.logout:hover {
+    color: #ff0000;
+}
+
+/* Header Section */
+.header-section {
+    text-align: center;
+    padding: 50px 20px;
+    transition: transform 0.3s ease; /* Smooth transformation */
+}
+
+/* Hover effect for enlarging the text */
+.header-section:hover {
+    transform: scale(1.05); /* Scale up slightly on hover */
+}
+
+.heading {
+    font-size: 3em;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+.paragraph {
+    font-size: 1.2em;
+    color: #666;
+}
+
+/* Card Section */
+.section {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+}
+.card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Hover Animation for Cards */
+.card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 255, 0, 0.5); /* Added green glow */
+}
+
+/* Card Image */
+.card-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.card:hover .card-image img {
+    transform: scale(1.1);
+}
+
+/* Card Content */
+.card-content {
+    padding: 20px;
+}
+.card-heading {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+.card-paragraph {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* List Styles */
+.list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+.list-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #555;
+}
+.icon {
+    width: 24px;
+    height: auto;
+    margin-right: 10px;
+}
+
+/* Button Styles */
+.button {
+    background-color: #3898ec;
+    color: #fff;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 700;
+    margin: 20px;
+    transition: background-color 0.3s, transform 0.3s;
+    align-self: center;
+}
+.button:hover {
+    background-color: #2679c4;
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    /* Filter Panel becomes full-width on small screens */
+    .filter-panel {
+        width: 100%;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
