@@ -156,6 +156,7 @@
             </div>
           </div>
         </div>
+        <a href="ComparisonPage.vue"><button>Compare </button></a>
       </section>
     </main>
   </div>

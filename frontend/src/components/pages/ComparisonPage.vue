@@ -108,6 +108,7 @@
 <script>
 import "./comparison.js";
 export default {
+    name: "ComparisonPage",
   computed: {
     user() {
       return this.$store.state.user; // Access the user from Vuex state
