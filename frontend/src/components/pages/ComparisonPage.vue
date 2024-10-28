@@ -1,10 +1,10 @@
 <template>
     <div class="container">
-        <section id="selectionInfo">
+        <section id="selection-header">
             <h1>Please select 2 of your saved volunteer work</h1>
         </section>
 
-        <section id="allCards" class="cardGrid">
+        <section id="volunteer-cards" class="cards-grid">
             <div class="volunteer-card" data-id="1">
                 <img src="https://placehold.co/300x200" alt="Volunteer Work 1">
                 <h3>Beach Cleanup</h3>
@@ -16,26 +16,6 @@
                 <p>Distance: 5km</p>
             </div>
             <div class="volunteer-card" data-id="2">
-                <img src="https://placehold.co/300x200" alt="Volunteer Work 1">
-                <h3>Beach Cleanup</h3>
-                <p>Type: Environmental</p>
-                <p>Date: 2024-03-15</p>
-                <p>Duration: 4 hours</p>
-                <p>Event Type: Ad-Hoc</p>
-                <p>Location: Sunny Beach</p>
-                <p>Distance: 5km</p>
-            </div>
-            <div class="volunteer-card" data-id="3">
-                <img src="https://placehold.co/300x200" alt="Volunteer Work 1">
-                <h3>Beach Cleanup</h3>
-                <p>Type: Environmental</p>
-                <p>Date: 2024-03-15</p>
-                <p>Duration: 4 hours</p>
-                <p>Event Type: Ad-Hoc</p>
-                <p>Location: Sunny Beach</p>
-                <p>Distance: 5km</p>
-            </div>
-            <div class="volunteer-card" data-id="4">
                 <img src="https://placehold.co/300x200" alt="Volunteer Work 2">
                 <h3>Senior Care Center</h3>
                 <p>Type: Healthcare</p>
@@ -107,14 +87,13 @@
 </template>
 <script>
 import "./comparison.js";
-export default {
-    name: "ComparisonPage",
-  computed: {
-    user() {
-      return this.$store.state.user; // Access the user from Vuex state
-    }
-  }
-};
+// export default {
+//   computed: {
+//     user() {
+//       return this.$store.state.user; // Access the user from Vuex state
+//     }
+//   }
+// };
 
 
 
