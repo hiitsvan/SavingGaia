@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const volunteerCards = document.querySelectorAll('.volunteer-card');
   const cardsSection = document.getElementById('volunteer-cards');
   const comparisonTable = document.getElementById('comparison-table');
-//   const resetButton = document.getElementById('reset-comparison');
+  const resetButton = document.getElementById('reset-comparison');
   
   let selectedCards = [];
 
@@ -62,14 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
-//   resetButton.addEventListener('click', () => {
-//       selectedCards.forEach(card => card.classList.remove('selected'));
-//       selectedCards = [];
-//       comparisonTable.classList.remove('visible');
-//       setTimeout(() => {
-//           comparisonTable.classList.add('hidden');
-//           cardsSection.classList.remove('hidden');
-//           updateHeader();
-//       }, 500);
-//   });
+  resetButton.addEventListener('click', () => {
+      selectedCards.forEach(card => card.classList.remove('selected'));
+      selectedCards = [];
+      comparisonTable.classList.remove('visible');
+      setTimeout(() => {
+          comparisonTable.classList.add('hidden');
+          cardsSection.classList.remove('hidden');
+          updateHeader();
+      }, 500);
+  });
 });
