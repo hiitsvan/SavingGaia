@@ -102,69 +102,11 @@ body {
     overflow-y: auto; /* Adds scrollbar if options exceed max-height */
 }
 
-
 /* Main Content Adjustments */
 .main-content {
     margin-left: 270px; /* Space for the filter panel */
     padding: 20px;
     width: calc(100% - 270px);
-}
-
-/* Navbar Styles */
-.navbar {
-    background-color: #d4f4b2;
-    padding: 10px 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
-    position: relative;
-    z-index: 10;
-}
-.navwrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-.logo-wrap {
-    display: flex;
-    align-items: center;
-}
-.logo-image {
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
-}
-.heading-2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-}
-.nav-menu {
-    display: flex;
-    gap: 30px;
-    background-color: rgba(255, 255, 255, 0.6);
-    padding: 10px 30px;
-    border-radius: 30px;
-}
-.nav-link {
-    font-weight: 600;
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-.nav-link:hover {
-    color: #00a351;
-}
-.nav-selected {
-    color: #00a351;
-    font-weight: 700;
-}
-.logout {
-    color: #ff4c4c;
-}
-.logout:hover {
-    color: #ff0000;
 }
 
 /* Header Section */
