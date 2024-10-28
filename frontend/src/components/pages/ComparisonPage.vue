@@ -86,18 +86,17 @@
     
 </template>
 <script>
-import "./comparison.js";
-// export default {
-//   computed: {
-//     user() {
-//       return this.$store.state.user; // Access the user from Vuex state
-//     }
-//   }
-// };
-
-
-
+import comparisonScript from "./comparison.js"; // Adjust path as necessary
+export default {
+  mixins: [comparisonScript], // Use mixins to integrate the JavaScript
+  computed: {
+    user() {
+      return this.$store.state.user; // Access the user from Vuex state
+    }
+  }
+};
 </script>
+
 
 <style scoped>
 @import '../../assets/styles/comparison.css';
