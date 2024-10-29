@@ -95,7 +95,7 @@
                     <div class="card__data">
                         <span class="card__description">Latest News</span>
                         <h2 class="card__title">Read More</h2>
-                        <a href="#" class="card__button">Read More</a>
+                        <a href="/news" class="card__button">Read More</a>
                     </div>
                 </article>
 
@@ -143,7 +143,7 @@
                         <li><a href="#" class="footer__link">About Us</a></li>
                         <li><a href="#" class="footer__link">Services</a></li>
                         <li><a href="#" class="footer__link">Projects</a></li>
-                        <li><a href="#" class="footer__link">News</a></li>
+                        <li><a href="/news" class="footer__link">News</a></li>
                     </ul>
                 </div>
     
