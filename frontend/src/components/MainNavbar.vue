@@ -56,6 +56,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { signOut } from 'firebase/auth'; // Import signOut from Firebase
+import { auth } from '../../../backend/firebase/firebase'; // Adjust path as necessary
 
 export default {
   name: "MainNavbar",
@@ -66,7 +68,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['logoutUser']), // Assuming you have a logoutUser action in Vuex
+    async logout() {
+      try {
+        await signOut(auth); // Sign out from Firebase
+        this.logoutUser(); // Dispatch Vuex action to update the store
+        console.log("User signed out successfully.");
+        this.$router.push('/login'); // Redirect to login page after sign-out
+      } catch (error) {
+        console.error("Error during logout: ", error);
+      }
+    }
   },
   data() {
     return {

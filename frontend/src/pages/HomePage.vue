@@ -202,5 +202,5 @@ export default {
 };
 </script>
 <style scoped>
-@import '../../assets/styles/landingpage.css';
+@import '../assets/styles/landingpage.css';
 </style>

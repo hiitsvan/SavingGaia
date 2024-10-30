@@ -3,7 +3,7 @@
     <section class="vh-100 d-flex align-items-center justify-content-center">
       <div class="card w-40 h-auto"> <!-- Adjust width as needed -->
         <div class="card-body p-5">
-          <img src="../../../public/media/Botanic.jpg" alt="">
+          <img src="../../public/media/Botanic.jpg" alt="">
           <h1 class="text-center mb-4 mt-4 fw-bold">Sign Up</h1>
           <!-- form -->
           <form @submit.prevent="handleSignUp">
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { auth } from '../../../../backend/firebase/index'; // Adjust the path as necessary
+import { auth } from '../../../backend/firebase/firebase'; // Adjust the path as necessary
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default {
@@ -92,7 +92,7 @@ export default {
         await createUserWithEmailAndPassword(auth, this.email, this.password);
         this.error = null; // Clear any previous errors
         // Optionally, redirect to another page after successful sign-up
-        this.$router.push('/LoginPage');
+        this.$router.push('/login');
       } catch (err) {
         this.error = err.message; // Show Firebase error messages
       }
