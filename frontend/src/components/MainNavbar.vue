@@ -43,20 +43,31 @@
 
       <!-- Right side links -->
       <div class="navbar-right">
-        <router-link to="/login" class="nav-link">Login</router-link>
-        <router-link to="/signup" class="nav-link">Sign Up</router-link>
+        <template v-if="!loggedIn">
+          <router-link to="/login" class="nav-link">Login</router-link>
+          <router-link to="/signup" class="nav-link">Sign Up</router-link>
+        </template>
+        <template v-else>
+          <button @click="logout" class="nav-link btn btn-link">Logout</button>
+        </template>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: "MainNavbar",
   computed: {
+    ...mapState(['loggedIn']), // Access loggedIn state from Vuex
     isHomePage() {
       return this.$route.path === "/";
     }
+  },
+  methods: {
+    ...mapActions(['logout']),
   },
   data() {
     return {
