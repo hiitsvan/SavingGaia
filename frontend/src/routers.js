@@ -1,9 +1,9 @@
-import HomePage from './components/pages/HomePage.vue';
-import SignUpPage from './components/pages/SignUpPage.vue';
-import LoginPage from './components/pages/LoginPage.vue';
-import ComparisonPage from './components/pages/ComparisonPage.vue';
-import OpportunitiesPage from './components/pages/OpportunitiesPage.vue';
-import NewsPage from './components/pages/NewsPage.vue';
+import HomePage from './pages/HomePage.vue';
+import SignUpPage from './pages/SignUpPage.vue';
+import LoginPage from './pages/LoginPage.vue';
+import ComparisonPage from './pages/ComparisonPage.vue';
+import OpportunitiesPage from './pages/OpportunitiesPage.vue';
+import NewsPage from './pages/NewsPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes=[
