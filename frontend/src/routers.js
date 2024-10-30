@@ -5,6 +5,7 @@ import ComparisonPage from './pages/ComparisonPage.vue';
 import OpportunitiesPage from './pages/OpportunitiesPage.vue';
 import NewsPage from './pages/NewsPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
+import NewHomePage from './pages/NewHomePage.vue';
 
 const routes=[
     {
@@ -42,6 +43,11 @@ const routes=[
         name: 'NewsPage',
         component: NewsPage,
         path: '/news'
+    },
+    {
+        name: 'NewHomePage',
+        component: NewHomePage,
+        path: '/newhomepage'
     }
 ];
 
