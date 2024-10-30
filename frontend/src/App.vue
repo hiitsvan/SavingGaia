@@ -1,5 +1,6 @@
 <template>
   <div>
+    <MainNavbar/>
     <router-view></router-view>
   </div>
 
@@ -8,9 +9,12 @@
 
 <script>
 
-// import MainNavbar from './components/MainNavbar.vue';
+import MainNavbar from './components/MainNavbar.vue';
 export default {
   name: 'App',
+  components: {
+    MainNavbar, // Add MainNavbar here
+  },
 }
 </script>
 
