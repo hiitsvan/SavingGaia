@@ -1,27 +1,4 @@
 
-.news-article p {
-  font-size: 16px;
-  color: #666;
-  margin: 0 15px 15px;
-  line-height: 1.6;
-}
-
-.read-more-btn {
-  display: inline-block;
-  background-color: #3498db;
-  color: #ffffff;
-  padding: 8px 12px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-  margin: 0 15px 15px;
-  transition: background-color 0.3s;
-}
-
-.read-more-btn:hover {
-  background-color: #2980b9;
-}
-</style> -->
 
 <template>
   <div class="news-page">
