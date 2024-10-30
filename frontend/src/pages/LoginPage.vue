@@ -3,7 +3,7 @@
     <section class="vh-100 d-flex align-items-center justify-content-center">
       <div class="card w-40 h-auto">
         <div class="card-body p-5">
-          <img src="../../../public/media/Botanic.jpg" alt="">
+          <img src="../../public/media/Botanic.jpg" alt="">
           <h1 class="text-center mb-4 mt-4 fw-bold">Login</h1>
           <form @submit.prevent="login">
             <div class="mb-3">
@@ -16,6 +16,17 @@
               <input v-model="password" class="form-control form-control-lg p-3" placeholder="Enter your password"
                 :type="showPassword ? 'text' : 'password'" required />
             </div>
+
+            <div class="mb-3 form-check">
+              <input 
+                id="showPassword" 
+                class="form-check-input" 
+                type="checkbox" 
+                v-model="showPassword"
+              />
+              <label class="form-check-label" for="showPassword">Show Password</label>
+            </div>
+
             <button type="submit" class="btn btn-primary w-100 p-3">Login</button>
           </form>
           <p v-if="error" class="text-danger text-center">{{ error }}</p>
@@ -27,7 +38,7 @@
 </template>
 
 <script>
-import { auth } from '../../../../backend/firebase/index';
+import { auth } from '../../../backend/firebase/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { mapActions } from 'vuex';
 
@@ -36,7 +47,8 @@ export default {
     return {
       email: '',
       password: '',
-      error: null
+      error: null,
+      showPassword: false, 
     };
   },
   methods: {
@@ -57,3 +69,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+button {
+  background-color: rgb(135, 179, 250);
+  border: 0;
+}
+</style>

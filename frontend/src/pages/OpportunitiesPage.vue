@@ -177,5 +177,5 @@ export default {
 </script>
 
 <style scoped>
-@import '../../assets/styles/opportunities.css';
+@import '../assets/styles/opportunities.css';
 </style>
