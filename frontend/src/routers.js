@@ -1,9 +1,8 @@
 import HomePage from './pages/HomePage.vue';
-import SignUpPage from './pages/SignUpPage.vue';
-import LoginPage from './pages/LoginPage.vue';
 import ComparisonPage from './pages/ComparisonPage.vue';
 import OpportunitiesPage from './pages/OpportunitiesPage.vue';
 import NewsPage from './pages/NewsPage.vue';
+import AuthPage from './pages/AuthPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes=[
@@ -14,16 +13,6 @@ const routes=[
         meta: {
             requiresAuth: true
         }
-    },
-    {
-        name: 'SignUpPage',
-        component: SignUpPage,
-        path: '/signup'
-    },
-    {
-        name: 'LoginPage',
-        component: LoginPage,
-        path: '/login'
     },
     {
         name: '/OpportunitiesPage',
@@ -42,6 +31,11 @@ const routes=[
         name: 'NewsPage',
         component: NewsPage,
         path: '/news'
+    },
+    {
+        name: 'AuthPage',
+        component: AuthPage,
+        path: '/auth'
     }
 ];
 
