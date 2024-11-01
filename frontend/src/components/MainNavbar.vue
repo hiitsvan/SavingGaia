@@ -87,7 +87,7 @@ export default {
         await signOut(auth); // Sign out from Firebase
         this.logoutUser(); // Dispatch Vuex action to update the store
         console.log("User signed out successfully.");
-        this.$router.push('/login'); // Redirect to login page after sign-out
+        this.$router.push('/'); // Redirect to login page after sign-out
       } catch (error) {
         console.error("Error during logout: ", error);
       }
