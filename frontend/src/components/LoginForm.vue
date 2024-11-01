@@ -66,6 +66,7 @@
       async login() {
         try {
           await signInWithEmailAndPassword(auth, this.email, this.password);
+          this.$store.commit('setUser', true);
           this.$router.push('/');
         } catch (err) {
           this.error = "Error logging in: " + err.message;
