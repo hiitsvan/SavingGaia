@@ -1,0 +1,235 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #00ff88;
+    --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #000;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    cursor: e-resize;
+}
+
+main {
+    display: flex;
+    width: 500vw;
+    height: 100vh;
+    touch-action: none;
+}
+
+section {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.content-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    z-index: 2;
+    width: 80vw;
+    height: 20vh;
+}
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 3rem;
+    cursor: pointer;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+}
+
+.nav-button:hover {
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+.nav-button.prev {
+    left: 2rem;
+}
+
+.nav-button.next {
+    right: 2rem;
+}
+
+video {
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: 1;
+    object-fit: cover;
+    filter: brightness(0.4);
+}
+
+.animate-text {
+    max-width: 80vw;
+    position: relative;
+    z-index: 2;
+    font-size: clamp(3rem, 10vw, 6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-shadow: var(--text-shadow);
+    white-space: nowrap;
+    display: inline-block;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+.animate-text:hover {
+    transform: scale(1.5);
+    color: var(--primary-color);
+    text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+}
+
+.animate-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+section.active .animate-text span {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.start-button, .login-button {
+    position: relative;
+    z-index: 2;
+    padding: 0.8rem 1.6rem;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    background: transparent;
+    color: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.start-button {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    padding: 1rem 2rem;
+}
+
+.start-button:hover, .login-button:hover {
+    background: var(--primary-color);
+    color: black;
+    transform: scale(1.1);
+}
+
+section.active .start-button,
+section.active .login-button {
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeIn 1s ease forwards;
+}
+
+section.active .animate-text {
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile and Tablet Styles */
+@media (max-width: 768px) {
+    body {
+        cursor: auto;
+    }
+
+    main {
+        flex-direction: column;
+        width: 100vw;
+        height: auto;
+    }
+
+    section {
+        width: 100vw;
+        min-height: 100vh;
+        scroll-snap-align: start;
+    }
+
+    .content-wrapper {
+        width: 90vw;
+        height: auto;
+        padding: 2rem;
+    }
+
+    .animate-text {
+        text-align: center;
+        font-size: clamp(2rem, 8vw, 4rem);
+        white-space: normal;
+    }
+
+    video {
+        height: 100%;
+        width: 100%;
+    }
+
+    .nav-button {
+        font-size: 2rem;
+        padding: 0.5rem;
+    }
+
+    .nav-button.prev {
+        left: 0.5rem;
+    }
+
+    .nav-button.next {
+        right: 0.5rem;
+    }
+}
+
+/* Landscape Mode */
+@media (orientation: landscape) and (max-height: 500px) {
+    .animate-text {
+        font-size: clamp(1.5rem, 6vw, 3rem);
+    }
+    
+    .start-button, .login-button {
+        padding: 0.75rem 1.5rem;
+        font-size: clamp(0.8rem, 3vw, 1.2rem);
+    }
+
+    .content-wrapper {
+        gap: 1rem;
+    }
+}

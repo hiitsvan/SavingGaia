@@ -1,4 +1,6 @@
+
 import HomePage from './components/pages/HomePage.vue';
+import LandingPage from './components/pages/LandingPage.vue';
 import SignUpPage from './components/pages/SignUpPage.vue';
 import LoginPage from './components/pages/LoginPage.vue';
 import ComparisonPage from './components/pages/ComparisonPage.vue';
@@ -8,9 +10,17 @@ import {createRouter, createWebHistory} from 'vue-router'
 
 const routes=[
     {
+        name: 'LandingPage',
+        component: LandingPage,
+        path: '/',
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
         name: 'HomePage',
         component: HomePage,
-        path: '/',
+        path: '/home',
         meta: {
             requiresAuth: true
         }
