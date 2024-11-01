@@ -26,16 +26,6 @@ const routes=[
         }
     },
     {
-        name: 'SignUpPage',
-        component: SignUpPage,
-        path: '/signup'
-    },
-    {
-        name: 'LoginPage',
-        component: LoginPage,
-        path: '/login'
-    },
-    {
         name: '/OpportunitiesPage',
         component: OpportunitiesPage,
         path: '/opportunities'
@@ -52,12 +42,29 @@ const routes=[
         name: 'NewsPage',
         component: NewsPage,
         path: '/news'
+    },
+    {
+        name: 'AuthPage',
+        component: AuthPage,
+        path: '/auth'
     }
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
-});
-
-export default router;
+    scrollBehavior(to, from, savedPosition) {
+      if (to.hash) {
+        return {
+          el: to.hash,
+          behavior: 'smooth',
+        };
+      } else if (savedPosition) {
+        return savedPosition;
+      } else {
+        return { top: 0 };
+      }
+    },
+  });
+  
+  export default router;

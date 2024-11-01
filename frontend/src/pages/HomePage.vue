@@ -128,9 +128,18 @@
         return this.$store.state.user; // Access the user from Vuex state
       }
     }
+<<<<<<< HEAD:frontend/src/components/pages/HomePage.vue
   };
   </script>
   <style scoped>
   @import '../../assets/styles/home.css';
   </style>
   
+=======
+  }
+};
+</script>
+<style scoped>
+@import '../assets/styles/landingpage.css';
+</style>
+>>>>>>> e974d5a8237ff0cab1d1635165d9101291c352c8:frontend/src/pages/HomePage.vue

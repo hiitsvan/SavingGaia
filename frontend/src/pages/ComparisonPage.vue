@@ -99,5 +99,5 @@ export default {
 
 
 <style scoped>
-@import '../../assets/styles/comparison.css';
+@import '../assets/styles/comparison.css';
 </style>
