@@ -2,6 +2,9 @@
     <div>
       <!-- Hero Section -->
       <div class="hero">
+        <video autoplay muted loop>
+        <source src="media/globe.mp4" type="video/mp4">
+      </video>
         <div class="hero-content">
           <h1>Welcome to Our World</h1>
           <a href="#about" class="scroll-link">Discover the extraordinary</a>
