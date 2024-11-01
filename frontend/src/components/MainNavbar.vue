@@ -115,23 +115,24 @@ export default {
 <style scoped>
 /* Navbar styles */
 .navbar {
-  padding: 1rem 0;
+  padding: 0.0rem 0;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5); /* Translucent black background */
+  color: #fff; /* Default text color */
 }
 
 .navbar-sticky {
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5); /* Keep translucent background for sticky navbar */
 }
 
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #000;
+  color: #ffffff; /* White text for the brand */
 }
 
 .nav-link {
-  color: #000;
+  color: #ffffff; /* White text for links */
   font-weight: 500;
   padding: 0.5rem 1rem;
   transition: color 0.3s ease;
@@ -140,9 +141,9 @@ export default {
   display: inline-block;
 }
 
-/* Hover effect to turn text green */
+/* Hover effect to change text color */
 .nav-link:hover {
-  color: #28a745;
+  color: #28a745; /* Green hover color */
 }
 
 /* Underline animation */
@@ -153,7 +154,7 @@ export default {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #28a745;
+  background-color: #28a745; /* Green underline */
   transition: width 0.3s ease;
 }
 
@@ -184,8 +185,8 @@ export default {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.8); /* Dark translucent dropdown */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   padding: 1rem;
   width: 200px;
   border-radius: 8px;
@@ -218,7 +219,7 @@ export default {
 
 .news-item a,
 .news-item router-link {
-  color: #000;
+  color: #ffffff; /* White text for dropdown links */
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
@@ -228,7 +229,7 @@ export default {
 /* Hover effect for dropdown items */
 .news-item a:hover,
 .news-item router-link:hover {
-  color: #28a745;
+  color: #28a745; /* Green hover color */
 }
 
 /* Optional additional styling for dropdown arrow */
@@ -241,6 +242,6 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 10px solid rgba(0, 0, 0, 0.8); /* Translucent arrow */
 }
 </style>
