@@ -18,6 +18,12 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <!-- Left side links -->
         <div class="navbar-left me-auto">
+
+          <!-- Education link without hover dropdown -->
+          <div class="nav-link">
+            <router-link to="/education" class="nav-link">Education</router-link>
+          </div>
+
           <!-- News link with hover dropdown -->
           <div class="nav-link dropdown">
             <router-link to="/news" class="nav-link">News</router-link>
