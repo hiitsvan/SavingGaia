@@ -1,4 +1,5 @@
 import HomePage from './pages/HomePage.vue';
+import LandingPage from './pages/LandingPage.vue';
 import ComparisonPage from './pages/ComparisonPage.vue';
 import OpportunitiesPage from './pages/OpportunitiesPage.vue';
 import NewsPage from './pages/NewsPage.vue';
@@ -45,11 +46,11 @@ const routes=[
         component: AuthPage,
         path: '/auth'
     },
-    {
-        name: 'EducationPage',
-        component: EducationPage,
-        path: '/education'
-    }
+    // {
+    //     name: 'EducationPage',
+    //     component: EducationPage,
+    //     path: '/education'
+    // }
 ];
 
 const router = createRouter({

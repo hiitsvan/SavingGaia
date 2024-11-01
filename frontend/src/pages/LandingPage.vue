@@ -197,5 +197,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style scoped>
-  @import '../../assets/styles/landing.css';
+  @import '../assets/styles/landing.css';
 </style>
