@@ -1,56 +1,45 @@
 <template>
   <main>
-        <section id="intro">
-            <video autoplay muted loop>
-                <source src="media/Drought.mp4" type="video/mp4">
-            </video>
-            <button class="start-button">Begin Journey</button>
-        </section>
-        <section id="deforestation">
-            <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
-            <video autoplay muted loop>
-                <source src="media/forestFire.mp4" type="video/mp4">
-            </video>
-            <div class="content-wrapper">
-                <h1 class="animate-text">Deforestation</h1>
-                
-            </div>
-            <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
-        </section>
-        <section id="rising-seas">
-            <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
-            <video autoplay muted loop>
-                <source src="media/Hungry.mp4" type="video/mp4">
-            </video>
-            <div class="content-wrapper">
-                <h1 class="animate-text">Rising Sea Levels</h1>
+    <section id="intro">
+      <video autoplay muted loop>
+        <source src="media/rain_forest.mp4" type="video/mp4">
+      </video>
+      <button class="start-button">Begin Journey</button>
+    </section>
 
-            </div>
-            <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
-        </section>
-        <section id="extreme-weather">
-            <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
-            <video autoplay muted loop>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-thunder-striking-in-the-night-4422-large.mp4" type="video/mp4">
-            </video>
-            <div class="content-wrapper">
-                <h1 class="animate-text">Extreme Weather</h1>
-            
-            </div>
-            <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
-        </section>
-        <section id="arctic-melt">
-            <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
-            <video autoplay muted loop>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-ice-glacier-water-2108-large.mp4" type="video/mp4">
-            </video>
-            <div class="content-wrapper">
-                <h1 class="animate-text">Arctic Melting</h1>
-         
-            </div>
-            <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
-        </section>
-    </main>
+    <section id="deforestation">
+      <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
+      <video autoplay muted loop>
+        <source src="media/forestFire.mp4" type="video/mp4">
+      </video>
+      <div class="content-wrapper">
+        <h1 class="animate-text">Deforestation</h1>
+      </div>
+      <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
+    </section>
+
+    <section id="rising-seas">
+      <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
+      <video autoplay muted loop>
+        <source src="media/waves.mp4" type="video/mp4">
+      </video>
+      <div class="content-wrapper">
+        <h1 class="animate-text">Rising Sea Levels</h1>
+      </div>
+      <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
+    </section>
+
+    <section id="extreme-weather">
+      <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
+      <video autoplay muted loop>
+        <source src="media/Carbon.mp4" type="video/mp4">
+      </video>
+      <div class="content-wrapper">
+        <h1 class="animate-text">Carbon Emission</h1>
+      </div>
+      <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
+    </section>
+  </main>
 </template>
 
 <script>
