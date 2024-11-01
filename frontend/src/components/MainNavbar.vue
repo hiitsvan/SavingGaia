@@ -18,6 +18,12 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <!-- Left side links -->
         <div class="navbar-left me-auto">
+
+          <!-- Education link without hover dropdown -->
+          <div class="nav-link">
+            <router-link to="/education" class="nav-link">Education</router-link>
+          </div>
+
           <!-- News link with hover dropdown -->
           <div class="nav-link dropdown">
             <router-link to="/news" class="nav-link">News</router-link>
@@ -87,7 +93,7 @@ export default {
         await signOut(auth); // Sign out from Firebase
         this.logoutUser(); // Dispatch Vuex action to update the store
         console.log("User signed out successfully.");
-        this.$router.push('/login'); // Redirect to login page after sign-out
+        this.$router.push('/'); // Redirect to login page after sign-out
       } catch (error) {
         console.error("Error during logout: ", error);
       }
