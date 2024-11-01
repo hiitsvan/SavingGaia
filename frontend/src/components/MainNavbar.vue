@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light" :style="isHomePage ? navbarStyles : ''">
     <div class="container">
-      <router-link to="/" class="navbar-brand">EcoLah</router-link>
+      <router-link to="/" class="navbar-brand">SavingGaia</router-link>
       
       <button
         class="navbar-toggler"
@@ -117,22 +117,22 @@ export default {
 .navbar {
   padding: 0.0rem 0;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: rgba(0, 0, 0, 0.5); /* Translucent black background */
-  color: #fff; /* Default text color */
+  background-color: black; /* Translucent black background */
+   /* Default text color */
 }
 
 .navbar-sticky {
-  background-color: rgba(0, 0, 0, 0.5); /* Keep translucent background for sticky navbar */
+  background-color: transparent; /* Keep translucent background for sticky navbar */
 }
 
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ffffff; /* White text for the brand */
+  color: White; /* White text for the brand */
 }
 
 .nav-link {
-  color: #ffffff; /* White text for links */
+  color: White; /* White text for links */
   font-weight: 500;
   padding: 0.5rem 1rem;
   transition: color 0.3s ease;
