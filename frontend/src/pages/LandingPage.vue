@@ -39,6 +39,19 @@
       </div>
       <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
     </section>
+
+    <section id="earth-dying">
+      <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
+      <video autoplay muted loop>
+        <source src="media/earthdying.mp4" type="video/mp4">
+      </video>
+      <div class="content-wrapper">
+        <h1 class="animate-text"> Its not too late to start now.</h1>
+        <button class="start-button" @click="goToHome">Start Now</button>
+      </div>
+      <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
+    </section>
+
   </main>
 </template>
 
@@ -183,6 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
         sections.forEach(section => observer.observe(section));
     }
 });
+
+export default {
+  methods: {
+    goToHome() {
+      this.$router.push("/home"); 
+    }
+  }
+};
 </script>
 
 <style scoped>
