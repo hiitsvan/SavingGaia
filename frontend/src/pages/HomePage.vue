@@ -62,7 +62,7 @@
         <div class="footer__container">
           <!-- Logo Section -->
           <div class="footer__logo">
-            <h2 class="logo__text">ECOLAH</h2>
+            <h2 class="logo__text">SavingGaia</h2>
             <p class="logo__description">Join us in our mission to protect and preserve our planet for future generations.</p>
             <div class="social__links">
               <a href="#" class="social__link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -101,12 +101,12 @@
             <ul class="footer__contact">
               <li class="contact__item"><i class="fas fa-map-marker-alt"></i> 123 Eco Street, Green City, 12345</li>
               <li class="contact__item"><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-              <li class="contact__item"><i class="fas fa-envelope"></i> contact@ecolah.com</li>
+              <li class="contact__item"><i class="fas fa-envelope"></i> contact@savinggaia.com</li>
             </ul>
           </div>
         </div>
         <div class="footer__bottom">
-          <p>&copy; 2024 ECOLAH. All rights reserved.</p>
+          <p>&copy; 2024 SavingGaia. All rights reserved.</p>
         </div>
       </footer>
     </div>
