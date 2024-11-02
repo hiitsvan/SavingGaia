@@ -31,9 +31,9 @@
           <article class="card__article">
             <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa" alt="Innovation" class="card__img">
             <div class="card__data">
-              <span class="card__description">Innovation</span>
+              <span class="card__description">Education</span>
               <h2 class="card__title">Learn More</h2>
-              <a href="#" class="card__button">Read More</a>
+              <a href="education" class="card__button">Read More</a>
             </div>
           </article>
           
@@ -42,7 +42,7 @@
             <div class="card__data">
               <span class="card__description">Latest News</span>
               <h2 class="card__title">Read More</h2>
-              <a href="#" class="card__button">Read More</a>
+              <a href="news" class="card__button">Read More</a>
             </div>
           </article>
           
@@ -50,8 +50,8 @@
             <img src="https://images.unsplash.com/photo-1558402529-d2638a7023e9" alt="Volunteer" class="card__img">
             <div class="card__data">
               <span class="card__description">Volunteer</span>
-              <h2 class="card__title">Work More</h2>
-              <a href="#" class="card__button">Read More</a>
+              <h2 class="card__title">Contribute More</h2>
+              <a href="opportunities" class="card__button">Read More</a>
             </div>
           </article>
         </div>
@@ -76,11 +76,10 @@
           <div class="footer__column">
             <h3 class="footer__heading">Directory</h3>
             <ul class="footer__links">
-              <li><a href="#" class="footer__link">Home</a></li>
-              <li><a href="#" class="footer__link">About Us</a></li>
-              <li><a href="#" class="footer__link">Services</a></li>
-              <li><a href="#" class="footer__link">Projects</a></li>
-              <li><a href="#" class="footer__link">News</a></li>
+              <li><a href="home" class="footer__link">Home</a></li>
+              <li><a href="education" class="footer__link">Education</a></li>
+              <li><a href="news" class="footer__link">News</a></li>
+              <li><a href="opportunities" class="footer__link">Opportunities</a></li>
             </ul>
           </div>
   
