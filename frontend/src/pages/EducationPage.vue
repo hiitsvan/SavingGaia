@@ -54,7 +54,7 @@
                 <span class="weatherIcon">
                   <img :src="`https://openweathermap.org/img/wn/${forecast.icon}@2x.png`" :alt="forecast.icon" />
                 </span>
-                <span class="tempSpan">{{ forecast.temp.toFixed(1) }}°C</span>
+                <span class="tempSpan">{{ forecast.temp.toFixed(1) }}</span>
               </div>
             </div>
           </div>
