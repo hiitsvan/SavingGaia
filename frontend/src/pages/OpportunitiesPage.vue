@@ -44,25 +44,25 @@
 
         <!-- Central Location Checkbox -->
         <div class="checkbox">
-          <input type="checkbox" id="location-central" value="central" v-model="location" />
+          <input type="checkbox" id="location-central" value="central" v-model="locations" />
           <label for="location-central">Central</label>
         </div>
 
         <!-- East Location Checkbox -->
         <div class="checkbox">
-          <input type="checkbox" id="location-east" value="east" v-model="location" />
+          <input type="checkbox" id="location-east" value="east" v-model="locations" />
           <label for="location-east">East</label>
         </div>
 
         <!-- South Location Checkbox -->
         <div class="checkbox">
-          <input type="checkbox" id="location-south" value="south" v-model="location" />
+          <input type="checkbox" id="location-south" value="south" v-model="locations" />
           <label for="location-south">South</label>
         </div>
 
         <!-- West Location Checkbox -->
         <div class="checkbox">
-          <input type="checkbox" id="location-west" value="west" v-model="location" />
+          <input type="checkbox" id="location-west" value="west" v-model="locations" />
           <label for="location-west">West</label>
         </div>
       </div>
@@ -72,7 +72,7 @@
       <div class="filter-group">
         <label for="commitment-filter">Commitment</label>
         <select id="commitment-filter" v-model="commitment">
-          <option value="adhoc">Adhoc</option>
+          <option value="ad-hoc">Adhoc</option>
           <option value="long-term">Long-term</option>
         </select>
       </div>
@@ -104,22 +104,22 @@
               </div>
               <div class="card-content">
                 <h3 class="card-heading">{{ opportunity.name }}</h3>
-                <h4>{{ opportunity.org }}</h4>
+                <h3 class="card-heading" style="font-size:medium">{{ opportunity.org }}</h3>
                 <p class="card-paragraph">
                   {{ opportunity.desc }}
                 </p>
                 <ul class="list">
                   <li class="list-item">
                     <img src="/media/date-71.png" alt="Date Icon" class="icon" />
-                    <p>April 10, 2024</p>
+                    <p>{{ formatFirestoreDate(opportunity.startTime) }}</p>
                   </li>
                   <li class="list-item">
                     <img src="/media/1035.png_1200.png" alt="Time Icon" class="icon" />
-                    <p>10:00 AM - 2:00 PM</p>
+                    <p>{{ formatFirestoreTime(opportunity.startTime) }} - {{ formatFirestoreTime(opportunity.endTime) }}</p>
                   </li>
                   <li class="list-item">
                     <img src="/media/535239.png" alt="Location Icon" class="icon" />
-                    <p>{{ opportunity.formattedLocation }}</p>
+                    <p>{{ formatLocation(opportunity.location) }}</p>
                   </li>
                 </ul>
               </div>
@@ -147,29 +147,13 @@ export default {
       startTime: '',
       endTime: '',
       commitment: '',
-      location: [],
+      locations: [],
       opportunities: [],
       hours: Array.from({ length: 24 }, (_, i) => {
         const hour = String(i).padStart(2, '0');
         return `${hour}:00`;
       })
     };
-  },
-  computed: {
-    formattedOpportunities() {
-      return this.opportunities.map(opportunity => {
-        // Convert the location map into a readable string
-        const locationString = Object.entries(opportunity.location)
-          .map(([key, value]) => `${key}: ${value}`)
-          .join(', ');
-
-        // Return a modified version of the opportunity with the formatted location
-        return {
-          ...opportunity,
-          formattedLocation: locationString
-        };
-      });
-    }
   },
   mounted() {
     // Automatically load opportunities when the page loads
@@ -191,8 +175,8 @@ export default {
       try {
         // Make sure to provide a complete URL for the API endpoint
         const filters = {
-          keyword: this.keywords,
-          location: this.location,
+          keywords: this.keywords,
+          locations: this.locations,
           commitment: this.commitment,
           startTime: this.startTime,
           endTime: this.endTime
@@ -203,14 +187,57 @@ export default {
         });
         this.opportunities = response.data; // Store the response data in the opportunities array
         console.log(this.opportunities);
-        this.opportunities.forEach(opportunity => {
-          console.log("Opportunity Image URL:", opportunity.image);
-        });
       } catch (error) {
         console.error("Error fetching opportunities:", error);
       }
+    },
+    formatFirestoreTime(timestamp) {
+    if (!timestamp || !timestamp.seconds) {
+      return '-'; // Return '-' if no timestamp available
     }
-  }
+
+    const milliseconds = timestamp.seconds * 1000;
+    const date = new Date(milliseconds);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${hours}:${minutes}`;
+  },
+  formatFirestoreDate(timestamp) {
+    if (!timestamp || !timestamp.seconds) {
+        return '-'; // Return '-' if no timestamp available
+    }
+
+    // Convert the Firestore timestamp to milliseconds
+    const milliseconds = timestamp.seconds * 1000;
+    const date = new Date(milliseconds);
+
+    // Month names array
+    const monthNames = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    // Extract the day, month, and year
+    const day = date.getDate();
+    const month = monthNames[date.getMonth()]; // getMonth() is zero-based, giving values from 0-11
+    const year = date.getFullYear();
+
+    // Return formatted date with month name
+    return `${day} ${month} ${year}`;
+},
+formatLocation(locationMap) {
+    if (!locationMap || typeof locationMap !== 'object') {
+        return '-'; // Return '-' if locationMap is missing or not an object
+    }
+
+    // Extract all values from the location map
+    const locations = Object.values(locationMap);
+
+    // Join all the location values into a single string, separated by commas
+    return locations.join(', ');
+}
+}
 };
 </script>
 
