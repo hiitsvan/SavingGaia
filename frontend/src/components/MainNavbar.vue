@@ -61,7 +61,7 @@
 
         <!-- Right side links -->
         <div class="navbar-right">
-          <template v-if="!loggedIn">
+          <template v-if="!isLoggedIn">
             <router-link to="/auth" class="nav-link">Login / Sign Up</router-link>
           </template>
           <template v-else>
@@ -74,14 +74,14 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { signOut } from 'firebase/auth'; // Import signOut from Firebase
 import { auth } from '../../../backend/firebase/firebase'; // Adjust path as necessary
 
 export default {
   name: "MainNavbar",
   computed: {
-    ...mapState(['loggedIn']),
+    ...mapGetters(['isLoggedIn']),
     isHomePage() {
       return this.$route.path === "/";
     }
@@ -91,9 +91,9 @@ export default {
     async logout() {
       try {
         await signOut(auth); // Sign out from Firebase
-        this.logoutUser(); // Dispatch Vuex action to update the store
+        this.$store.dispatch('logout'); // Dispatch Vuex action to update the store
         console.log("User signed out successfully.");
-        this.$router.push('/'); // Redirect to login page after sign-out
+        this.$router.push('/auth'); // Redirect to login page after sign-out
       } catch (error) {
         console.error("Error during logout: ", error);
       }
@@ -245,3 +245,6 @@ export default {
   border-bottom: 10px solid rgba(0, 0, 0, 0.8); /* Translucent arrow */
 }
 </style>
+
+
+
