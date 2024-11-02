@@ -5,7 +5,7 @@
 }
 
 :root {
-    --primary-color: #00ff88;
+    --primary-color: grey;
     --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -44,6 +44,7 @@ section {
     z-index: 2;
     width: 80vw;
     height: 20vh;
+    text-align: center;
 }
 
 .nav-button {
@@ -51,18 +52,26 @@ section {
     top: 50%;
     transform: translateY(-50%);
     z-index: 3;
-    background: transparent;
-    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
     color: white;
     font-size: 3rem;
     cursor: pointer;
     padding: 1rem;
     transition: all 0.3s ease;
-    opacity: 0.5;
+    opacity: 0.7;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-button:hover {
     opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--primary-color);
     color: var(--primary-color);
 }
 
@@ -86,18 +95,17 @@ video {
 }
 
 .animate-text {
-    max-width: 80vw;
+    max-width: 70vw;
     position: relative;
     z-index: 2;
-    font-size: clamp(3rem, 10vw, 6rem);
+    font-size: clamp(3rem, 6vw, 3rem);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     text-shadow: var(--text-shadow);
     white-space: nowrap;
     display: inline-block;
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 0.5s ease;
+    transform: scale(1);
+    transition: transform 0.3s ease, color 0.3s ease;
     cursor: pointer;
 }
 
@@ -107,23 +115,11 @@ video {
     text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
 }
 
-.animate-text span {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
-}
-
-section.active .animate-text span {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 .start-button, .login-button {
     position: relative;
     z-index: 2;
     padding: 0.8rem 1.6rem;
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-size: clamp(0.8rem, 1.5vw, 1.2rem);
     background: transparent;
     color: white;
     border: 2px solid var(--primary-color);
@@ -155,7 +151,8 @@ section.active .login-button {
 }
 
 section.active .animate-text {
-    animation: fadeIn 1s ease forwards;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 @keyframes fadeIn {
@@ -207,6 +204,8 @@ section.active .animate-text {
     .nav-button {
         font-size: 2rem;
         padding: 0.5rem;
+        width: 4rem;
+        height: 4rem;
     }
 
     .nav-button.prev {
@@ -221,9 +220,9 @@ section.active .animate-text {
 /* Landscape Mode */
 @media (orientation: landscape) and (max-height: 500px) {
     .animate-text {
-        font-size: clamp(1.5rem, 6vw, 3rem);
+        font-size: clamp(1.5rem, 4vw, 3rem);
     }
-    
+
     .start-button, .login-button {
         padding: 0.75rem 1.5rem;
         font-size: clamp(0.8rem, 3vw, 1.2rem);

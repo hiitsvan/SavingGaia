@@ -4,7 +4,6 @@
     <router-view />
   </div>
 </template>
-
 <script>
 
 import MainNavbar from './components/MainNavbar.vue';
