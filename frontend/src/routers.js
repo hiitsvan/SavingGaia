@@ -4,6 +4,7 @@ import ComparisonPage from './pages/ComparisonPage.vue';
 import OpportunitiesPage from './pages/OpportunitiesPage.vue';
 import NewsPage from './pages/NewsPage.vue';
 import AuthPage from './pages/AuthPage.vue';
+import EducationPage from './pages/EducationPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes=[
@@ -46,11 +47,11 @@ const routes=[
         component: AuthPage,
         path: '/auth'
     },
-    // {
-    //     name: 'EducationPage',
-    //     component: EducationPage,
-    //     path: '/education'
-    // }
+    {
+        name: 'EducationPage',
+        component: EducationPage,
+        path: '/education'
+    }
 ];
 
 const router = createRouter({

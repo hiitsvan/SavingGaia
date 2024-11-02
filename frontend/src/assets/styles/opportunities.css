@@ -141,9 +141,9 @@ body {
 .row {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
-    max-width: 1200px;
-    width: 100%;
+    /* gap: 20px; */
+    /* max-width: 1200px; */
+    /* width: 100%; */
 }
 .card {
     background-color: #fff;
