@@ -84,7 +84,6 @@ export default {
 </script>
 
 <style scoped>
-.<style scoped>
 /* Make the entire viewport background black */
 body {
   background-color: #000;

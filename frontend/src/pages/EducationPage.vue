@@ -218,25 +218,56 @@ const createMap = (xAxis, yAxis) => {
 }
 
 const createCharts = (listOfWeatherData) => {
-  const humidityData = listOfWeatherData.map(item => item.main.humidity)
-  const tempData = listOfWeatherData.map(item => item.main.temp)
-  const pressureData = listOfWeatherData.map(item => item.main.pressure)
+  // Group data by day to get daily averages
+  const dailyData = listOfWeatherData.reduce((acc, item) => {
+    const date = item.dt_txt.split(' ')[0];
+    if (!acc[date]) {
+      acc[date] = {
+        humidity: [],
+        temperature: [],
+        pressure: []
+      };
+    }
+    acc[date].humidity.push(item.main.humidity);
+    acc[date].temperature.push(item.main.temp);
+    acc[date].pressure.push(item.main.pressure);
+    return acc;
+  }, {});
 
-  const startDate = Date.UTC(
-    ...listOfWeatherData[0].dt_txt.split(/[- :]/).slice(0, 5).map(Number)
-  )
+  // Calculate daily averages and format data for charts
+  const formattedData = Object.entries(dailyData).map(([date, values]) => {
+    const timestamp = new Date(date).getTime();
+    return {
+      humidity: [
+        timestamp,
+        values.humidity.reduce((a, b) => a + b) / values.humidity.length
+      ],
+      temperature: [
+        timestamp,
+        values.temperature.reduce((a, b) => a + b) / values.temperature.length
+      ],
+      pressure: [
+        timestamp,
+        values.pressure.reduce((a, b) => a + b) / values.pressure.length
+      ]
+    };
+  });
 
-  createHighChart(humidityChart.value, 'Humidity', humidityData, startDate, '%', '#800080')
-  createHighChart(temperatureChart.value, 'Temperature', tempData, startDate, '°C', '#A01E5F')
-  createHighChart(pressureChart.value, 'Pressure', pressureData, startDate, 'hPa', '#800000')
-  createMultiSeriesChart(overviewChart.value, startDate, tempData, pressureData, humidityData)
-}
+  const formattedHumidityData = formattedData.map(d => d.humidity);
+  const formattedTempData = formattedData.map(d => d.temperature);
+  const formattedPressureData = formattedData.map(d => d.pressure);
 
-const createHighChart = (container, name, data, startDate, suffix, color) => {
+  createHighChart(humidityChart.value, 'Humidity', formattedHumidityData, '%', '#800080');
+  createHighChart(temperatureChart.value, 'Temperature', formattedTempData, '°C', '#A01E5F');
+  createHighChart(pressureChart.value, 'Pressure', formattedPressureData, 'hPa', '#800000');
+  createMultiSeriesChart(overviewChart.value, formattedTempData, formattedPressureData, formattedHumidityData);
+};
+
+const createHighChart = (container, name, data, suffix, color) => {
   Highcharts.chart(container, {
     chart: {
       type: 'areaspline',
-      scrollablePlotArea: { minWidth: 400 },
+      scrollablePlotArea: { minWidth: 400, scrollPositionX: 1 },
       backgroundColor: '#0d121c',
       borderRadius: 15
     },
@@ -247,32 +278,47 @@ const createHighChart = (container, name, data, startDate, suffix, color) => {
     },
     xAxis: {
       type: 'datetime',
-      labels: { style: { color: '#FFFFFF' } }
+      labels: { 
+        overflow: 'justify',
+        style: { color: '#FFFFFF' },
+        format: '{value:%d %b}' // Show day and month
+      },
+      tickInterval: 24 * 3600 * 1000 // One day intervals
     },
     yAxis: {
       title: { text: `${name} ${suffix}` },
       labels: { style: { color: '#FFFFFF' } },
-      gridLineWidth: 0
+      minorGridLineWidth: 0,
+      gridLineWidth: 0,
+      alternateGridColor: null,
+      plotBands: []
     },
     series: [{
       name: name,
       data: data,
-      color: color,
-      pointStart: startDate,
-      pointInterval: 3 * 3600 * 1000  // 3 hours
+      color: color
     }],
     plotOptions: {
-      series: {
+      areaspline: {
+        fillOpacity: 0.3,
         marker: { enabled: false }
       }
+    },
+    tooltip: {
+      xDateFormat: '%d %b',
+      shared: true
     }
-  })
-}
+  });
+};
 
-const createMultiSeriesChart = (container, startDate, tempData, pressureData, humidityData) => {
+const createMultiSeriesChart = (container, tempData, pressureData, humidityData) => {
   Highcharts.chart(container, {
     chart: {
       type: 'spline',
+      scrollablePlotArea: {
+        minWidth: 400,
+        scrollPositionX: 1
+      },
       backgroundColor: '#0d121c',
       borderRadius: 15
     },
@@ -283,21 +329,32 @@ const createMultiSeriesChart = (container, startDate, tempData, pressureData, hu
     },
     series: [
       { name: 'Temperature', data: tempData, color: '#FF0000' },
-      { name: 'Pressure', data: pressureData, color: '#00FF00' },
-      { name: 'Humidity', data: humidityData, color: '#0000FF' }
+      { name: 'Pressure', data: pressureData, color: '#0000FF' },
+      { name: 'Humidity', data: humidityData, color: '#00FF00' }
     ],
     xAxis: {
       type: 'datetime',
-      labels: { style: { color: '#FFFFFF' } },
-      pointStart: startDate,
-      pointInterval: 3 * 3600 * 1000
+      labels: { 
+        overflow: 'justify',
+        style: { color: '#FFFFFF' },
+        format: '{value:%d %b}'
+      },
+      tickInterval: 24 * 3600 * 1000 // One day intervals
     },
     yAxis: {
+      title: { text: 'Consolidated Chart' },
       labels: { style: { color: '#FFFFFF' } },
-      gridLineWidth: 0
+      minorGridLineWidth: 0,
+      gridLineWidth: 0,
+      alternateGridColor: null,
+      plotBands: []
+    },
+    tooltip: {
+      xDateFormat: '%d %b',
+      shared: true
     }
-  })
-}
+  });
+};
 
 onMounted(() => {
   currentDate.value = formatDate()
