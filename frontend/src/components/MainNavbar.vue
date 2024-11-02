@@ -91,9 +91,9 @@ export default {
     async logout() {
       try {
         await signOut(auth); // Sign out from Firebase
-        this.$store.dispatch('logout') // Dispatch Vuex action to update the store
+        this.$store.dispatch('logout'); // Dispatch Vuex action to update the store
         console.log("User signed out successfully.");
-        this.$router.push('/'); // Redirect to login page after sign-out
+        this.$router.push('/auth'); // Redirect to login page after sign-out
       } catch (error) {
         console.error("Error during logout: ", error);
       }
@@ -245,3 +245,6 @@ export default {
   border-bottom: 10px solid rgba(0, 0, 0, 0.8); /* Translucent arrow */
 }
 </style>
+
+
+

@@ -23,7 +23,7 @@ export default createStore({
       commit('setUser', user);
     },
     async logout({ commit }) {
-      commit('SetUser', false);
+      commit('logout');
     }
   },
   getters: {
