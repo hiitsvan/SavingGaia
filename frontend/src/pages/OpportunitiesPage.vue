@@ -122,10 +122,11 @@
                     <p>{{ formatLocation(opportunity.location) }}</p>
                   </li>
                 </ul>
+                <a href="#" class="button" @click.prevent="handleSaveToLikes(opportunity)">Save to likes</a>
               </div>
             </div>
           </div>
-          <a href="#" class="button">Save to likes</a>
+        
         </div>
 
       </section>
@@ -138,6 +139,7 @@
 <script>
 
 import axios from 'axios';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'OpportunitiesPage',
@@ -158,6 +160,10 @@ export default {
   mounted() {
     // Automatically load opportunities when the page loads
     this.searchOpp();
+  },
+  computed: {
+    ...mapState(['user']),
+    ...mapGetters(['isLoggedIn']),
   },
   methods: {
     handleSearch() {
@@ -236,7 +242,26 @@ formatLocation(locationMap) {
 
     // Join all the location values into a single string, separated by commas
     return locations.join(', ');
-}
+},
+async handleSaveToLikes(opportunity) {
+      try {
+        // Check if user is logged in
+        if (!this.isLoggedIn) {
+          // Redirect to login page if not logged in
+          this.$router.push('/auth')
+        } else {
+          // Save opportunity to likes in the database
+          await axios.post(`http://localhost:8001/likes`, {
+            userId: this.user.id,
+            opportunityId: opportunity.id
+          });
+          console.log(opportunity.name)
+          alert('Opportunity saved to likes!');
+        }
+      } catch (error) {
+        console.error("Error saving opportunity to likes:", error);
+      }
+    },
 }
 };
 </script>
