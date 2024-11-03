@@ -1,8 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light" :style="isHomePage ? navbarStyles : ''">
     <div class="container">
-      <router-link to="/" class="navbar-brand">SavingGaia</router-link>
-      
+       <router-link to="/" class="navbar-brand d-flex align-items-center">
+  <img src="/media/saving_gaia_logo_no_bg2.png" class="logo-image" alt="SavingGaia Logo" />
+  <span class="ms-2">SavingGaia</span>
+</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -168,7 +170,15 @@ export default {
   align-items: center;
   gap: 1rem;
 }
-
+.logo-image {
+  width: 40px; /* Adjust this value as needed for the logo size */
+  height: auto; /* Maintain aspect ratio */
+  display: inline-block;
+  vertical-align: middle; /* Aligns with the text */
+}
+.ms-2 {
+  margin-left: 0.5rem; /* Adds space between the logo and the text */
+}
 .navbar-right {
   display: flex;
   align-items: center;
