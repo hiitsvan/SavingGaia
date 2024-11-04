@@ -44,14 +44,16 @@
           <!-- Opportunities link with hover dropdown -->
           <div class="nav-link dropdown">
             <router-link to="/opportunities" class="nav-link">Opportunities</router-link>
-            <div class="dropdown-content">
-              <div class="news-item">
-                <router-link to="/comparison" class="nav-link">Likes</router-link>
+            <template v-if="isLoggedIn">
+              <div class="dropdown-content">
+                <div class="news-item">
+                  <router-link to="/comparison" class="nav-link">Likes</router-link>
+                </div>
+                <div class="news-item">
+                  <router-link to="/opportunities" class="nav-link">All Opportunities</router-link>
+                </div>
               </div>
-              <div class="news-item">
-                <router-link to="/opportunities" class="nav-link">All Opportunities</router-link>
-              </div>
-            </div>
+            </template>
           </div>
         </div>
 
