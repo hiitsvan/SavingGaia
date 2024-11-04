@@ -3,8 +3,9 @@
     <!-- Hero Section -->
     <div class="hero">
       <video autoplay muted loop>
-        <source src="media/globe.mp4" type="video/mp4">
+        <source src="/media/globe.mp4" type="video/mp4">
       </video>
+      <div class="overlay"></div>
       <div class="hero-content">
         <h1>Welcome to Our World</h1>
         <a href="#about" class="scroll-link">Discover the extraordinary</a>
@@ -161,7 +162,6 @@ body {
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: black;
     display: flex;
     align-items: center;
     padding-bottom: 120px;
@@ -170,18 +170,25 @@ body {
     overflow: hidden;
 }
 
-.hero::before {
-    content: '';
+.hero video {
     position: absolute;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, #111 25%, transparent 25%),
-                linear-gradient(-45deg, #111 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #111 75%),
-                linear-gradient(-45deg, transparent 75%, #111 75%);
-    background-size: 20px 20px;
-    animation: backgroundMove 20s linear infinite;
-    opacity: 0.3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Dark overlay styling */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    z-index: 0;
 }
 
 @keyframes backgroundMove {
