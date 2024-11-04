@@ -122,7 +122,7 @@
                     <p>{{ formatLocation(opportunity.location) }}</p>
                   </li>
                 </ul>
-                <button @click="handleSaveToLikes(opportunity)"  class="button">
+                <button @click="handleSaveToLikes(opportunity)"  class="button border border-0">
                   {{ opportunity.isLiked ? 'Remove from Likes' : 'Save to Likes' }}
                 </button>
               </div>

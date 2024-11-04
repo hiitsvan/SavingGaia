@@ -46,16 +46,10 @@
             <router-link to="/opportunities" class="nav-link">Opportunities</router-link>
             <div class="dropdown-content">
               <div class="news-item">
-                <img src="https://via.placeholder.com/100" alt="Opportunity 1" />
-                <a href="https://example.com/opportunity1" target="_blank">Opportunity 1</a>
+                <router-link to="/comparison" class="nav-link">Likes</router-link>
               </div>
               <div class="news-item">
-                <img src="https://via.placeholder.com/100" alt="Opportunity 2" />
-                <a href="https://example.com/opportunity2" target="_blank">Opportunity 2</a>
-              </div>
-              <div class="news-item">
-                <img src="https://via.placeholder.com/100" alt="Opportunity 3" />
-                <a href="https://example.com/opportunity3" target="_blank">Opportunity 3</a>
+                <router-link to="/opportunities" class="nav-link">All Opportunities</router-link>
               </div>
             </div>
           </div>
