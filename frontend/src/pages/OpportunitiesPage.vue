@@ -122,7 +122,9 @@
                     <p>{{ formatLocation(opportunity.location) }}</p>
                   </li>
                 </ul>
-                <a href="#" class="button" @click.prevent="handleSaveToLikes(opportunity)">Save to likes</a>
+                <button @click="handleSaveToLikes(opportunity)"  class="button">
+                  {{ opportunity.isLiked ? 'Remove from Likes' : 'Save to Likes' }}
+                </button>
               </div>
             </div>
           </div>
@@ -163,9 +165,17 @@ export default {
   },
   computed: {
     ...mapState(['user']),
-    ...mapGetters(['isLoggedIn']),
+    ...mapGetters(['getUser', 'isLoggedIn']),
   },
   methods: {
+    async created() {
+      // Automatically load opportunities when the page loads
+      await this.searchOpp();
+      // Check which opportunities are already liked
+      if (this.isLoggedIn) {
+        await this.checkLikedOpportunities();
+      }
+    },
     handleSearch() {
       // Print or return the current state of filter data when search is clicked
       console.log("Saved Filter:", this.savedFilter);
@@ -191,12 +201,55 @@ export default {
         const response = await axios.get(`http://localhost:8001/api/match/`, {
           params: filters
         });
-        this.opportunities = response.data; // Store the response data in the opportunities array
-        console.log(this.opportunities);
+        this.opportunities = response.data.map((opportunity) => ({
+          ...opportunity,
+          isLiked: false, // Initialize isLiked to false
+        }));
       } catch (error) {
         console.error("Error fetching opportunities:", error);
       }
     },
+    async checkLikedOpportunities() {
+      try {
+        const userId = this.getUser.uid;
+
+        for (const opportunity of this.opportunities) {
+          const response = await axios.get(`http://localhost:8001/likes/${userId}/${opportunity.id}`);
+          opportunity.isLiked = response.data.isLiked;
+        }
+      } catch (error) {
+        console.error('Error checking liked opportunities:', error);
+      }
+    },
+    async handleSaveToLikes(opportunity) {
+      try {
+        // Check if user is logged in
+        if (!this.isLoggedIn) {
+          // Redirect to login page if not logged in
+          this.$router.push('/auth');
+        } else {
+          const userId = this.getUser.uid;
+
+          if (opportunity.isLiked) {
+            // If already liked, remove from likes
+            await axios.delete(`http://localhost:8001/likes/${userId}/${opportunity.id}`);
+            opportunity.isLiked = false;
+            alert('Opportunity removed from likes!');
+          } else {
+            // If not liked, save to likes
+            await axios.post('http://localhost:8001/likes', {
+              userId: userId,
+              opportunityId: opportunity.id,
+            });
+            opportunity.isLiked = true;
+            alert('Opportunity saved to likes!');
+          }
+        }
+      } catch (error) {
+        console.error('Error saving/removing opportunity to/from likes:', error);
+      }
+    },
+
     formatFirestoreTime(timestamp) {
       if (!timestamp || !timestamp._seconds) {
         return '-'; // Return '-' if no timestamp available
@@ -243,25 +296,6 @@ export default {
 
       // Join all the location values into a single string, separated by commas
       return locations.join(', ');
-    },
-    async handleSaveToLikes(opportunity) {
-      try {
-        // Check if user is logged in
-        if (!this.isLoggedIn) {
-          // Redirect to login page if not logged in
-          this.$router.push('/auth')
-        } else {
-          // Save opportunity to likes in the database
-          await axios.post(`http://localhost:8001/likes`, {
-            userId: this.user.id,
-            opportunityId: opportunity.id
-          });
-          console.log(opportunity.name)
-          alert('Opportunity saved to likes!');
-        }
-      } catch (error) {
-        console.error("Error saving opportunity to likes:", error);
-      }
     },
   }
 };

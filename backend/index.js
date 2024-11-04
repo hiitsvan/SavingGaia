@@ -53,8 +53,8 @@ app.use('/api/match', MatchOpportunitiesRouter)
 const AuthRouter = require('./routes/AuthRouter.js');
 app.use('/auth', AuthRouter);
 
-const SaveToLikesRouter = require("./routes/SaveToLikesRouter.js");
-app.use('/likes', SaveToLikesRouter)
+const LikesRouter = require("./routes/LikesRouter.js");
+app.use('/likes', LikesRouter)
 
 const NewsRouter = require("./routes/NewsRouter.js");
 app.use('/news', NewsRouter)
