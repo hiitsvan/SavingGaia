@@ -6,7 +6,7 @@
     </div>
 
     <!-- Carousel Section -->
-    <div v-if="newsArticles.length" id="newsCarousel" class="carousel slide fade-up delay-2" data-bs-ride="carousel" data-bs-interval="5000">
+    <div v-if="newsArticles.length" id="newsCarousel" class="carousel slide fade-up delay-2" data-bs-ride="carousel" data-bs-interval="4000">
       <div class="carousel-inner">
         <div
           v-for="(article, index) in newsArticles"
