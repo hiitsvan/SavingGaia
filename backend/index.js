@@ -49,3 +49,12 @@ app.get('/test', (req, res) => {
 // app.use("/auth", require("./routes/auth"));
 const MatchOpportunitiesRouter = require('./routes/MatchOpportunitiesRouter.js')
 app.use('/api/match', MatchOpportunitiesRouter)
+
+const AuthRouter = require('./routes/AuthRouter.js');
+app.use('/auth', AuthRouter);
+
+const SaveToLikesRouter = require("./routes/SaveToLikesRouter.js");
+app.use('/likes', SaveToLikesRouter)
+
+const NewsRouter = require("./routes/NewsRouter.js");
+app.use('/news', NewsRouter)

@@ -63,8 +63,7 @@
 </template>
 
 <script>
-const { db } = require('/backend/firebase/firebase.js');
-const { collection, getDocs } = require('firebase/firestore');
+import axios from 'axios';
 
 export default {
   data() {
@@ -74,8 +73,9 @@ export default {
   },
   async created() {
     try {
-      const querySnapshot = await getDocs(collection(db, "news"));
-      this.newsArticles = querySnapshot.docs.map(doc => doc.data());
+      // Make an HTTP request to your backend to get news articles
+      const response = await axios.get('http://localhost:8001/news');
+      this.newsArticles = response.data;
     } catch (error) {
       console.error("Error fetching news articles: ", error);
     }

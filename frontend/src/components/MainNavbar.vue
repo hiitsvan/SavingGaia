@@ -67,7 +67,7 @@
             <router-link to="/auth" class="nav-link">Login / Sign Up</router-link>
           </template>
           <template v-else>
-            <button @click="logout" class="nav-link btn btn-link">Logout</button>
+            <button @click="logoutUser" class="nav-link btn btn-link">Logout</button>
           </template>
         </div>
       </div>
@@ -77,8 +77,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import { signOut } from 'firebase/auth'; // Import signOut from Firebase
-import { auth } from '../../../backend/firebase/firebase'; // Adjust path as necessary
+import axios from 'axios';
 
 export default {
   name: "MainNavbar",
@@ -90,17 +89,39 @@ export default {
   },
   methods: {
     ...mapActions(['logoutUser']), // Assuming you have a logoutUser action in Vuex
-    async logout() {
+    async logoutUser() {
       try {
-        await signOut(auth); // Sign out from Firebase
-        this.$store.dispatch('logout'); // Dispatch Vuex action to update the store
+        // Get the user's UID and token from Vuex
+        const user = this.$store.getters.getUser;
+        const token = this.$store.getters.getUserToken;
+
+        if (!user || !user.uid || !token) {
+          console.error("No user information or token found for logout.");
+          return; // If there's no uid or token, abort the logout process
+        }
+
+        console.log("User UID being used for logout:", user.uid);
+        console.log("Token being used for logout:", token);
+
+        // Send logout request to backend
+        await axios.post('http://localhost:8001/auth/logout', {
+          uid: user.uid,
+        }, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        // Update Vuex state to log out
+        await this.$store.dispatch('logout'); // Dispatch Vuex action to update the store
+
         console.log("User signed out successfully.");
         this.$router.push('/auth'); // Redirect to login page after sign-out
       } catch (error) {
         console.error("Error during logout: ", error);
       }
-    }
-  },
+    }},
   data() {
     return {
       navbarStyles: {

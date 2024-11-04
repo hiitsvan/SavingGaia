@@ -36,7 +36,7 @@
         <label class="form-check-label" for="showPassword">Show Password</label>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100 p-3">Login</button>
+      <button @click="loginUser" class="btn btn-primary w-100 p-3">Login</button>
     </form>
 
     <p v-if="error" class="text-danger text-center">{{ error }}</p>
@@ -49,8 +49,9 @@
 </template>
 
 <script>
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../backend/firebase/firebase';
+
+import axios from 'axios'; 
+import { mapActions } from 'vuex';
 
 export default {
   name: 'LoginForm',
@@ -63,17 +64,31 @@ export default {
     };
   },
   methods: {
-    async login() {
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
-        const user = userCredential.user;
-        this.$store.dispatch('login',user)
-        this.$router.push('/opportunities');
-      } catch (err) {
-        this.error = "Error logging in: " + err.message;
-      }
+    ...mapActions(['login']), 
+  async loginUser() {
+    try {
+      // Send the login request to the backend
+      const response = await axios.post('http://localhost:8001/auth/login', {
+        email: this.email,
+        password: this.password,
+      });
+
+      console.log('User logged in successfully:', response.data);
+
+      // Set the user in the store after successful login, including the token
+      await this.login({
+        uid: response.data.uid,
+        email: response.data.email,
+        token: response.data.token, // Add the token to the payload
+      });
+
+      // Redirect to the opportunities page after login
+      this.$router.push('/opportunities');
+    } catch (err) {
+      this.error = "Error logging in: " + (err.response?.data?.error || err.message);
     }
   }
+}
 };
 </script>
 

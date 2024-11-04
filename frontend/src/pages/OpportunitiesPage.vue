@@ -1,4 +1,3 @@
-
 <template>
   <div class="opportunities-page">
     <!-- Filter Panel -->
@@ -115,7 +114,8 @@
                   </li>
                   <li class="list-item">
                     <img src="/media/1035.png_1200.png" alt="Time Icon" class="icon" />
-                    <p>{{ formatFirestoreTime(opportunity.startTime) }} - {{ formatFirestoreTime(opportunity.endTime) }}</p>
+                    <p>{{ formatFirestoreTime(opportunity.startTime) }} - {{ formatFirestoreTime(opportunity.endTime) }}
+                    </p>
                   </li>
                   <li class="list-item">
                     <img src="/media/535239.png" alt="Location Icon" class="icon" />
@@ -126,7 +126,7 @@
               </div>
             </div>
           </div>
-        
+
         </div>
 
       </section>
@@ -198,52 +198,53 @@ export default {
       }
     },
     formatFirestoreTime(timestamp) {
-    if (!timestamp || !timestamp.seconds) {
-      return '-'; // Return '-' if no timestamp available
-    }
-
-    const milliseconds = timestamp.seconds * 1000;
-    const date = new Date(milliseconds);
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-
-    return `${hours}:${minutes}`;
-  },
-  formatFirestoreDate(timestamp) {
-    if (!timestamp || !timestamp.seconds) {
+      if (!timestamp || !timestamp._seconds) {
         return '-'; // Return '-' if no timestamp available
-    }
+      }
 
-    // Convert the Firestore timestamp to milliseconds
-    const milliseconds = timestamp.seconds * 1000;
-    const date = new Date(milliseconds);
+      const milliseconds = timestamp._seconds * 1000; // Convert seconds to milliseconds
+      const date = new Date(milliseconds);
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
 
-    // Month names array
-    const monthNames = [
+      return `${hours}:${minutes}`;
+    },
+
+    formatFirestoreDate(timestamp) {
+      if (!timestamp || !timestamp.seconds) {
+        return '-'; // Return '-' if no timestamp available
+      }
+
+      // Convert the Firestore timestamp to milliseconds
+      const milliseconds = timestamp.seconds * 1000;
+      const date = new Date(milliseconds);
+
+      // Month names array
+      const monthNames = [
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ];
+      ];
 
-    // Extract the day, month, and year
-    const day = date.getDate();
-    const month = monthNames[date.getMonth()]; // getMonth() is zero-based, giving values from 0-11
-    const year = date.getFullYear();
+      // Extract the day, month, and year
+      const day = date.getDate();
+      const month = monthNames[date.getMonth()]; // getMonth() is zero-based, giving values from 0-11
+      const year = date.getFullYear();
 
-    // Return formatted date with month name
-    return `${day} ${month} ${year}`;
-},
-formatLocation(locationMap) {
-    if (!locationMap || typeof locationMap !== 'object') {
+      // Return formatted date with month name
+      return `${day} ${month} ${year}`;
+    },
+    formatLocation(locationMap) {
+      if (!locationMap || typeof locationMap !== 'object') {
         return '-'; // Return '-' if locationMap is missing or not an object
-    }
+      }
 
-    // Extract all values from the location map
-    const locations = Object.values(locationMap);
+      // Extract all values from the location map
+      const locations = Object.values(locationMap);
 
-    // Join all the location values into a single string, separated by commas
-    return locations.join(', ');
-},
-async handleSaveToLikes(opportunity) {
+      // Join all the location values into a single string, separated by commas
+      return locations.join(', ');
+    },
+    async handleSaveToLikes(opportunity) {
       try {
         // Check if user is logged in
         if (!this.isLoggedIn) {
@@ -262,7 +263,7 @@ async handleSaveToLikes(opportunity) {
         console.error("Error saving opportunity to likes:", error);
       }
     },
-}
+  }
 };
 </script>
 
@@ -275,18 +276,19 @@ async handleSaveToLikes(opportunity) {
   padding: 0;
 }
 
-html, body {
+html,
+body {
   font-family: 'Montserrat', sans-serif;
   color: #333;
   background-color: #f7f8fa;
   line-height: 1.6;
   display: block;
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
 
 .opportunities-page {
   display: grid;
-  grid-template-columns: 20% 1fr; 
+  grid-template-columns: 20% 1fr;
   gap: 20px;
   width: 100%;
 }
@@ -323,7 +325,8 @@ html, body {
   background-color: #ffffff;
   border-right: 1px solid #ddd;
   position: sticky;
-  top: 60px; /* Sticky to stay at the top of the viewport when scrolling */
+  top: 60px;
+  /* Sticky to stay at the top of the viewport when scrolling */
   overflow-y: auto;
   height: calc(100vh - 60px);
 }
@@ -387,7 +390,8 @@ html, body {
 
 /* Main Content Adjustments */
 .main-content {
-  flex-grow: 1; /* Take up remaining space after the filter panel */
+  flex-grow: 1;
+  /* Take up remaining space after the filter panel */
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -433,7 +437,8 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: flex-start; /* Align cards starting from the left */
+  justify-content: flex-start;
+  /* Align cards starting from the left */
 }
 
 .card {
@@ -527,7 +532,8 @@ html, body {
 /* Responsive Design */
 @media (max-width: 1024px) {
   .opportunities-page {
-    flex-direction: column; /* Filter and content stack vertically */
+    flex-direction: column;
+    /* Filter and content stack vertically */
   }
 
   .row {
