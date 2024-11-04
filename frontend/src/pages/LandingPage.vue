@@ -13,7 +13,7 @@
           <source src="media/forestFire.mp4" type="video/mp4">
         </video>
         <div class="content-wrapper">
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
+          <a href="deforestation" target="_blank" rel="noopener noreferrer" class="section-title">
             <span v-for="(char, index) in 'Deforestation'" :key="index" 
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 1 }">
@@ -30,7 +30,7 @@
           <source src="media/waves.mp4" type="video/mp4">
         </video>
         <div class="content-wrapper">
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
+          <a href="risingsealevel" target="_blank" rel="noopener noreferrer" class="section-title">
             <span v-for="(char, index) in 'Rising-Sea-Levels'" :key="index"
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 2 }">
@@ -41,13 +41,13 @@
         <i class="chevron right" @click="goToNextSection">&gt;</i>
       </section>
   
-      <section id="extreme-weather" :class="{ active: currentSection === 3 }">
+      <section id="carbonemission" :class="{ active: currentSection === 3 }">
         <i class="chevron left" @click="goToPrevSection">&lt;</i>
         <video autoplay muted loop>
           <source src="media/Carbon.mp4" type="video/mp4">
         </video>
         <div class="content-wrapper">
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
+          <a href="carbonemission" target="_blank" rel="noopener noreferrer" class="section-title">
             <span v-for="(char, index) in 'Carbon-Emission'" :key="index"
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 3 }">
