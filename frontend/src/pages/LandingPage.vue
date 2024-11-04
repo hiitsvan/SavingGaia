@@ -1,298 +1,244 @@
 <template>
-  <main>
-    <section id="intro">
-      <video autoplay muted loop>
-        <source src="media/rain_forest.mp4" type="video/mp4">
-      </video>
-      <button class="start-button">Begin Journey</button>
-    </section>
+    <main>
+      <section id="intro" :class="{ active: currentSection === 0 }">
+        <video autoplay muted loop>
+          <source src="media/rain_forest.mp4" type="video/mp4">
+        </video>
+        <button class="start-button" @click="goToNextSection">Begin Journey</button>
+      </section>
+  
+      <section id="deforestation" :class="{ active: currentSection === 1 }">
 
-    <section id="deforestation">
-      <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
-      <video autoplay muted loop>
-        <source src="media/forestFire.mp4" type="video/mp4">
-      </video>
-      <div class="content-wrapper">
-        <h1 class="animate-text">Deforestation</h1>
-      </div>
-      <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
-    </section>
+        <video autoplay muted loop>
+          <source src="media/forestFire.mp4" type="video/mp4">
+        </video>
+        <div class="content-wrapper">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
+            <span v-for="(char, index) in 'Deforestation'" :key="index" 
+                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :class="{ 'animate-char': currentSection === 1 }">
+              {{ char }}
+            </span>
+          </a>
+        </div>
+        <i class="chevron right" @click="goToNextSection">&gt;</i>
+      </section>
+  
+      <section id="rising-seas" :class="{ active: currentSection === 2 }">
+        <i class="chevron left" @click="goToPrevSection">&lt;</i>
+        <video autoplay muted loop>
+          <source src="media/waves.mp4" type="video/mp4">
+        </video>
+        <div class="content-wrapper">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
+            <span v-for="(char, index) in 'Rising-Sea-Levels'" :key="index"
+                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :class="{ 'animate-char': currentSection === 2 }">
+              {{ char }}
+            </span>
+          </a>
+        </div>
+        <i class="chevron right" @click="goToNextSection">&gt;</i>
+      </section>
+  
+      <section id="extreme-weather" :class="{ active: currentSection === 3 }">
+        <i class="chevron left" @click="goToPrevSection">&lt;</i>
+        <video autoplay muted loop>
+          <source src="media/Carbon.mp4" type="video/mp4">
+        </video>
+        <div class="content-wrapper">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
+            <span v-for="(char, index) in 'Carbon-Emission'" :key="index"
+                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :class="{ 'animate-char': currentSection === 3 }">
+              {{ char }}
+            </span>
+          </a>
+        </div>
+        <i class="chevron right" @click="goToNextSection">&gt;</i>
+      </section>
+  
+      <section id="earth-dying" :class="{ active: currentSection === 4 }">
+        <i class="chevron left" @click="goToPrevSection">&lt;</i>
+        <video autoplay muted loop>
+          <source src="media/earthdying.mp4" type="video/mp4">
+        </video>
+        <div class="final-content-wrapper">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
+            <span v-for="(char, index) in '1800-not-too-late'" :key="index"
+                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :class="{ 'animate-char': currentSection === 4 }">
+              {{ char }}
+            </span>
+          </a>
+          <button :class="['start-button', 'green-hover', { 'animate-button': currentSection === 4 }]" @click="goToHome">Start Now</button>
+        </div>
 
-    <section id="rising-seas">
-      <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
-      <video autoplay muted loop>
-        <source src="media/waves.mp4" type="video/mp4">
-      </video>
-      <div class="content-wrapper">
-        <h1 class="animate-text">Rising Sea Levels</h1>
-      </div>
-      <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
-    </section>
-
-    <section id="extreme-weather">
-      <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
-      <video autoplay muted loop>
-        <source src="media/Carbon.mp4" type="video/mp4">
-      </video>
-      <div class="content-wrapper">
-        <h1 class="animate-text">Carbon Emission</h1>
-      </div>
-      <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
-    </section>
-
-    <section id="earth-dying">
-      <button class="nav-button prev"><i class="bi bi-chevron-left"></i></button>
-      <video autoplay muted loop>
-        <source src="media/earthdying.mp4" type="video/mp4">
-      </video>
-      <div class="content-wrapper">
-        <h1 class="animate-text"> Its not too late to start now.</h1>
-        <button class="start-button" @click="goToHome">Start Now</button>
-      </div>
-      <button class="nav-button next"><i class="bi bi-chevron-right"></i></button>
-    </section>
-
-  </main>
-</template>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('section');
-    let currentSection = 0;
-    let isScrolling = false;
-    const isMobile = window.innerWidth <= 768;
-    let lastScrollTime = 0;
-
-    // Split text into spans for animation
-    document.querySelectorAll('.animate-text').forEach(text => {
-        text.innerHTML = text.textContent.split('').map((char, index) => 
-            `<span style="animation-delay: ${index * 0.1}s">${char === ' ' ? '&nbsp;' : char}</span>`
-        ).join('');
-    });
-
-    // Mark first section as active
-    sections[0].classList.add('active');
-
-    function goToSection(index) {
-        if (isScrolling || index < 0 || index >= sections.length) return;
-        isScrolling = true;
-        currentSection = index;
-
-        sections.forEach(section => section.classList.remove('active'));
-        sections[currentSection].classList.add('active');
-
-        // Reset animations for the new section
-        const spans = sections[currentSection].querySelectorAll('.animate-text span');
-        spans.forEach((span, i) => {
-            span.style.opacity = '0';
-            span.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                span.style.opacity = '1';
-                span.style.transform = 'translateY(0)';
-            }, i * 100);
+      </section>
+    </main>
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        currentSection: 0
+      }
+    },
+    mounted() {
+      this.initializeSection();
+      this.setupEventListeners();
+      document.body.style.overflow = 'hidden';
+      document.body.style.cursor = 'ew-resize';
+    },
+    methods: {
+      initializeSection() {
+        // The animation will now be handled by Vue's reactivity
+      },
+      setupEventListeners() {
+        if (window.innerWidth > 768) {
+          window.addEventListener('wheel', this.handleScroll, { passive: true });
+          window.addEventListener('keydown', this.handleKeyNavigation);
+        }
+        this.setupTouchEvents();
+        this.setupHoverListeners();
+      },
+      setupHoverListeners() {
+        const headers = document.querySelectorAll('.section-title');
+        headers.forEach(header => {
+          header.addEventListener('mouseenter', () => {
+            document.body.style.cursor = 'pointer';
+          });
+          header.addEventListener('mouseleave', () => {
+            document.body.style.cursor = 'ew-resize';
+          });
         });
-
+      },
+      goToSection(index) {
+        const sections = document.querySelectorAll('section');
+        if (index < 0 || index >= sections.length) return;
+        
+        this.currentSection = index;
+        
         window.scrollTo({
-            left: window.innerWidth * index,
-            behavior: 'smooth'
+          left: window.innerWidth * index,
+          behavior: 'smooth'
         });
-
-        setTimeout(() => {
-            isScrolling = false;
-        }, 1000);
-    }
-
-    // Scroll handling
-    function handleScroll(e) {
-        const now = Date.now();
-        if (now - lastScrollTime < 1000) return;
-        lastScrollTime = now;
-
-        if (e.deltaY > 0 && currentSection < sections.length - 1) {
-            goToSection(currentSection + 1);
-        } else if (e.deltaY < 0 && currentSection > 0) {
-            goToSection(currentSection - 1);
+      },
+      goToPrevSection() {
+        if (this.currentSection > 0) {
+          this.goToSection(this.currentSection - 1);
         }
-    }
-
-    // Navigation button click handlers
-    document.querySelectorAll('.nav-button.prev').forEach(button => {
-        button.addEventListener('click', () => {
-            if (currentSection > 0) {
-                goToSection(currentSection - 1);
-            }
-        });
-    });
-
-    document.querySelectorAll('.nav-button.next').forEach(button => {
-        button.addEventListener('click', () => {
-            if (currentSection < sections.length - 1) {
-                goToSection(currentSection + 1);
-            }
-        });
-    });
-
-    // Start button click handler
-    document.querySelector('.start-button').addEventListener('click', () => {
-        if (isMobile) {
-            document.getElementById('deforestation').scrollIntoView({ behavior: 'smooth' });
+      },
+      goToNextSection() {
+        const sections = document.querySelectorAll('section');
+        if (this.currentSection < sections.length - 1) {
+          this.goToSection(this.currentSection + 1);
+        }
+      },
+      handleScroll(e) {
+        if (e.deltaY > 0) {
+          this.goToNextSection();
         } else {
-            goToSection(1);
+          this.goToPrevSection();
         }
-    });
-
-    // Improved touch handling
-    let touchStart = { x: 0, y: 0 };
-    let touchEnd = { x: 0, y: 0 };
-
-    window.addEventListener('touchstart', (e) => {
-        touchStart.x = e.touches[0].clientX;
-        touchStart.y = e.touches[0].clientY;
-    });
-
-    window.addEventListener('touchend', (e) => {
-        touchEnd.x = e.changedTouches[0].clientX;
-        touchEnd.y = e.changedTouches[0].clientY;
-
-        const diffX = touchStart.x - touchEnd.x;
-        const diffY = touchStart.y - touchEnd.y;
-
-        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-            if (diffX > 0 && currentSection < sections.length - 1) {
-                goToSection(currentSection + 1);
-            } else if (diffX < 0 && currentSection > 0) {
-                goToSection(currentSection - 1);
-            }
+      },
+      handleKeyNavigation(e) {
+        if (e.key === 'ArrowRight') {
+          this.goToNextSection();
+        } else if (e.key === 'ArrowLeft') {
+          this.goToPrevSection();
         }
-    });
-
-    // Event listeners
-    if (!isMobile) {
-        window.addEventListener('wheel', handleScroll, { passive: true });
-        window.addEventListener('resize', () => {
-            goToSection(currentSection);
+      },
+      setupTouchEvents() {
+        let touchStart = { x: 0, y: 0 };
+        
+        window.addEventListener('touchstart', (e) => {
+          touchStart.x = e.touches[0].clientX;
+          touchStart.y = e.touches[0].clientY;
         });
-
-        // Handle keyboard navigation
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' && currentSection < sections.length - 1) {
-                goToSection(currentSection + 1);
-            } else if (e.key === 'ArrowLeft' && currentSection > 0) {
-                goToSection(currentSection - 1);
+  
+        window.addEventListener('touchend', (e) => {
+          const touchEnd = {
+            x: e.changedTouches[0].clientX,
+            y: e.changedTouches[0].clientY
+          };
+  
+          const diffX = touchStart.x - touchEnd.x;
+          if (Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+              this.goToNextSection();
+            } else {
+              this.goToPrevSection();
             }
+          }
         });
-    }
-
-    // Activate sections as they become visible on mobile
-    if (isMobile) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.5 });
-
-        sections.forEach(section => observer.observe(section));
-    }
-});
-
-export default {
-  methods: {
-    goToHome() {
-      this.$router.push("/home"); 
+      },
+      goToHome() {
+        this.$router.push("/home");
+      }
+    },
+    watch: {
+      currentSection(newValue) {
+        if (newValue === 4) {
+          const button = document.querySelector('.start-button.green-hover');
+          if (button) {
+            button.style.animation = 'none';
+            button.offsetHeight;
+            button.style.animation = null;
+          }
+        }
+      }
     }
   }
-};
-</script>
-
-<style scoped>
-* {
+  </script>
+  
+  <style scoped>
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-:root {
-    --primary-color: grey;
-    --text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-body {
-    overflow-x: hidden;
-    background-color: #000;
-    color: white;
-    font-family: 'Arial', sans-serif;
-    cursor: e-resize;
-}
-
-main {
+  }
+  
+  main {
     display: flex;
     width: 500vw;
     height: 100vh;
     touch-action: none;
-}
-
-section {
+    overflow: hidden;
+  }
+  
+  section {
     position: relative;
     width: 100vw;
-    /* height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-}
-
-.content-wrapper {
+    background-color: #242424;
+  }
+  
+  .content-wrapper, .final-content-wrapper {
     position: relative;
+    z-index: 2;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3rem;
-    z-index: 2;
-    width: 80vw;
-    height: 20vh;
+    gap: 2rem;
     text-align: center;
-}
-
-.nav-button {
+  }
+  
+  .final-content-wrapper {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    z-index: 3;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    color: white;
-    font-size: 3rem;
-    cursor: pointer;
-    padding: 1rem;
-    transition: all 0.3s ease;
-    opacity: 0.7;
-    width: 5rem;
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.nav-button:hover {
-    opacity: 1;
-    background: rgba(255, 255, 255, 0.2);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-.nav-button.prev {
-    left: 2rem;
-}
-
-.nav-button.next {
-    right: 2rem;
-}
-
-video {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 5rem;
+  }
+  
+  video {
     position: absolute;
     min-width: 100%;
     min-height: 100%;
@@ -301,144 +247,198 @@ video {
     z-index: 1;
     object-fit: cover;
     filter: brightness(0.4);
-}
-
-.animate-text {
-    max-width: 70vw;
-    position: relative;
-    z-index: 2;
-    font-size: clamp(3rem, 6vw, 3rem);
+  }
+  
+  .section-title {
+    font-size: clamp(2rem, 6vw, 4rem);
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    text-shadow: var(--text-shadow);
-    white-space: nowrap;
-    display: inline-block;
-    transform: scale(1);
-    transition: transform 0.3s ease, color 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
     cursor: pointer;
-}
-
-.animate-text:hover {
-    transform: scale(1.5);
-    color: var(--primary-color);
-    text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
-}
-
-.start-button, .login-button {
+    transition: transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    gap: 0.1em;
+    max-width: 80vw;
+    flex-wrap: wrap;
+    text-decoration: none;
+  }
+  
+  .section-title span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) scale(0.5);
+  }
+  
+  .section-title span.animate-char {
+    animation: popIn 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
+  }
+  
+  .section-title:hover {
+    color: #98FB98;
+    text-shadow: 0 0 20px #2E8B57;
+    transform: scale(1.1);
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes popIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.5);
+    }
+    70% {
+      opacity: 1;
+      transform: translateY(-10px) scale(1.2);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  .chevron {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    color: #ffffff;
+    font-size: 4rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
+  
+  .chevron:hover {
+    opacity: 1;
+    color: #808080;
+  }
+  
+  .chevron.left { left: 2rem; }
+  .chevron.right { right: 2rem; }
+  
+  .start-button {
     position: relative;
     z-index: 2;
-    padding: 0.8rem 1.6rem;
-    font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+    padding: 1rem 2rem;
+    font-size: clamp(1rem, 4vw, 1.5rem);
     background: transparent;
-    color: white;
-    border: 2px solid var(--primary-color);
+    color: #ffffff;
+    border: 2px solid #808080;
     border-radius: 30px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.2em;
+  }
+  
+  .start-button:hover {
+    background: #808080;
+    color: #000000;
+    transform: scale(1.1);
+  }
+  
+  .start-button.green-hover {
     opacity: 0;
     transform: translateY(20px);
-}
-
-.start-button {
-    font-size: clamp(1rem, 4vw, 1.5rem);
-    padding: 1rem 2rem;
-}
-
-.start-button:hover, .login-button:hover {
-    background: var(--primary-color);
-    color: black;
+  }
+  
+  .start-button.animate-button {
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1s;
+  }
+  
+  .start-button.green-hover:hover {
+    background: #98FB98;
+    border-color: #98FB98;
+    color: #000000;
     transform: scale(1.1);
-}
-
-section.active .start-button,
-section.active .login-button {
-    opacity: 1;
-    transform: translateY(0);
-    animation: fadeIn 1s ease forwards;
-}
-
-section.active .animate-text {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Mobile and Tablet Styles */
-@media (max-width: 768px) {
-    body {
-        cursor: auto;
-    }
-
+  }
+  
+  @media (max-width: 768px) {
     main {
-        flex-direction: column;
-        width: 100vw;
-        height: auto;
+      flex-direction: row;
+      width: 500vw;
+      height: 100vh;
+      overflow-x: hidden;
+      scroll-snap-type: x mandatory;
     }
-
+  
     section {
-        width: 100vw;
-        min-height: 100vh;
-        scroll-snap-align: start;
+      width: 100vw;
+      min-height: 100vh;
+      scroll-snap-align: start;
     }
-
-    .content-wrapper {
-        width: 90vw;
-        height: auto;
-        padding: 2rem;
+  
+    .section-title {
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      padding: 0 1rem;
     }
-
-    .animate-text {
-        text-align: center;
-        font-size: clamp(2rem, 8vw, 4rem);
-        white-space: normal;
+  
+    .start-button {
+      transform: scale(0.8);
+      white-space: nowrap;
     }
-
-    video {
-        height: 100%;
-        width: 100%;
+  
+    .content-wrapper,
+    .final-content-wrapper {
+      padding: 2rem;
     }
-
-    .nav-button {
-        font-size: 2rem;
-        padding: 0.5rem;
-        width: 4rem;
-        height: 4rem;
+  
+    .section-title {
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      padding: 0 1rem;
+      max-width: 80vw;
     }
-
-    .nav-button.prev {
-        left: 0.5rem;
+  
+    .chevron {
+      font-size: 2rem;
+      padding: 1rem;
     }
-
-    .nav-button.next {
-        right: 0.5rem;
+  
+    .chevron.left { left: 0.5rem; }
+    .chevron.right { right: 0.5rem; }
+  }
+  
+  @media (orientation: landscape) and (max-height: 500px) {
+    .section-title {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
     }
-}
-
-/* Landscape Mode */
-@media (orientation: landscape) and (max-height: 500px) {
-    .animate-text {
-        font-size: clamp(1.5rem, 4vw, 3rem);
+  
+    .start-button {
+      padding: 0.75rem 1.5rem;
+      font-size: clamp(0.8rem, 3vw, 1.2rem);
     }
-
-    .start-button, .login-button {
-        padding: 0.75rem 1.5rem;
-        font-size: clamp(0.8rem, 3vw, 1.2rem);
+  
+    .content-wrapper,
+    .final-content-wrapper {
+      gap: 1rem;
     }
-
-    .content-wrapper {
-        gap: 1rem;
+  }
+  
+  @media (hover: none) {
+    .chevron {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-}
-</style>
+  
+    .start-button {
+      padding: 1.2rem 2.4rem;
+    }
+  }
+  </style>
