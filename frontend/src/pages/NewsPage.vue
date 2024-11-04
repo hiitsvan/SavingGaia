@@ -1,14 +1,12 @@
 <template>
   <div class="news-page">
-    <div class="news-header">
-      <h1>Latest News on Volunteering and Climate Change</h1>
+    <div class="news-header fade-up delay-1">
+      <h1 class="header-section">Latest News on Volunteering and Climate Change</h1>
       <p class="subtitle">Stay updated with the latest insights on sustainability and environmental initiatives around the world.</p>
     </div>
 
-
-
     <!-- Carousel Section -->
-    <div v-if="newsArticles.length" id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div v-if="newsArticles.length" id="newsCarousel" class="carousel slide fade-up delay-2" data-bs-ride="carousel" data-bs-interval="5000">
       <div class="carousel-inner">
         <div
           v-for="(article, index) in newsArticles"
@@ -17,12 +15,12 @@
         >
           <div class="news-article">
             <img :src="article.img" alt="Article Image" class="article-image" />
-            <div class="article-content">
+            <div class="article-content fade-up delay-3">
               <div class="article-meta">
                 <span class="article-date">{{ article.date || 'Date Unavailable' }}</span>
                 <span class="article-read">{{ article.readTime || '3 min read' }}</span>
               </div>
-              <h2 class="article-title">{{ article.title }}</h2>
+              <h2 class="article-title ">{{ article.title }}</h2>
               <p class="article-summary">{{ article.desc }}</p>
               <a :href="article.link" target="_blank" class="read-more-btn">Continue reading</a>
             </div>
@@ -39,23 +37,9 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
-
-      <!-- Carousel indicators -->
-      <div class="carousel-indicators">
-        <button
-          v-for="(_, index) in newsArticles"
-          :key="index"
-          type="button"
-          data-bs-target="#newsCarousel"
-          :data-bs-slide-to="index"
-          :class="{ active: index === 0 }"
-          :aria-current="index === 0"
-          :aria-label="'Slide ' + (index + 1)"
-        ></button>
-      </div>
     </div>
 
-    <div v-else class="loading-state">
+    <div v-else class="loading-state fade-up delay-1">
       <div class="spinner"></div>
       <p>Loading news...</p>
     </div>
@@ -457,4 +441,37 @@ h1 {
     color: #aaa;
     font-size: 0.9rem;
 }
+/* Fade-in animation */
+.fade-up {
+  opacity: 0;
+  animation: fadeInOpacity 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes fadeInOpacity {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animation delay classes */
+.delay-1 {
+  animation-delay: 0.3s;
+}
+
+.delay-2 {
+  animation-delay: 0.6s;
+}
+
+.delay-3 {
+  animation-delay: 0.9s;
+}
+
+/* Hover effect for enlarging the text */
+.header-section:hover {
+  transform: scale(1.05);
+  
+}
+
+
+
 </style>
