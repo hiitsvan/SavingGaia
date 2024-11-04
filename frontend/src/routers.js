@@ -5,6 +5,7 @@ import OpportunitiesPage from './pages/OpportunitiesPage.vue';
 import NewsPage from './pages/NewsPage.vue';
 import AuthPage from './pages/AuthPage.vue';
 import EducationPage from './pages/EducationPage.vue';
+import OpportunitiesDetailsPage from './pages/OpportunitiesDetailsPage.vue';
 import DeforestationPage from './pages/DeforestationPage.vue';
 import RisingSeaLevelPage from './pages/RisingSeaLevelPage.vue';
 import CarbonEmissionPage from './pages/CarbonEmissionPage.vue';
@@ -56,7 +57,13 @@ const routes = [
     name: '/OpportunitiesPage',
     component: OpportunitiesPage,
     path: '/opportunities'
-  },
+    },
+    {
+        name: 'OpportunitiesDetailsPage',
+        component: OpportunitiesDetailsPage,
+        path: '/opportunities/:opportunityId', // Dynamic route with opportunityId parameter
+        props: true, // Allows route params to be passed as props
+    },
   {
     name: 'ComparisonPage',
     component: ComparisonPage,

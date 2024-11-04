@@ -47,8 +47,8 @@ app.get('/test', (req, res) => {
 
 //authentication
 // app.use("/auth", require("./routes/auth"));
-const MatchOpportunitiesRouter = require('./routes/MatchOpportunitiesRouter.js')
-app.use('/api/match', MatchOpportunitiesRouter)
+const OpportunitiesRouter = require('./routes/OpportunitiesRouter.js')
+app.use('/opportunities', OpportunitiesRouter)
 
 const AuthRouter = require('./routes/AuthRouter.js');
 app.use('/auth', AuthRouter);

@@ -97,6 +97,23 @@ const searchOpportunities = async (req, res) => {
   }
 };
 
+const getOpportunityById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const opportunityDoc = await db.collection('opportunities').doc(id).get();
+    if (opportunityDoc.exists) {
+      res.status(200).json(opportunityDoc.data());
+    } else {
+      res.status(404).json({ message: 'Opportunity not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching opportunity details:', error);
+    res.status(500).json({ message: 'Error fetching opportunity details' });
+  }
+};
+
 module.exports = {
   searchOpportunities,
+  getOpportunityById
 };
