@@ -1,43 +1,25 @@
 <template>
     <div class="container">
         <section id="selection-header">
-            <h1>Please select 2 of your saved volunteer work</h1>
+            <h1>{{ headerText }}</h1>
         </section>
 
-        <section id="volunteer-cards" class="cards-grid">
-            <div class="volunteer-card" data-id="1">
-                <img src="https://placehold.co/300x200" alt="Volunteer Work 1">
-                <h3>Beach Cleanup</h3>
-                <p>Type: Environmental</p>
-                <p>Date: 2024-03-15</p>
-                <p>Duration: 4 hours</p>
-                <p>Event Type: Ad-Hoc</p>
-                <p>Location: Sunny Beach</p>
-                <p>Distance: 5km</p>
-            </div>
-            <div class="volunteer-card" data-id="2">
-                <img src="https://placehold.co/300x200" alt="Volunteer Work 2">
-                <h3>Senior Care Center</h3>
-                <p>Type: Healthcare</p>
-                <p>Date: 2024-03-20</p>
-                <p>Duration: 3 hours</p>
-                <p>Event Type: Long Term</p>
-                <p>Location: Silver Care</p>
-                <p>Distance: 2km</p>
-            </div>
-            <div class="volunteer-card" data-id="3">
-                <img src="https://placehold.co/300x200" alt="Volunteer Work 3">
-                <h3>Food Bank</h3>
-                <p>Type: Community</p>
-                <p>Date: 2024-03-25</p>
-                <p>Duration: 5 hours</p>
-                <p>Event Type: Long Term</p>
-                <p>Location: Community Center</p>
-                <p>Distance: 3km</p>
+        <section id="volunteer-cards" class="cards-grid" v-show="showCardsSection">
+            <div class="volunteer-card" v-for="(volunteer, index) in volunteerCards" :key="index"
+                :data-id="volunteer.id" @click="selectCard(volunteer)"
+                :class="{ selected: selectedCards.includes(volunteer) }">
+                <img :src="volunteer.image" />
+                <h3>{{ volunteer.name }}</h3>
+                <p>Date: {{ formatFirestoreDate(volunteer.startTime) }}</p>
+                <p>Time: {{ formatFirestoreTime(volunteer.startTime) }} - {{ formatFirestoreTime(volunteer.endTime) }}
+                    ({{ eventDuration(volunteer.startTime, volunteer.endTime) }})
+                </p>
+                <p>Location: {{ formatLocation(volunteer.location) }}</p>
+                <p>Roles: {{ formatRoles(volunteer.roles) }}</p>
             </div>
         </section>
 
-        <section id="comparison-table" class="hidden">
+        <section id="comparison-table" v-show="showComparisonTable" :class="{ visible: showComparisonTable }">
             <h2>Here are the comparisons between the two:</h2>
             <table>
                 <thead>
@@ -48,52 +30,218 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Title Row -->
                     <tr>
-                        <td>Title</td>
-                        <td id="title1"></td>
-                        <td id="title2"></td>
+                        <td>Name</td>
+                        <td>{{ selectedCards[0]?.name || '-' }}</td>
+                        <td>{{ selectedCards[1]?.name || '-' }}</td>
                     </tr>
+                    <!-- Date Row -->
                     <tr>
                         <td>Date</td>
-                        <td id="date1"></td>
-                        <td id="date2"></td>
+                        <td>{{ formatFirestoreDate(selectedCards[0]?.startTime) || '-' }}</td>
+                        <td>{{ formatFirestoreDate(selectedCards[1]?.startTime) || '-' }}</td>
                     </tr>
+                    <!-- Duration Row -->
                     <tr>
                         <td>Duration</td>
-                        <td id="duration1"></td>
-                        <td id="duration2"></td>
+                        <td>{{ eventDuration(selectedCards[0]?.startTime, selectedCards[0]?.endTime) || '-' }}</td>
+                        <td>{{ eventDuration(selectedCards[1]?.startTime, selectedCards[1]?.endTime) || '-' }}</td>
                     </tr>
-                    <tr>
-                        <td>Event Type</td>
-                        <td id="type1"></td>
-                        <td id="type2"></td>
-                    </tr>
+                    <!-- Location Row -->
                     <tr>
                         <td>Location</td>
-                        <td id="location1"></td>
-                        <td id="location2"></td>
+                        <td>{{ formatLocation(selectedCards[0]?.location) || '-' }}</td>
+                        <td>{{ formatLocation(selectedCards[1]?.location) || '-' }}</td>
                     </tr>
+                    <!-- Roles Row -->
                     <tr>
-                        <td>Distance</td>
-                        <td id="distance1"></td>
-                        <td id="distance2"></td>
+                        <td>Roles</td>
+                        <td>{{ formatRoles(selectedCards[0]?.roles) || '-' }}</td>
+                        <td>{{ formatRoles(selectedCards[1]?.roles) || '-' }}</td>
                     </tr>
                 </tbody>
             </table>
-            <button id="reset-comparison" class="reset-btn">Reset Comparison</button>
+            <button @click="resetComparison" class="reset-btn">Reset Comparison</button>
         </section>
     </div>
-    
 </template>
+
 <script>
-import comparisonScript from "./comparison.js"; // Adjust path as necessary
+import axios from 'axios';
+import { mapGetters } from 'vuex';
+
 export default {
-  mixins: [comparisonScript], // Use mixins to integrate the JavaScript
-  computed: {
-    user() {
-      return this.$store.state.user; // Access the user from Vuex state
-    }
-  }
+    data() {
+        return {
+            headerText: 'Select 2 of your saved volunteer opportunities to compare',
+            volunteerCards: [], // This will be populated by the backend data
+            selectedCards: [],
+            comparisonFields: [
+                { label: 'Date', key: 'date' },
+                { label: 'Duration', key: 'duration' },
+                { label: 'Event Type', key: 'eventType' },
+                { label: 'Location', key: 'location' },
+                { label: 'Distance', key: 'distance' },
+            ],
+            showCardsSection: true,
+            showComparisonTable: false,
+        };
+    },
+    computed: {
+        ...mapGetters(['isLoggedIn', 'getUser']), // Get user data and logged-in status from Vuex
+    },
+    async created() {
+        if (this.isLoggedIn) {
+            try {
+                const userId = this.getUser.uid; // Get the logged-in user's ID
+                const response = await axios.get(`http://localhost:8001/likes/${userId}`); // Make an API request to fetch saved likes
+                console.log(response.data)
+                this.volunteerCards = response.data; // Populate volunteerCards with data from the backend
+            } catch (error) {
+                console.error("Error fetching saved likes:", error);
+            }
+        }
+    },
+    methods: {
+        eventDuration(startTime, endTime) {
+            if (!startTime || !endTime) {
+                return '-'; // Return '-' if either time is not available
+            }
+
+            // Extract seconds from Firebase Admin timestamp
+            const startSeconds = startTime._seconds;
+            const endSeconds = endTime._seconds;
+
+            if (!startSeconds || !endSeconds) {
+                return '-';
+            }
+
+            // Calculate duration in seconds
+            const durationInSeconds = endSeconds - startSeconds;
+
+            if (durationInSeconds <= 0) {
+                return '-'; // Return '-' if end time is before start time
+            }
+
+            // Convert duration into hours and minutes
+            const hours = Math.floor(durationInSeconds / 3600);
+            const minutes = Math.floor((durationInSeconds % 3600) / 60);
+
+            // Format the duration as hours and minutes
+            let durationStr = '';
+            if (hours > 0) {
+                durationStr += `${hours}h`;
+            }
+            if (minutes > 0) {
+                if (hours > 0) {
+                    durationStr += ' ';
+                }
+                durationStr += `${minutes}min`;
+            }
+
+            return durationStr;
+        },
+        selectCard(card) {
+            if (this.selectedCards.length < 2 && !this.selectedCards.includes(card)) {
+                this.selectedCards.push(card);
+                this.updateHeader();
+                if (this.selectedCards.length === 2) {
+                    this.updateComparisonTable();
+                }
+            }
+        },
+        formatFirestoreTime(timestamp) {
+            if (!timestamp || !timestamp._seconds) {
+                return '-'; // Return '-' if no timestamp available
+            }
+
+            const milliseconds = timestamp._seconds * 1000; // Convert seconds to milliseconds
+            const date = new Date(milliseconds);
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+
+            return `${hours}:${minutes}`;
+        },
+
+        formatFirestoreDate(timestamp) {
+            if (!timestamp || (!timestamp.seconds && !timestamp._seconds)) {
+                return '-'; // Return '-' if no timestamp available
+            }
+
+            // Determine the seconds value depending on the property name available
+            const seconds = timestamp.seconds || timestamp._seconds;
+
+            // Convert the Firestore timestamp to milliseconds
+            const milliseconds = seconds * 1000;
+            const date = new Date(milliseconds);
+
+            // Month names array
+            const monthNames = [
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+
+            // Extract the day, month, and year
+            const day = date.getDate();
+            const month = monthNames[date.getMonth()]; // getMonth() is zero-based, giving values from 0-11
+            const year = date.getFullYear();
+
+            // Return formatted date with month name
+            return `${day} ${month} ${year}`;
+        },
+        formatLocation(locationMap) {
+            if (!locationMap || typeof locationMap !== 'object') {
+                return '-'; // Return '-' if locationMap is missing or not an object
+            }
+
+            // Extract all values from the location map
+            const formattedLocations = Object.entries(locationMap).map(([key, value]) => {
+                // Capitalize the first letter of the key
+                const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+                return `${value} (${capitalizedKey})`;
+            });
+
+            // Join all the formatted key-value pairs into a single string, separated by commas
+            return formattedLocations.join(', ');
+        },
+        formatRoles(rolesMap) {
+            if (!rolesMap || typeof rolesMap !== 'object') {
+                return '-'; // Return '-' if locationMap is missing or not an object
+            }
+
+            // Extract all values from the location map
+            const formattedRoles = Object.entries(rolesMap).map(([key, value]) => {
+                // Capitalize the first letter of the key
+                const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+                return `${capitalizedKey} (${value})`;
+            });
+
+            // Join all the formatted key-value pairs into a single string, separated by commas
+            return formattedRoles.join(', ');
+        },
+        updateHeader() {
+            if (this.selectedCards.length === 0) {
+                this.headerText = 'Please select 2 of your saved volunteer work';
+            } else if (this.selectedCards.length === 1) {
+                this.headerText = 'Please select one more';
+            } else {
+                this.headerText = 'Here are the comparisons between the two:';
+            }
+        },
+        updateComparisonTable() {
+            if (this.selectedCards.length === 2) {
+                this.showCardsSection = false;
+                this.showComparisonTable = true;
+            }
+        },
+        resetComparison() {
+            this.selectedCards = [];
+            this.showComparisonTable = false;
+            this.showCardsSection = true;
+            this.updateHeader();
+        },
+    },
 };
 </script>
 
@@ -223,14 +371,15 @@ table {
     overflow: hidden;
 }
 
-th, td {
+th,
+td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid #eee;
 }
 
 th {
-    background-color: #3498db;
+    background-color:#3898ec;
     color: white;
 }
 
@@ -242,17 +391,33 @@ tr:hover {
     display: none;
 }
 
+.button {
+  background-color: #3898ec;
+  color: #fff;
+  text-align: center;
+  padding: 10px 15px;
+  border: 0;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 700;
+  margin: 20px;
+  transition: background-color 0.3s, transform 0.3s;
+  display: block;
+  cursor: pointer;
+}
 .reset-btn {
     display: block;
     margin: 2rem auto;
     padding: 0.8rem 1.5rem;
-    background-color: #e74c3c;
+    background-color: #3898ec;
+    border-radius: 25px;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 
 .reset-btn:hover {
     background-color: #c0392b;
@@ -262,9 +427,11 @@ tr:hover {
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.02);
     }
+
     100% {
         transform: scale(1);
     }

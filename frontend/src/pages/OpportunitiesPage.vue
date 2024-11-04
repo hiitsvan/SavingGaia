@@ -1,138 +1,135 @@
 <template>
-  <div class="opportunities-page">
-    <!-- Filter Panel -->
-    <aside class="filter-panel">
-      <h2>Apply filters</h2>
-      <p>Filter volunteering opportunities.</p>
+  <div class="opportunities-page container-fluid">
+    <div class="row">
+      <!-- Filter Panel -->
+      <aside class="col-lg-3 col-md-4 filter-panel">
+        <div class="sticky-top pt-4">
+          <h2 class="mb-3">Apply filters</h2>
+          <p class="text-muted mb-4">Filter volunteering opportunities.</p>
 
-      <!-- Saved Filter Dropdown -->
-      <div class="filter-group">
-        <label for="saved-filter">Select saved filter</label>
-        <select id="saved-filter">
-          <option value="">Select saved filter</option>
-          <option value="recent">Recently Added</option>
-          <option value="popular">Popular</option>
-          <option value="nearby">Nearby</option>
-        </select>
-      </div>
+          <!-- Keyword Filter -->
+          <div class="mb-4">
+            <label for="keyword" class="form-label">Keyword</label>
+            <input type="text" id="keyword" class="form-control" placeholder="Search by keyword" v-model="keywords">
+          </div>
 
-      <!-- Keyword Filter -->
-      <div class="filter-group">
-        <label for="keyword">Keyword</label>
-        <input type="text" id="keyword" placeholder="Search by keyword" v-model="keywords">
-      </div>
+          <!-- Time Filter -->
+          <div class="mb-4">
+            <label class="form-label">Time</label>
+            <div class="mb-2">
+              <label for="start-time" class="form-label small">Start Time</label>
+              <select id="start-time" class="form-select" v-model="startTime">
+                <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+              </select>
+            </div>
+            <div>
+              <label for="end-time" class="form-label small">End Time</label>
+              <select id="end-time" class="form-select" v-model="endTime">
+                <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+              </select>
+            </div>
+          </div>
 
-      <!-- Time Filter -->
-      <div class="filter-group">
-        <label>Time</label>
-        <label for="start-time" style="font-size: 0.7em">Start Time</label>
-        <select id="start-time" class="time-dropdown" v-model="startTime">
-          <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
-        </select>
+          <!-- Location Filter -->
+          <div class="mb-4">
+            <label class="form-label">Location</label>
+            <div class="form-check mb-2">
+              <input type="checkbox" id="location-central" class="form-check-input" value="central" v-model="locations">
+              <label class="form-check-label" for="location-central">Central</label>
+            </div>
+            <div class="form-check mb-2">
+              <input type="checkbox" id="location-east" class="form-check-input" value="east" v-model="locations">
+              <label class="form-check-label" for="location-east">East</label>
+            </div>
+            <div class="form-check mb-2">
+              <input type="checkbox" id="location-south" class="form-check-input" value="south" v-model="locations">
+              <label class="form-check-label" for="location-south">South</label>
+            </div>
+            <div class="form-check mb-2">
+              <input type="checkbox" id="location-west" class="form-check-input" value="west" v-model="locations">
+              <label class="form-check-label" for="location-west">West</label>
+            </div>
+          </div>
 
+          <!-- Commitment Filter -->
+          <div class="mb-4">
+            <label for="commitment-filter" class="form-label">Commitment</label>
+            <select id="commitment-filter" class="form-select" v-model="commitment">
+              <option value="ad-hoc">Adhoc</option>
+              <option value="long-term">Long-term</option>
+            </select>
+          </div>
 
-        <label for="end-time" style="font-size: 0.7em">End Time</label>
-        <select id="end-time" class="time-dropdown" v-model="endTime">
-          <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
-        </select>
-      </div>
-
-      <!-- Location Filter -->
-      <div class="filter-group">
-        <label>Location</label>
-
-        <!-- Central Location Checkbox -->
-        <div class="checkbox">
-          <input type="checkbox" id="location-central" value="central" v-model="locations" />
-          <label for="location-central">Central</label>
+          <button @click="searchOpp" class="btn btn-primary">Search</button>
         </div>
+      </aside>
 
-        <!-- East Location Checkbox -->
-        <div class="checkbox">
-          <input type="checkbox" id="location-east" value="east" v-model="locations" />
-          <label for="location-east">East</label>
-        </div>
+      <!-- Main Content -->
+      <main class="col-lg-9 col-md-8 main-content">
+        <!-- Header Section -->
+        <section class="header-section text-center fade-up delay-2 py-5">
+          <h1 class="heading display-4">Start Your Volunteering Journey Today</h1>
+          <p class="paragraph lead">
+            We have curated the following volunteering opportunities for you!<br>
+            Find the opportunity that strikes a chord to kick start your volunteering journey today!
+          </p>
+        </section>
 
-        <!-- South Location Checkbox -->
-        <div class="checkbox">
-          <input type="checkbox" id="location-south" value="south" v-model="locations" />
-          <label for="location-south">South</label>
-        </div>
+        <!-- Sort Filter -->
+        <!-- <div class="row align-items-end mb-4 fade-up delay-2">
+          <div class="col-sm-4">
+            <label for="sort-by" class="form-label">Sort By</label>
+            <select id="sort-by" class="form-select" v-model="sortBy">
+              <option value="">Select...</option>
+              <option value="date">Date</option>
+              <option value="location">Location</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <label for="sort-order" class="form-label">Order</label>
+            <select id="sort-order" class="form-select" v-model="sortOrder">
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <button @click="sortOpportunities" class="btn btn-primary">Sort</button>
+          </div>
+        </div> -->
 
-        <!-- West Location Checkbox -->
-        <div class="checkbox">
-          <input type="checkbox" id="location-west" value="west" v-model="locations" />
-          <label for="location-west">West</label>
-        </div>
-      </div>
-
-
-      <!-- Commitment Filter -->
-      <div class="filter-group">
-        <label for="commitment-filter">Commitment</label>
-        <select id="commitment-filter" v-model="commitment">
-          <option value="ad-hoc">Adhoc</option>
-          <option value="long-term">Long-term</option>
-        </select>
-      </div>
-
-
-      <button @click="searchOpp" class="button border border-0">Search</button>
-
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <!-- Header Section -->
-      <section class="header-section fade-up delay-2 d-block">
-        <h1 class="heading">Start Your Volunteering Journey Today</h1>
-        <p class="paragraph">
-          We have curated the following volunteering opportunities for you!<br />
-          Find the opportunity that strikes a chord to kick start your volunteering journey today!
-        </p>
-      </section>
-
-      <!-- Content Section with 3 cards -->
-      <section class="section fade-up delay-3">
-        <div class="container">
-          <div class="row">
-            <!-- Card 1 -->
-            <div class="card" v-for="opportunity in opportunities" :key="opportunity.id">
-              <div class="card-image">
-                <img v-bind:src="opportunity.image" alt="Event Image" />
+        <!-- Opportunities Grid -->
+        <div class="row g-4 fade-up delay-3">
+          <div class="col-xl-4 col-md-6" v-for="opportunity in opportunities" :key="opportunity.id">
+            <div class="card h-100" @click="goToOpportunityDetails(opportunity.id)">
+              <div class="card-image-wrapper">
+                <img :src="opportunity.image" class="card-img-top" alt="Event Image">
               </div>
-              <div class="card-content">
-                <h3 class="card-heading">{{ opportunity.name }}</h3>
-                <h3 class="card-heading" style="font-size:medium">{{ opportunity.org }}</h3>
-                <p class="card-paragraph">
-                  {{ opportunity.desc }}
-                </p>
-                <ul class="list">
-                  <li class="list-item">
-                    <img src="/media/date-71.png" alt="Date Icon" class="icon" />
-                    <p>{{ formatFirestoreDate(opportunity.startTime) }}</p>
+              <div class="card-body">
+                <h3 class="card-title">{{ opportunity.name }}</h3>
+                <h4 class="card-subtitle mb-3">{{ opportunity.org }}</h4>
+                <ul class="list-unstyled">
+                  <li class="d-flex align-items-center mb-2">
+                    <img src="/media/date-71.png" alt="Date Icon" class="icon me-2">
+                    <span>{{ formatFirestoreDate(opportunity.startTime) }}</span>
                   </li>
-                  <li class="list-item">
-                    <img src="/media/1035.png_1200.png" alt="Time Icon" class="icon" />
-                    <p>{{ formatFirestoreTime(opportunity.startTime) }} - {{ formatFirestoreTime(opportunity.endTime) }}
-                    </p>
+                  <li class="d-flex align-items-center mb-2">
+                    <img src="/media/1035.png_1200.png" alt="Time Icon" class="icon me-2">
+                    <span>{{ formatFirestoreTime(opportunity.startTime) }} - {{ formatFirestoreTime(opportunity.endTime) }}</span>
                   </li>
-                  <li class="list-item">
-                    <img src="/media/535239.png" alt="Location Icon" class="icon" />
-                    <p>{{ formatLocation(opportunity.location) }}</p>
+                  <li class="d-flex align-items-center mb-2">
+                    <img src="/media/535239.png" alt="Location Icon" class="icon me-2">
+                    <span>{{ formatLocation(opportunity.location) }}</span>
                   </li>
                 </ul>
-                <button @click="handleSaveToLikes(opportunity)"  class="button border border-0">
+                <button @click.stop="handleSaveToLikes(opportunity)" class="btn btn-primary">
                   {{ opportunity.isLiked ? 'Remove from Likes' : 'Save to Likes' }}
                 </button>
               </div>
             </div>
           </div>
-
         </div>
-
-      </section>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -168,6 +165,9 @@ export default {
     ...mapGetters(['getUser', 'isLoggedIn']),
   },
   methods: {
+    goToOpportunityDetails(opportunityId) {
+      this.$router.push({ name: 'OpportunitiesDetailsPage', params: { opportunityId } });
+    },
     async created() {
       // Automatically load opportunities when the page loads
       await this.searchOpp();
@@ -198,7 +198,7 @@ export default {
           endTime: this.endTime
         };
 
-        const response = await axios.get(`http://localhost:8001/api/match/`, {
+        const response = await axios.get(`http://localhost:8001/opportunities/`, {
           params: filters
         });
         this.opportunities = response.data.map((opportunity) => ({
@@ -264,12 +264,15 @@ export default {
     },
 
     formatFirestoreDate(timestamp) {
-      if (!timestamp || !timestamp.seconds) {
+      if (!timestamp || (!timestamp.seconds && !timestamp._seconds)) {
         return '-'; // Return '-' if no timestamp available
       }
 
+      // Determine the seconds value depending on the property name available
+      const seconds = timestamp.seconds || timestamp._seconds;
+
       // Convert the Firestore timestamp to milliseconds
-      const milliseconds = timestamp.seconds * 1000;
+      const milliseconds = seconds * 1000;
       const date = new Date(milliseconds);
 
       // Month names array
@@ -303,294 +306,126 @@ export default {
 
 
 <style scoped>
-/* Global Styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  font-family: 'Montserrat', sans-serif;
-  color: #333;
-  background-color: #f7f8fa;
-  line-height: 1.6;
-  display: block;
-  overflow-x: hidden;
-}
-
-.opportunities-page {
-  display: grid;
-  grid-template-columns: 20% 1fr;
-  gap: 20px;
-  width: 100%;
-}
-
-/* Fade-In Animation with Delay (using opacity) */
+/* Retain existing animations and custom styles */
 .fade-up {
   opacity: 0;
   animation: fadeInOpacity 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.delay-1 {
-  animation-delay: 0.3s;
-}
+.delay-1 { animation-delay: 0.3s; }
+.delay-2 { animation-delay: 0.6s; }
+.delay-3 { animation-delay: 0.9s; }
 
-.delay-2 {
-  animation-delay: 0.6s;
-}
-
-.delay-3 {
-  animation-delay: 0.9s;
-}
-
-/* Keyframes for the fade-up effect (using opacity) */
 @keyframes fadeInOpacity {
-  to {
-    opacity: 1;
-  }
+  to { opacity: 1; }
 }
 
-/* Filter Panel Styles */
+/* Custom styling on top of Bootstrap */
 .filter-panel {
-  width: 250px;
-  padding: 20px;
   background-color: #ffffff;
-  border-right: 1px solid #ddd;
-  position: sticky;
-  top: 60px;
-  /* Sticky to stay at the top of the viewport when scrolling */
-  overflow-y: auto;
-  height: calc(100vh - 60px);
-}
-
-.filter-panel h2 {
-  font-size: 1.5em;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.filter-panel p {
-  font-size: 0.9em;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.filter-group {
-  margin-bottom: 20px;
-}
-
-.filter-group label {
-  font-weight: 600;
-  font-size: 0.9em;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.filter-group input[type="text"],
-.filter-group select {
-  width: 100%;
-  padding: 8px;
-  font-size: 0.9em;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-
-.checkbox {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.checkbox input {
-  margin-right: 8px;
-}
-
-/* Time Dropdown Styling */
-.time-dropdown {
-  width: 100%;
-  padding: 8px;
-  font-size: 0.9em;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  max-height: 150px;
-  /* Limits the dropdown height */
-  overflow-y: auto;
-  /* Adds scrollbar if options exceed max-height */
-}
-
-/* Main Content Adjustments */
-.main-content {
-  flex-grow: 1;
-  /* Take up remaining space after the filter panel */
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  max-width: 100%;
-}
-
-/* Header Section */
-.header-section {
-  text-align: center;
-  padding: 50px 20px;
-  transition: transform 0.3s ease;
-  /* Smooth transformation */
-}
-
-/* Hover effect for enlarging the text */
-.header-section:hover {
-  transform: scale(1.05);
-  /* Scale up slightly on hover */
+  border-right: 1px solid #eaeaea;
+  min-height: 100vh;
 }
 
 .heading {
-  font-size: 3em;
   font-weight: 700;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .paragraph {
-  font-size: 1.2em;
   color: #666;
 }
 
-/* Card Section */
-.section {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  flex-direction: column;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-start;
-  /* Align cards starting from the left */
-}
-
 .card {
-  background-color: #fff;
   border-radius: 15px;
+  border: none;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  width: calc(33.333% - 20px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  cursor: pointer;
+  overflow: hidden;
 }
 
-/* Hover Animation for Cards */
 .card:hover {
-  transform: translateY(-10px) scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 255, 0, 0.5);
-  /* Added green glow */
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 5px 5px 20px #a4a3a3
 }
 
-/* Card Image */
-.card-image img {
-  width: 100%;
+.card-image-wrapper {
+  overflow: hidden;
   height: 200px;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease;
 }
 
-.card:hover .card-image img {
+.card:hover .card-img-top {
   transform: scale(1.1);
 }
 
-/* Card Content */
-.card-content {
-  padding: 20px;
-}
-
-.card-heading {
-  font-size: 1.5em;
+.card-title {
+  font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 10px;
   color: #333;
 }
 
-.card-paragraph {
-  font-size: 1em;
+.card-subtitle {
+  font-size: 1rem;
   color: #666;
-  margin-bottom: 20px;
-}
-
-/* List Styles */
-.list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-.list-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  color: #555;
 }
 
 .icon {
   width: 24px;
-  height: auto;
-  margin-right: 10px;
+  height: 24px;
+  object-fit: contain;
 }
 
-/* Button Styles */
-.button {
-  background-color: #3898ec;
-  color: #fff;
-  text-align: center;
-  padding: 10px 15px;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: 700;
-  margin: 20px;
-  transition: background-color 0.3s, transform 0.3s;
-  align-self: center;
+/* Bootstrap button customization */
+.btn-primary {
+  background-color: black;
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
 }
 
-.button:hover {
-  background-color: #2679c4;
-  transform: scale(1.1);
+.btn-primary:hover {
+  background-color: green;
+  border-color: #2679c4;
+  transform: scale(1.02);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .opportunities-page {
-    flex-direction: column;
-    /* Filter and content stack vertically */
-  }
 
-  .row {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .card {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  /* Filter Panel becomes full-width on small screens */
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
   .filter-panel {
-    width: 100%;
-    position: relative;
     border-right: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eaeaea;
+    min-height: auto;
   }
 
-  /* .main-content {
-    margin-left: 0;
-    width: 100%;
-  } */
+  .sticky-top {
+    position: relative !important;
+    top: 0 !important;
+  }
+
+  .heading {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .heading {
+    font-size: 2rem;
+  }
+
+  .card-image-wrapper {
+    height: 180px;
+  }
 }
 </style>

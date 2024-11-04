@@ -73,8 +73,56 @@ const RemoveFromLikes = async (req, res) => {
     }
 };
 
+// Function to get all saved "likes" for a user and fetch their details from opportunities
+const GetUserLikes = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Reference to the user's likes collection
+    const likesCollection = db.collection('users').doc(userId).collection('likes');
+    const snapshot = await likesCollection.get();
+    
+    if (snapshot.empty) {
+      return res.status(200).json([]);
+    }
+
+    // Prepare an array to hold promises to get opportunity details
+    const opportunityPromises = [];
+
+    snapshot.forEach(doc => {
+      const opportunityId = doc.id;
+
+      // Reference to the opportunity in the opportunities collection
+      const opportunityRef = db.collection('opportunities').doc(opportunityId);
+      opportunityPromises.push(opportunityRef.get());
+    });
+
+    // Wait for all opportunity queries to resolve
+    const opportunitiesSnapshots = await Promise.all(opportunityPromises);
+
+    // Prepare the response data with opportunity details
+    const likedOpportunities = opportunitiesSnapshots.map(opportunitySnapshot => {
+      if (opportunitySnapshot.exists) {
+        return {
+          id: opportunitySnapshot.id,
+          ...opportunitySnapshot.data(),
+        };
+      } else {
+        console.error(`Opportunity with ID ${opportunitySnapshot.id} not found`);
+        return null; // In case the opportunity document is missing
+      }
+    }).filter(opportunity => opportunity !== null); // Remove any null values
+
+    res.status(200).json(likedOpportunities);
+  } catch (error) {
+    console.error("Error fetching user likes:", error);
+    res.status(500).json({ error: 'Failed to fetch user likes' });
+  }
+};
+
 module.exports = {
     SaveToLikes,
     CheckIfLiked,
     RemoveFromLikes,
+    GetUserLikes
 };
