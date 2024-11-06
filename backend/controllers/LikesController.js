@@ -24,11 +24,13 @@ const SaveToLikes = async (req, res) => {
 
 // Check if an opportunity is liked by the user
 const CheckIfLiked = async (req, res) => {
-
     try {
+        console.log("poop")
         const { userId, opportunityId } = req.params;
+        console.log(`Checking if opportunity ${opportunityId} is liked by user ${userId}`); // Log userId and opportunityId
 
         if (!userId || !opportunityId) {
+            console.error('Missing userId or opportunityId');
             return res.status(400).json({ error: 'Missing userId or opportunityId' });
         }
 
@@ -39,12 +41,15 @@ const CheckIfLiked = async (req, res) => {
         const opportunitySnapshot = await userLikesRef.get();
         const isLiked = opportunitySnapshot.exists;
 
+        console.log(`Opportunity ${opportunityId} is liked: ${isLiked}`); // Log whether the opportunity is liked
+
         res.status(200).json({ isLiked });
     } catch (error) {
         console.error('Error checking if opportunity is liked:', error);
         res.status(500).json({ error: 'Failed to check if opportunity is liked' });
     }
 };
+
 
 // Remove an opportunity from likes
 const RemoveFromLikes = async (req, res) => {

@@ -13,10 +13,17 @@ export default {
   components: {
     MainNavbar,
   },
+  async created() {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      this.$store.commit('setToken', token);
+      this.$store.dispatch('verifyToken', token); // Revalidate with backend if needed
+    }
+  },
   computed: {
     showNavbar() {
       // List of routes where the navbar should not be displayed
-      const noNavbarRoutes = ['/','/deforestation','/carbonemission','/risingsealevel']; // Add routes as needed
+      const noNavbarRoutes = ['/', '/deforestation', '/carbonemission', '/risingsealevel']; // Add routes as needed
       return !noNavbarRoutes.includes(this.$route.path);
     }
   }
