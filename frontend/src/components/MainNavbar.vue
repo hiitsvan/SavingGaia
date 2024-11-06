@@ -40,6 +40,7 @@
                   <router-link to="/comparison" class="nav-link">Saved</router-link>
                 </div>
                 <div class="news-item">
+                <img src="/media/opportunities.png" alt="Likes" class="dropdown-icon"/>
                   <router-link to="/opportunities" class="nav-link">All Opportunities</router-link>
                 </div>
               </div>
@@ -235,10 +236,10 @@ export default {
 }
 
 .dropdown-icon {
-  width: 16px !important;
-  height: 16px !important;
-  border-radius: 3px !important;
-  margin-right: 0.5rem !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 4px !important;
+  margin-right: 0.4rem !important;
   object-fit: cover;
 }
 
