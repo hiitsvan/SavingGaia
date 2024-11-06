@@ -20,7 +20,6 @@
         </section>
 
         <section id="comparison-table" v-show="showComparisonTable" :class="{ visible: showComparisonTable }">
-            <h2>Here are the comparisons between the two:</h2>
             <table>
                 <thead>
                     <tr>
@@ -48,17 +47,39 @@
                         <td>{{ eventDuration(selectedCards[0]?.startTime, selectedCards[0]?.endTime) || '-' }}</td>
                         <td>{{ eventDuration(selectedCards[1]?.startTime, selectedCards[1]?.endTime) || '-' }}</td>
                     </tr>
-                    <!-- Location Row -->
-                    <tr>
-                        <td>Location</td>
-                        <td>{{ formatLocation(selectedCards[0]?.location) || '-' }}</td>
-                        <td>{{ formatLocation(selectedCards[1]?.location) || '-' }}</td>
-                    </tr>
                     <!-- Roles Row -->
                     <tr>
                         <td>Roles</td>
                         <td>{{ formatRoles(selectedCards[0]?.roles) || '-' }}</td>
                         <td>{{ formatRoles(selectedCards[1]?.roles) || '-' }}</td>
+                    </tr>
+                     <!-- Location Row -->
+                     <tr>
+                        <td>Location</td>
+                        <td>{{ formatLocation(selectedCards[0]?.location) || '-' }}</td>
+                        <td>{{ formatLocation(selectedCards[1]?.location) || '-' }}</td>
+                    </tr>
+                    <!-- Distance From Me Row -->
+                    <tr>
+                        <td>Distance From Me <button @click="requestLocation" class="btn btn-outline-primary btn-sm" :disabled="isLoadingLocation">
+                  <span v-if="isLoadingLocation">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Getting location...
+                  </span>
+                  <span v-else>
+                    <i class="fas fa-location-arrow me-2"></i>
+                    Use My Location
+                  </span>
+                </button>
+                <span v-if="userLocationName" class="ms-3">{{ userLocationName }}</span>
+                <span>
+                  <input type="text" class="form-control" v-model="enteredLocation"
+                    placeholder="Or enter your location manually" />
+                  <button @click="handleManualLocation" class="btn btn-outline-primary btn-sm mt-2">Use Entered
+                    Location</button>
+                </span></td>
+                        <td>{{ formatLocation(selectedCards[0]?.location) || '-' }}</td>
+                        <td>{{ formatLocation(selectedCards[1]?.location) || '-' }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -291,13 +312,13 @@ body {
     height: 3px;
     bottom: -5px;
     left: 50%;
-    background: #3498db;
+    background: green;
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
 
 #selection-header:hover h1 {
-    color: #3498db;
+    color: green;
     transform: scale(1.02);
 }
 
@@ -327,7 +348,7 @@ body {
 }
 
 .volunteer-card.selected {
-    border: 3px solid #3498db;
+    border: 3px solid green;
     animation: pulse 1s;
 }
 
@@ -379,7 +400,7 @@ td {
 }
 
 th {
-    background-color:#3898ec;
+    background-color: green;
     color: white;
 }
 

@@ -2,8 +2,7 @@
     <header>
       <div class="header-container">
         <div class="brand-date">
-          <h3><a class="text-dark">EcoLAH Education</a></h3>
-          <h4><a class="dateMain text-dark">{{ currentDate }}</a></h4>
+          <h3><a class="dateMain text-dark">{{ currentDate }}</a></h3>
         </div>
         <div class="search-input-Div">
           <div class="input-container">
@@ -389,6 +388,7 @@ watch(searchCity, fetchWeatherData)
    font-size: 0.875rem;
    background: #061021;
    color: #f8f8f8;
+   overflow-y: scroll;
  }
  
 
@@ -481,7 +481,7 @@ watch(searchCity, fetchWeatherData)
 
  .search-input-Div {
    display: flex;
- align-items: center;
+  align-items: center;
 }
  
  .input-container {
@@ -525,9 +525,9 @@ watch(searchCity, fetchWeatherData)
    border-radius: 25px;
    backdrop-filter: blur(7px);
    -webkit-backdrop-filter: blur(7px);
-   display: flex;
    flex-wrap: wrap;
    align-items: center;
+   border: 0.5px solid black;
  }
  
  .countryDiv {
@@ -564,12 +564,13 @@ watch(searchCity, fetchWeatherData)
  .weatherList {
    background: var(--clr-grey-5);
    width: fit-content;
-   min-width: 8%;
    padding: 15px;
    margin-bottom: 2%;
    border-radius: 15px;
    text-align: center;
    margin-left: 1%;
+   border: 0.01px solid black;
+
  }
  .weatherList span {
    display: block;
@@ -582,6 +583,7 @@ watch(searchCity, fetchWeatherData)
    width: 100%;
    height: 100%;
    border-radius: 25px;
+   border: 0.1px solid black;
  }
  
  /* HighCharts */

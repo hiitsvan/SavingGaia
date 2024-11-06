@@ -69,8 +69,35 @@ const logoutUser = async (req, res) => {
   }
 };
 
+// Verify the token with Firebase Admin SDK
+const verifyToken = async (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(400).json({ error: 'No token provided' });
+  }
+
+  try {
+    // Verify the token using Firebase Admin SDK
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    
+    // Once verified, you can use the decoded information, for example, the user ID
+    const user = {
+      uid: decodedToken.uid,
+      email: decodedToken.email,
+      name: decodedToken.name,
+    };
+
+    res.status(200).json({ valid: true, user });
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    res.status(401).json({ valid: false, error: 'Invalid or expired token' });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
+  verifyToken
 };
