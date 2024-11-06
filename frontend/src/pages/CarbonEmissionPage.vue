@@ -16,6 +16,7 @@
   
       <!-- Key Statistics -->
       <section class="statistics" style="background-image: url('media/carbonCauses.jpg'); background-size: cover;">
+        <div class="overlay"></div>
         <h2 class="section-title" data-aos="fade-up">Key Statistics</h2>
         <div class="row g-4">
           <div class="col-md-4" data-aos="fade-up">
@@ -41,6 +42,7 @@
   
       <!-- Causes Section -->
       <section class="causes" style="background-image: url('media/carbonCauses.jpg'); background-size: cover;">
+        <div class="overlay"></div>
         <h2 class="section-title" data-aos="fade-up">Major Sources</h2>
         <div class="row g-4">
           <div class="col-md-6 col-lg-3" data-aos="fade-up">
@@ -84,6 +86,7 @@
   
       <!-- Impact Timeline -->
       <section class="timeline" style="background-image: url('media/carbonTimeline.jpg'); background-size: cover;">
+        <div class="overlay"></div>
         <h2 class="section-title" data-aos="fade-up">Environmental Impact</h2>
         <div class="timeline-container">
           <div class="timeline-item" data-aos="fade-right">
@@ -103,6 +106,7 @@
   
       <!-- Solutions Section -->
       <section class="solutions" style="background-image: url('media/carbonSolution.jpg'); background-size: cover; background-position: center -8vh;">
+        <div class="overlay"></div>
         <h2 class="section-title" data-aos="fade-up">Solutions</h2>
         <div class="row g-4">
           <div class="col-md-4" data-aos="fade-up">
@@ -202,13 +206,13 @@
     color: white;
   }
   
-  .hero .overlay {
+.overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
   }
   
   .hero-content {
@@ -298,7 +302,7 @@
     font-size: clamp(2rem, 5vw, 3.5rem);
     text-align: center;
     margin-bottom: 3rem;
-    color: var(--primary-color);
+    color: white;
   }
   
   /* Card Styles */
@@ -315,6 +319,7 @@
     overflow: hidden;
     height: 200px;
     transition: var(--transition);
+    font-size: 4.5vh;
   }
   
   .stat-card h3,
@@ -401,8 +406,8 @@
   }
   
   .return-btn {
-    background: white;
-    color: var(--primary-color);
+    background: black;
+    color: white;
     border: none;
     padding: 0.8rem 1.5rem;
     border-radius: 30px;

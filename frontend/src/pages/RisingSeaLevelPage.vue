@@ -16,6 +16,7 @@
   
       <!-- Key Statistics -->
       <section class="statistics" style="background-image: url('media/seaStats.jpg'); background-size: cover;">
+        <div class="overlay"></div>
         <h2 class="section-title" data-aos="fade-up">Key Statistics</h2>
         <div class="row g-4">
           <div class="col-md-4" data-aos="fade-up">
@@ -41,6 +42,7 @@
   
       <!-- Causes Section -->
       <section class="causes" style="background-image: url('media/seaStats.jpg'); background-size: cover;">
+        <div class="overlay"></div>
         <h2 class="section-title" data-aos="fade-up">Major Causes</h2>
         <div class="row g-4">
           <div class="col-md-6 col-lg-3" data-aos="fade-up">
@@ -49,7 +51,7 @@
                 <img src="media/thermal.png" alt="Icon" />
               </div>
               <h4>Thermal Expansion</h4>
-              <p>Warming oceans cause water to expand, contributing to 50% of sea level rise</p>
+              <p>Warming oceans contribute to 50% of sea level rise</p>
             </div>
           </div>
           <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
@@ -58,7 +60,7 @@
                 <img src="media/glacier.png" alt="Icon" />
               </div>
               <h4>Melting Glaciers</h4>
-              <p>Mountain glaciers and ice caps are rapidly disappearing worldwide</p>
+              <p>Mountain glaciers are rapidly disappearing worldwide</p>
             </div>
           </div>
           <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
@@ -67,7 +69,7 @@
                 <img src="media/global-warming.png" alt="Icon" />
               </div>
               <h4>Ice Sheet Loss</h4>
-              <p>Greenland and Antarctica are losing billions of tons of ice annually</p>
+              <p>Greenland and Antarctica lose billions of tons of ice annually</p>
             </div>
           </div>
           <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
@@ -84,6 +86,7 @@
   
       <!-- Impact Timeline -->
       <section class="timeline" style="background-image: url('media/seaCauses.jpg'); background-size: cover;">
+        <div class="overlay"></div>
         <h2 class="section-title" data-aos="fade-up">Environmental Impact</h2>
         <div class="timeline-container">
           <div class="timeline-item" data-aos="fade-right">
@@ -103,6 +106,7 @@
   
       <!-- Solutions Section -->
       <section class="solutions" style="background-image: url('media/seaSolution.jpg'); background-size: cover;">
+        <div class="overlay"></div>
         <h2 class="section-title" data-aos="fade-up">Solutions</h2>
         <div class="row g-4">
           <div class="col-md-4" data-aos="fade-up">
@@ -202,13 +206,13 @@ body {
   color: white;
 }
 
-.hero .overlay {
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .hero-content {
@@ -222,6 +226,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+  font-weight: 600;
 }
 
 .hero-letter {
@@ -298,7 +303,7 @@ section>* {
   font-size: clamp(2rem, 5vw, 3.5rem);
   text-align: center;
   margin-bottom: 3rem;
-  color: var(--primary-color);
+  color: white
 }
 
 
@@ -316,6 +321,7 @@ section>* {
   overflow: hidden;
   height: 200px;
   transition: var(--transition);
+  font-size: 4.5vh;
 }
 
 .stat-card h3,
@@ -405,8 +411,8 @@ section>* {
 }
 
 .return-btn {
-  background: white;
-  color: var(--primary-color);
+  background: black;
+  color: white;
   border: none;
   padding: 0.8rem 1.5rem;
   border-radius: 30px;
@@ -416,7 +422,7 @@ section>* {
 }
 
 .return-btn:hover {
-  background: var(--secondary-color);
+  background: black;
   color: white;
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);

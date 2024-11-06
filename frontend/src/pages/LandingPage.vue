@@ -13,7 +13,7 @@
           <source src="media/forestFire.mp4" type="video/mp4">
         </video>
         <div class="content-wrapper">
-          <a href="deforestation" target="_blank" rel="noopener noreferrer" class="section-title">
+          <a href="deforestation" target="_self" rel="noopener noreferrer" class="section-title">
             <span v-for="(char, index) in 'Deforestation'" :key="index" 
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 1 }">
@@ -30,7 +30,7 @@
           <source src="media/waves.mp4" type="video/mp4">
         </video>
         <div class="content-wrapper">
-          <a href="risingsealevel" target="_blank" rel="noopener noreferrer" class="section-title">
+          <a href="risingsealevel" target="_self" rel="noopener noreferrer" class="section-title">
             <span v-for="(char, index) in 'Rising-Sea-Levels'" :key="index"
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 2 }">
@@ -47,7 +47,7 @@
           <source src="media/Carbon.mp4" type="video/mp4">
         </video>
         <div class="content-wrapper">
-          <a href="carbonemission" target="_blank" rel="noopener noreferrer" class="section-title">
+          <a href="carbonemission" target="_self" rel="noopener noreferrer" class="section-title">
             <span v-for="(char, index) in 'Carbon-Emission'" :key="index"
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 3 }">
@@ -88,8 +88,7 @@
     mounted() {
       this.initializeSection();
       this.setupEventListeners();
-      document.body.style.overflow = 'hidden';
-      document.body.style.cursor = 'ew-resize';
+
     },
     methods: {
       initializeSection() {
@@ -101,18 +100,7 @@
           window.addEventListener('keydown', this.handleKeyNavigation);
         }
         this.setupTouchEvents();
-        this.setupHoverListeners();
-      },
-      setupHoverListeners() {
-        const headers = document.querySelectorAll('.section-title');
-        headers.forEach(header => {
-          header.addEventListener('mouseenter', () => {
-            document.body.style.cursor = 'pointer';
-          });
-          header.addEventListener('mouseleave', () => {
-            document.body.style.cursor = 'ew-resize';
-          });
-        });
+      
       },
       goToSection(index) {
         const sections = document.querySelectorAll('section');
@@ -195,18 +183,29 @@
   
   <style scoped>
   * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  main {
-    display: flex;
-    width: 500vw;
-    height: 100vh;
-    touch-action: none;
-    overflow: hidden;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* Hide webkit scrollbar */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+main {
+  display: flex;
+  width: 500vw;
+  height: 100vh;
+  touch-action: none;
+  overflow: hidden;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
   
   section {
     position: relative;
@@ -343,8 +342,8 @@
   }
   
   .start-button:hover {
-    background: #808080;
-    color: #000000;
+    background: black;
+    color: white;
     transform: scale(1.1);
   }
   
@@ -359,9 +358,9 @@
   }
   
   .start-button.green-hover:hover {
-    background: #98FB98;
-    border-color: #98FB98;
-    color: #000000;
+    background: black;
+    border-color: white;
+    color: white;
     transform: scale(1.1);
   }
   
