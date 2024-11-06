@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light" :style="isHomePage ? navbarStyles : ''">
     <div class="container">
-       <router-link to="/" class="navbar-brand d-flex align-items-center">
-  <img src="/media/saving_gaia_logo_no_bg2.png" class="logo-image" alt="SavingGaia Logo" />
-  <span class="ms-2">SavingGaia</span>
-</router-link>
+      <router-link to="/" class="navbar-brand d-flex align-items-center ms-0">
+        <img src="/media/saving_gaia_logo_no_bg2.png" class="logo-image" alt="SavingGaia Logo" />
+        <span class="ms-2">SavingGaia</span>
+      </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -19,8 +19,7 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <!-- Left side links -->
-        <div class="navbar-left me-auto">
-
+        <div class="navbar-left ">
           <!-- Education link without hover dropdown -->
           <div class="nav-link">
             <router-link to="/education" class="nav-link">Education</router-link>
@@ -29,16 +28,6 @@
           <!-- News link with hover dropdown -->
           <div class="nav-link dropdown">
             <router-link to="/news" class="nav-link">News</router-link>
-            <div class="dropdown-content">
-              <div class="news-item">
-                <img src="/media/nature1.jpg" alt="News 1" />
-                <router-link to="/news">Join WWF!</router-link>
-              </div>
-              <div class="news-item">
-                <img src="/media/nature2.jpg" alt="News 2" />
-                <router-link to="/news">Join NParks!</router-link>
-              </div>
-            </div>
           </div>
 
           <!-- Opportunities link with hover dropdown -->
@@ -47,7 +36,8 @@
             <template v-if="isLoggedIn">
               <div class="dropdown-content">
                 <div class="news-item">
-                  <router-link to="/comparison" class="nav-link">Likes</router-link>
+                  <img src="/media/likes-icon.png" alt="Likes" class="dropdown-icon"/>
+                  <router-link to="/comparison" class="nav-link">Saved</router-link>
                 </div>
                 <div class="news-item">
                   <router-link to="/opportunities" class="nav-link">All Opportunities</router-link>
@@ -58,11 +48,12 @@
         </div>
 
         <!-- Right side links -->
-        <div class="navbar-right">
+        <div class="navbar-right ms-auto">
           <template v-if="!isLoggedIn">
             <router-link to="/auth" class="nav-link">Login / Sign Up</router-link>
           </template>
           <template v-else>
+            <span class="welcome-message">Welcome Back, {{ username }}!</span>
             <button @click="logoutUser" class="nav-link btn btn-link">Logout</button>
           </template>
         </div>
@@ -81,25 +72,27 @@ export default {
     ...mapGetters(['isLoggedIn']),
     isHomePage() {
       return this.$route.path === "/";
+    },
+    username() {
+      const user = this.$store.getters.getUser;
+      return user ? user.username || user.email?.split('@')[0] || 'User' : 'User';
     }
   },
   methods: {
-    ...mapActions(['logoutUser']), // Assuming you have a logoutUser action in Vuex
+    ...mapActions(['logoutUser']),
     async logoutUser() {
       try {
-        // Get the user's UID and token from Vuex
         const user = this.$store.getters.getUser;
         const token = this.$store.getters.getUserToken;
 
         if (!user || !user.uid || !token) {
           console.error("No user information or token found for logout.");
-          return; // If there's no uid or token, abort the logout process
+          return;
         }
 
         console.log("User UID being used for logout:", user.uid);
         console.log("Token being used for logout:", token);
 
-        // Send logout request to backend
         await axios.post('http://localhost:8001/auth/logout', {
           uid: user.uid,
         }, {
@@ -109,15 +102,14 @@ export default {
           },
         });
 
-        // Update Vuex state to log out
-        await this.$store.dispatch('logout'); // Dispatch Vuex action to update the store
-
+        await this.$store.dispatch('logout');
         console.log("User signed out successfully.");
-        this.$router.push('/auth'); // Redirect to login page after sign-out
+        this.$router.push('/auth');
       } catch (error) {
         console.error("Error during logout: ", error);
       }
-    }},
+    }
+  },
   data() {
     return {
       navbarStyles: {
@@ -132,26 +124,25 @@ export default {
 </script>
 
 <style scoped>
-/* Navbar styles */
 .navbar {
   padding: 0.0rem 0;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  background-color: black; /* Translucent black background */
-   /* Default text color */
+  background-color: black;
 }
 
 .navbar-sticky {
-  background-color: transparent; /* Keep translucent background for sticky navbar */
+  background-color: transparent;
 }
 
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: bold;
-  color: White; /* White text for the brand */
+  color: white;
+  margin-right: 2rem; 
 }
 
 .nav-link {
-  color: White; /* White text for links */
+  color: White;
   font-weight: 500;
   padding: 0.5rem 1rem;
   transition: color 0.3s ease;
@@ -160,49 +151,49 @@ export default {
   display: inline-block;
 }
 
-/* Hover effect to change text color */
 .nav-link:hover {
-  color: #28a745; /* Green hover color */
+  color: #28a745;
 }
 
-/* Underline animation */
-.nav-link::after {
+.nav-link::before {
   content: '';
   position: absolute;
-  bottom: -5px;
-  left: 0;
+  bottom: 0;
+  left: 50%;
   width: 0;
   height: 2px;
-  background-color: #28a745; /* Green underline */
-  transition: width 0.3s ease;
+  background-color: #28a745;
+  transition: width 0.3s ease, left 0.3s ease;
 }
 
-.nav-link:hover::after {
+.nav-link:hover::before {
   width: 100%;
+  left: 0;
 }
 
-/* Flex layout for left and right alignment */
 .navbar-left {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
 .logo-image {
-  width: 40px; /* Adjust this value as needed for the logo size */
-  height: auto; /* Maintain aspect ratio */
+  width: 40px;
+  height: auto;
   display: inline-block;
-  vertical-align: middle; /* Aligns with the text */
+  vertical-align: middle;
 }
+
 .ms-2 {
-  margin-left: 0.5rem; /* Adds space between the logo and the text */
+  margin-left: 0.5rem;
 }
+
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-/* Dropdown styling */
 .dropdown {
   position: relative;
 }
@@ -212,7 +203,7 @@ export default {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.8); /* Dark translucent dropdown */
+  background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   padding: 1rem;
   width: 200px;
@@ -229,7 +220,6 @@ export default {
   transform: translateY(0);
 }
 
-/* Dropdown item styling */
 .news-item,
 .dropdown-content .news-item {
   display: flex;
@@ -237,29 +227,35 @@ export default {
   margin-bottom: 0.5rem;
 }
 
-.news-item img {
+.news-item img:not(.dropdown-icon) {
   width: 50px;
   height: 50px;
   border-radius: 8px;
   margin-right: 0.75rem;
 }
 
+.dropdown-icon {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 3px !important;
+  margin-right: 0.5rem !important;
+  object-fit: cover;
+}
+
 .news-item a,
 .news-item router-link {
-  color: #ffffff; /* White text for dropdown links */
+  color: #ffffff;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-/* Hover effect for dropdown items */
 .news-item a:hover,
 .news-item router-link:hover {
-  color: #28a745; /* Green hover color */
+  color: #28a745;
 }
 
-/* Optional additional styling for dropdown arrow */
 .dropdown-content::before {
   content: "";
   position: absolute;
@@ -269,9 +265,12 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid rgba(0, 0, 0, 0.8); /* Translucent arrow */
+  border-bottom: 10px solid rgba(0, 0, 0, 0.8);
+}
+
+.welcome-message {
+  color: white;
+  font-weight: 500;
+  margin-right: 1rem;
 }
 </style>
-
-
-
