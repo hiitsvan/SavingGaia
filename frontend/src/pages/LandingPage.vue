@@ -30,7 +30,7 @@
       </video>
       <div class="content-wrapper">
         <a href="risingsealevel" target="_self" rel="noopener noreferrer" class="section-title">
-          <span v-for="(char, index) in 'Rising-Sea-Levels'" :key="index"
+          <span v-for="(char, index) in 'Rising    Sea    Levels'" :key="index"
                 :style="{ animationDelay: `${index * 0.1}s` }"
                 :class="{ 'animate-char': currentSection === 2 }">
             {{ char }}
@@ -47,7 +47,7 @@
       </video>
       <div class="content-wrapper">
         <a href="carbonemission" target="_self" rel="noopener noreferrer" class="section-title">
-          <span v-for="(char, index) in 'Carbon-Emission'" :key="index"
+          <span v-for="(char, index) in 'Carbon    Emission'" :key="index"
                 :style="{ animationDelay: `${index * 0.1}s` }"
                 :class="{ 'animate-char': currentSection === 3 }">
             {{ char }}
@@ -64,13 +64,13 @@
       </video>
       <div class="final-content-wrapper">
         <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
-          <span v-for="(char, index) in '1800-not-too-late'" :key="index"
+          <span v-for="(char, index) in 'It    Is   Not    Too    Late.'" :key="index"
                 :style="{ animationDelay: `${index * 0.1}s` }"
                 :class="{ 'animate-char': currentSection === 4 }">
             {{ char }}
           </span>
         </a>
-        <button :class="['start-button', 'green-hover', { 'animate-button': currentSection === 4 }]" @click="goToHome">Start Now</button>
+        <button :class="['start-button', 'green-hover', { 'animate-button': currentSection === 4 }]" @click="goToHome">Save Gaia</button>
       </div>
     </section>
   </main>
