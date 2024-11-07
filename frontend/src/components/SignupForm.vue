@@ -33,39 +33,64 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script>
 import axios from 'axios';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
-const name = ref('');
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
-const error = ref('');
-const showPassword = ref(false);
+export default {
+  name: 'SignupForm',
+  data() {
+    return {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+      error: '',
+      showPassword: false
+    };
+  },
+  methods: {
+    togglePassword() {
+      this.showPassword = !this.showPassword;
+    },
+    async signup() {
+      if (this.password !== this.confirmPassword) {
+        this.error = "Passwords don't match";
+        return;
+      }
+      if (this.password.length < 6){
+        this.error = "Passwords must be at least six characters";
+        return;
+      }
 
-const signup = async () => {
-  if (password.value !== confirmPassword.value) {
-    error.value = "Passwords don't match";
-    return;
+      try {
+        console.log({ email: this.email, password: this.password, name: this.name });
+        const response = await axios.post('http://localhost:8001/auth/register', {
+          email: this.email,
+          password: this.password,
+          name: this.name
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        console.log(response.data);
+        this.$router.push('/auth');
+      } catch (error) {
+        if (error.response) {
+      // Backend responded with a status other than 200
+      this.error = error.response.data.message
+      console.error("Registration error:", error.response.data.message || "Something went wrong");
+    } else if (error.request) {
+      // Request was made but no response received
+      console.error("No response received:", error.request);
+    } else {
+      // Something went wrong setting up the request
+      console.error("Error in registration request:", error.message);
+    }
+      }
+    }
   }
-
-  try {
-    await axios.post('http://localhost:8001/auth/register', {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-    });
-    router.push('/auth');
-  } catch (err) {
-    error.value = err?.response?.data?.error || 'Registration failed. Please try again.';
-  }
-};
-
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value;
 };
 </script>
 

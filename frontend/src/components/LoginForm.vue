@@ -61,17 +61,27 @@ export default {
     const result = await this.login({ email: this.email, password: this.password });
     
     if (result.success) {
-      this.$router.push('/opportunities');
-    } else {
-      this.error = result.message; // Display the formatted error message
+        this.$router.push('/opportunities');
+      } else {
+        // Display specific error message returned by the login action
+        this.error = result.message || 'Login failed. Please try again.';
+      }
+      
+    } catch (error) {
+      // Check for error structure before accessing message
+      if (error.response && error.response.data && error.response.data.message) {
+        this.error = error.response.data.message;
+      } else {
+        this.error = 'An unexpected error occurred. Please try again.';
+      }
+      
+      console.error('Unexpected error during login:', error);
+    } finally {
+      this.isLoading = false;
     }
-  } catch (error) {
-    console.error('Unexpected error during login:', error);
-    this.error = 'An unexpected error occurred. Please try again.';
-  } finally {
-    this.isLoading = false;
-  }
-}}}
+},
+
+}}
 </script>
 
 <style scoped>

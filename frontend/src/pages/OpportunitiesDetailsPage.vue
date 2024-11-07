@@ -3,10 +3,10 @@
         <div v-if="opportunity" class="container py-5">
             <div class="d-flex justify-content-between align-items-center mb-5">
 
-                <h1 class="opportunity-title display-4">{{ opportunity.name }}</h1>
+                <h1 class="opportunity-title display-4 mb-0">{{ opportunity.name }}</h1>
 
 
-                <div class="action-buttons mt-4">
+                <div class="action-buttons">
                     <button @click.stop="handleSaveToLikes()" class="btn btn-primary">
                         {{ opportunity.isLiked ? 'Unsave' : 'Save' }}
                     </button>
@@ -191,7 +191,7 @@ export default {
                     if (this.opportunity.isLiked) {
                         // If already liked, remove from likes
                         await axios.delete(`http://localhost:8001/likes/${userId}/${this.opportunityId}`);
-                        this.opportunity.isLiked = false; 
+                        this.opportunity.isLiked = false;
                         alert('Opportunity removed from likes!');
                     } else {
                         // If not liked, save to likes
