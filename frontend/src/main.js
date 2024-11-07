@@ -8,6 +8,7 @@ import router from './routers'; // Assuming you have router setup
 import store from './store'; // Import the Vuex store
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap'; 
+import '@fortawesome/fontawesome-free/css/all.css';
 
 
 

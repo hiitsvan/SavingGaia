@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light" >
     <div class="container">
-      <router-link to="/" class="navbar-brand d-flex align-items-center ms-0">
+      <router-link to="/home" class="navbar-brand d-flex align-items-center ms-0">
         <img src="/media/saving_gaia_logo_no_bg2.png" class="logo-image" alt="SavingGaia Logo" />
-        <span class="ms-2">SavingGaia</span>
+        <span class="savingGaia ms-2">SavingGaia</span>
       </router-link>
       <button
         class="navbar-toggler"
@@ -19,10 +19,10 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <!-- Left side links -->
-        <div class="navbar-left ">
+        <div class="navbar-left">
           <!-- Education link without hover dropdown -->
           <div class="nav-link">
-            <router-link to="/education" class="nav-link">Education</router-link>
+            <router-link to="/education" class="nav-link">Dashboard</router-link>
           </div>
 
           <!-- News link with hover dropdown -->
@@ -98,8 +98,34 @@ export default {
 </script>
 
 <style scoped>
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.savingGaia {
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: color 0.3s ease;
+  color: white;
+}
+
+.navbar-brand:hover .savingGaia {
+  color: transparent;
+  background-image: linear-gradient(45deg, #4CAF50, #2196F3);
+  background-size: 200% 200%;
+  animation: gradientAnimation 3s ease infinite;
+}
+
 .navbar {
-  padding: 0.0rem 0;
+  padding: 1rem 0;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   background-color: black;
 }
@@ -116,7 +142,7 @@ export default {
 }
 
 .nav-link {
-  color: White;
+  color: White !important;
   font-weight: 500;
   padding: 0.5rem 1rem;
   transition: color 0.3s ease;
@@ -125,11 +151,17 @@ export default {
   display: inline-block;
 }
 
-.nav-link:hover {
-  color: #28a745;
+.nav-link::before {
+  content: none;
 }
 
-.nav-link::before {
+.router-link-active,
+a.nav-link {
+  position: relative;
+}
+
+.router-link-active::before,
+a.nav-link::before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -140,9 +172,21 @@ export default {
   transition: width 0.3s ease, left 0.3s ease;
 }
 
+.router-link-active:hover::before,
+a.nav-link:hover::before {
+  width: 100%;
+  left: 0;
+}
+
 .nav-link:hover::before {
   width: 100%;
   left: 0;
+}
+
+.nav-link:visited,
+.router-link-active,
+.router-link-exact-active {
+  color: White !important;
 }
 
 .navbar-left {
@@ -156,6 +200,7 @@ export default {
   height: auto;
   display: inline-block;
   vertical-align: middle;
+  color: white;
 }
 
 .ms-2 {
@@ -163,9 +208,54 @@ export default {
 }
 
 .navbar-right {
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+/* Mobile styles */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    text-align: center;
+  }
+
+  .navbar-left, .navbar-right {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    margin-left: 0; /* Reset margin for mobile */
+  }
+
+  .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+    margin-top: 0.5rem;
+    transform: none;
+  }
+
+  .welcome-message {
+    margin: 1rem 0;
+  }
+
+  .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
 }
 
 .dropdown {

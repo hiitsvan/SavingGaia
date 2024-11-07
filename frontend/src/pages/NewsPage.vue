@@ -468,8 +468,11 @@ h1 {
 
 /* Hover effect for enlarging the text */
 .header-section:hover {
-  transform: scale(1.05);
+  transform: scale(1.15);
   
+}
+.header-section{
+  transition: transform ease 0.4s;
 }
 
 

@@ -125,7 +125,7 @@
                     <span>{{ formatFirestoreDate(opportunity.startTime) }}</span>
                   </li>
                   <li class="d-flex align-items-center mb-2">
-                    <img src="/media/1035.png_1200.png" alt="Time Icon" class="icon me-2">
+                    <img src="/media/time_icon.png" alt="Time Icon" class="icon me-2">
                     <span>{{ formatFirestoreTime(opportunity.startTime) }} - {{ formatFirestoreTime(opportunity.endTime)
                       }}</span>
                   </li>

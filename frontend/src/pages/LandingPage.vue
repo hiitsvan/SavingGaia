@@ -1,96 +1,111 @@
 <template>
-  <main>
-    <section id="intro" :class="{ active: currentSection === 0 }">
-      <video autoplay muted loop>
-        <source src="media/rain_forest.mp4" type="video/mp4">
-      </video>
-      <button class="start-button" @click="goToNextSection">Begin Journey</button>
-    </section>
+  <div class="landing-page-container">
+    <main>
+      <section id="intro" :class="{ active: currentSection === 0 }">
+        <video autoplay muted loop>
+          <source src="media/rain_forest.mp4" type="video/mp4">
+        </video>
+        <button class="start-button" @click="goToNextSection">Begin Journey</button>
+      </section>
 
-    <section id="deforestation" :class="{ active: currentSection === 1 }">
-      <video autoplay muted loop>
-        <source src="media/forestFire.mp4" type="video/mp4">
-      </video>
-      <div class="content-wrapper">
-        <a href="deforestation" target="_self" rel="noopener noreferrer" class="section-title">
-          <span v-for="(char, index) in 'Deforestation'" :key="index" 
-                :style="{ animationDelay: `${index * 0.1}s` }"
-                :class="{ 'animate-char': currentSection === 1 }">
-            {{ char }}
-          </span>
-        </a>
-      </div>
-      <i class="chevron right" @click="goToNextSection">&gt;</i>
-    </section>
+      <section id="deforestation" :class="{ active: currentSection === 1 }">
+        <video autoplay muted loop>
+          <source src="media/forestFire.mp4" type="video/mp4">
+        </video>
+        <div class="content-wrapper">
+          <a href="deforestation" target="_self" rel="noopener noreferrer" class="section-title">
+            <span v-for="(char, index) in 'Deforestation'" :key="index" 
+                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :class="{ 'animate-char': currentSection === 1 }">
+              {{ char }}
+            </span>
+          </a>
+        </div>
+        <i class="chevron right" @click="goToNextSection">&gt;</i>
+      </section>
 
-    <section id="rising-seas" :class="{ active: currentSection === 2 }">
-      <i class="chevron left" @click="goToPrevSection">&lt;</i>
-      <video autoplay muted loop>
-        <source src="media/waves.mp4" type="video/mp4">
-      </video>
-      <div class="content-wrapper">
-        <a href="risingsealevel" target="_self" rel="noopener noreferrer" class="section-title">
-          <span v-for="(char, index) in 'Rising    Sea    Levels'" :key="index"
-                :style="{ animationDelay: `${index * 0.1}s` }"
-                :class="{ 'animate-char': currentSection === 2 }">
-            {{ char }}
-          </span>
-        </a>
-      </div>
-      <i class="chevron right" @click="goToNextSection">&gt;</i>
-    </section>
+      <section id="rising-seas" :class="{ active: currentSection === 2 }">
+        <i class="chevron left" @click="goToPrevSection">&lt;</i>
+        <video autoplay muted loop>
+          <source src="media/waves.mp4" type="video/mp4">
+        </video>
+        <div class="content-wrapper">
+          <a href="risingsealevel" target="_self" rel="noopener noreferrer" class="section-title">
+            <span v-for="(char, index) in 'Rising    Sea    Levels'" :key="index"
+                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :class="{ 'animate-char': currentSection === 2 }">
+              {{ char }}
+            </span>
+          </a>
+        </div>
+        <i class="chevron right" @click="goToNextSection">&gt;</i>
+      </section>
 
-    <section id="carbonemission" :class="{ active: currentSection === 3 }">
-      <i class="chevron left" @click="goToPrevSection">&lt;</i>
-      <video autoplay muted loop>
-        <source src="media/Carbon.mp4" type="video/mp4">
-      </video>
-      <div class="content-wrapper">
-        <a href="carbonemission" target="_self" rel="noopener noreferrer" class="section-title">
-          <span v-for="(char, index) in 'Carbon    Emission'" :key="index"
-                :style="{ animationDelay: `${index * 0.1}s` }"
-                :class="{ 'animate-char': currentSection === 3 }">
-            {{ char }}
-          </span>
-        </a>
-      </div>
-      <i class="chevron right" @click="goToNextSection">&gt;</i>
-    </section>
+      <section id="carbonemission" :class="{ active: currentSection === 3 }">
+        <i class="chevron left" @click="goToPrevSection">&lt;</i>
+        <video autoplay muted loop>
+          <source src="media/Carbon.mp4" type="video/mp4">
+        </video>
+        <div class="content-wrapper">
+          <a href="carbonemission" target="_self" rel="noopener noreferrer" class="section-title">
+            <span v-for="(char, index) in 'Carbon    Emission'" :key="index"
+                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :class="{ 'animate-char': currentSection === 3 }">
+              {{ char }}
+            </span>
+          </a>
+        </div>
+        <i class="chevron right" @click="goToNextSection">&gt;</i>
+      </section>
 
-    <section id="earth-dying" :class="{ active: currentSection === 4 }">
-      <i class="chevron left" @click="goToPrevSection">&lt;</i>
-      <video autoplay muted loop>
-        <source src="media/earthdying.mp4" type="video/mp4">
-      </video>
-      <div class="final-content-wrapper">
-        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
-          <span v-for="(char, index) in 'It    Is   Not    Too    Late.'" :key="index"
-                :style="{ animationDelay: `${index * 0.1}s` }"
-                :class="{ 'animate-char': currentSection === 4 }">
-            {{ char }}
-          </span>
-        </a>
-        <button :class="['start-button', 'green-hover', { 'animate-button': currentSection === 4 }]" @click="goToHome">Save Gaia</button>
-      </div>
-    </section>
-  </main>
+      <section id="earth-dying" :class="{ active: currentSection === 4 }">
+        <i class="chevron left" @click="goToPrevSection">&lt;</i>
+        <video autoplay muted loop>
+          <source src="media/earthdying.mp4" type="video/mp4">
+        </video>
+        <div class="final-content-wrapper">
+          <a href="https://www.youtube.com/watch?v=SQ2ufFGm9xE" target="_blank" rel="noopener noreferrer" class="section-title">
+            <span v-for="(char, index) in 'It    Is   Not    Too    Late.'" :key="index"
+                  :style="{ animationDelay: `${index * 0.1}s` }"
+                  :class="{ 'animate-char': currentSection === 4 }">
+              {{ char }}
+            </span>
+          </a>
+          <button :class="['start-button', 'green-hover', { 'animate-button': currentSection === 4 }]" @click="goToHome">Save Gaia</button>
+        </div>
+      </section>
+    </main>
+  </div>
 </template>
 
 <script>
 export default {
+  name: 'LandingPage',
   data() {
     return {
       currentSection: 0
     }
   },
   mounted() {
+    // Set overflow only for this component's container
+    document.querySelector('.landing-page-container').style.overflow = 'hidden';
     this.initializeSection();
     this.setupEventListeners();
-    document.body.style.overflow = 'hidden';
+  },
+  beforeUnmount() {
+    // Clean up event listeners
+    if (window.innerWidth > 768) {
+      window.removeEventListener('wheel', this.handleScroll);
+      window.removeEventListener('keydown', this.handleKeyNavigation);
+    }
+    // Remove touch events
+    window.removeEventListener('touchstart', this.handleTouchStart);
+    window.removeEventListener('touchend', this.handleTouchEnd);
   },
   methods: {
     initializeSection() {
-      // The animation will now be handled by Vue's reactivity
+      // Initialize the first section
+      this.currentSection = 0;
     },
     setupEventListeners() {
       if (window.innerWidth > 768) {
@@ -104,11 +119,10 @@ export default {
       if (index < 0 || index >= sections.length) return;
       
       this.currentSection = index;
-      
-      window.scrollTo({
-        left: window.innerWidth * index,
-        behavior: 'smooth'
-      });
+      const mainElement = document.querySelector('main');
+      if (mainElement) {
+        mainElement.style.transform = `translateX(-${index * 100}vw)`;
+      }
     },
     goToPrevSection() {
       if (this.currentSection > 0) {
@@ -122,6 +136,7 @@ export default {
       }
     },
     handleScroll(e) {
+      e.preventDefault();
       if (e.deltaY > 0) {
         this.goToNextSection();
       } else {
@@ -136,53 +151,52 @@ export default {
       }
     },
     setupTouchEvents() {
-      let touchStart = { x: 0, y: 0 };
+      window.addEventListener('touchstart', this.handleTouchStart);
+      window.addEventListener('touchend', this.handleTouchEnd);
+    },
+    handleTouchStart(e) {
+      this.touchStart = e.touches[0].clientX;
+    },
+    handleTouchEnd(e) {
+      if (!this.touchStart) return;
       
-      window.addEventListener('touchstart', (e) => {
-        touchStart.x = e.touches[0].clientX;
-        touchStart.y = e.touches[0].clientY;
-      });
+      const touchEnd = e.changedTouches[0].clientX;
+      const diff = this.touchStart - touchEnd;
 
-      window.addEventListener('touchend', (e) => {
-        const touchEnd = {
-          x: e.changedTouches[0].clientX,
-          y: e.changedTouches[0].clientY
-        };
-
-        const diffX = touchStart.x - touchEnd.x;
-        if (Math.abs(diffX) > 50) {
-          if (diffX > 0) {
-            this.goToNextSection();
-          } else {
-            this.goToPrevSection();
-          }
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          this.goToNextSection();
+        } else {
+          this.goToPrevSection();
         }
-      });
+      }
+      this.touchStart = null;
     },
     goToHome() {
       this.$router.push("/home");
-    }
-  },
-  watch: {
-    currentSection(newValue) {
-      if (newValue === 4) {
-        const button = document.querySelector('.start-button.green-hover');
-        if (button) {
-          button.style.animation = 'none';
-          button.offsetHeight;
-          button.style.animation = null;
-        }
-      }
     }
   }
 }
 </script>
 
-<style scoped>
-* {
+<style>
+/* Reset global styles */
+html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+</style>
+
+<style scoped>
+.landing-page-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   overflow: hidden;
 }
 
@@ -190,18 +204,19 @@ main {
   display: flex;
   width: 500vw;
   height: 100vh;
-  touch-action: none;
-  overflow: hidden;
+  transition: transform 0.5s ease;
 }
 
 section {
   position: relative;
   width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   background-color: #242424;
+  overflow: hidden;
 }
 
 .content-wrapper, .final-content-wrapper {
@@ -248,15 +263,12 @@ video {
   max-width: 80vw;
   flex-wrap: wrap;
   text-decoration: none;
-  overflow: hidden; 
 }
-
 
 .section-title span {
   display: inline-block;
   opacity: 0;
   transform: translateY(20px) scale(0.5);
-  overflow: hidden;
 }
 
 .section-title span.animate-char {
@@ -267,7 +279,6 @@ video {
   color: #98FB98;
   text-shadow: 0 0 20px #2E8B57;
   transform: scale(1.1);
-  overflow: hidden; 
 }
 
 @keyframes fadeInUp {
@@ -305,6 +316,7 @@ video {
   font-size: 4rem;
   opacity: 0.7;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .chevron:hover {
@@ -327,6 +339,7 @@ video {
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.2em;
+  cursor: pointer;
 }
 
 .start-button:hover {
@@ -357,7 +370,6 @@ video {
     flex-direction: row;
     width: 500vw;
     height: 100vh;
-    overflow-x: hidden;
     scroll-snap-type: x mandatory;
   }
 
@@ -367,7 +379,6 @@ video {
     scroll-snap-align: start;
   }
 
-
   .start-button {
     transform: scale(0.8);
     white-space: nowrap;
@@ -376,7 +387,6 @@ video {
   .content-wrapper,
   .final-content-wrapper {
     padding: 2rem;
-    overflow: hidden;
   }
 
   .section-title {
