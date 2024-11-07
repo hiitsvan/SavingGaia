@@ -137,24 +137,19 @@
         </div>
       </main>
     </div>
-    <Footer />
   </div>
-
 </template>
 
 
 
 <script>
-import Footer from '@/components/Footer.vue';
+
 import axios from 'axios';
 import { mapState, mapGetters } from 'vuex';
 
 const googleMapsApiKey = process.env.VUE_APP_GOOGLE_MAPS_API_KEY;
 
 export default {
-  components: {
-    Footer
-  },
   name: 'OpportunitiesPage',
   data() {
     return {
@@ -507,7 +502,6 @@ export default {
     },
   }
 };
-
 </script>
 
 
