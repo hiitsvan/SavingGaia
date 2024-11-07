@@ -1,196 +1,197 @@
 <template>
-    <div class="container-fluid p-0">
-      <!-- Hero Section -->
-      <section class="hero" style="background-image: url('media/seaHero.jpg'); background-size: cover;">
-          <div class="overlay"></div>
-          <div class="hero-content">
-            <h1 class="hero-title">
-              <span v-for="(letter, index) in heroLetters" :key="index" class="hero-letter"
-                :style="{ animationDelay: `${index * 0.1}s` }">
-                {{ letter }}
-              </span>
-            </h1>
-            <p class="hero-subtitle">A Critical Climate Change Impact</p>
-          </div>
-      </section>
-  
-      <!-- Key Statistics -->
-      <section class="statistics" style="background-image: url('media/seaStats.jpg'); background-size: cover;">
-        <div class="overlay"></div>
-        <h2 class="section-title" data-aos="fade-up">Key Statistics</h2>
-        <div class="row g-4">
-          <div class="col-md-4" data-aos="fade-up">
-            <div class="stat-card">
-              <h3>3.4 mm</h3>
-              <p>Annual sea level rise rate</p>
-            </div>
-          </div>
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="stat-card">
-              <h3>8 inches</h3>
-              <p>Sea level rise since 1900</p>
-            </div>
-          </div>
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="stat-card">
-              <h3>1 Billion</h3>
-              <p>People at risk by 2050</p>
-            </div>
-          </div>
-        </div>
-      </section>
-  
-      <!-- Causes Section -->
-      <section class="causes" style="background-image: url('media/seaStats.jpg'); background-size: cover;">
-        <div class="overlay"></div>
-        <h2 class="section-title" data-aos="fade-up">Major Causes</h2>
-        <div class="row g-4">
-          <div class="col-md-6 col-lg-3" data-aos="fade-up">
-            <div class="cause-card">
-              <div class="icon">
-                <img src="media/thermal.png" alt="Icon" />
-              </div>
-              <h4>Thermal Expansion</h4>
-              <p>Warming oceans contribute to 50% of sea level rise</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
-            <div class="cause-card">
-              <div class="icon">
-                <img src="media/glacier.png" alt="Icon" />
-              </div>
-              <h4>Melting Glaciers</h4>
-              <p>Mountain glaciers are rapidly disappearing worldwide</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
-            <div class="cause-card">
-              <div class="icon">
-                <img src="media/global-warming.png" alt="Icon" />
-              </div>
-              <h4>Ice Sheet Loss</h4>
-              <p>Greenland and Antarctica lose billions of tons of ice annually</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
-            <div class="cause-card">
-              <div class="icon">
-                <img src="media/flood.png" alt="Icon" />
-              </div>
-              <h4>Land Subsidence</h4>
-              <p>Coastal land sinking due to groundwater extraction and development</p>
-            </div>
-          </div>
-        </div>
-      </section>
-  
-      <!-- Impact Timeline -->
-      <section class="timeline" style="background-image: url('media/seaCauses.jpg'); background-size: cover;">
-        <div class="overlay"></div>
-        <h2 class="section-title" data-aos="fade-up">Environmental Impact</h2>
-        <div class="timeline-container">
-          <div class="timeline-item" data-aos="fade-right">
-            <h4>Coastal Flooding</h4>
-            <p>Increased frequency of flooding in coastal cities and islands</p>
-          </div>
-          <div class="timeline-item" data-aos="fade-left">
-            <h4>Ecosystem Destruction</h4>
-            <p>Loss of coastal wetlands and critical marine habitats</p>
-          </div>
-          <div class="timeline-item" data-aos="fade-right">
-            <h4>Population Displacement</h4>
-            <p>Millions forced to relocate from coastal and low-lying areas</p>
-          </div>
-        </div>
-      </section>
-  
-      <!-- Solutions Section -->
-      <section class="solutions" style="background-image: url('media/seaSolution.jpg'); background-size: cover;">
-        <div class="overlay"></div>
-        <h2 class="section-title" data-aos="fade-up">Solutions</h2>
-        <div class="row g-4">
-          <div class="col-md-4" data-aos="fade-up">
-            <div class="solution-card">
-              <h4>Emission Reduction</h4>
-              <p>Implementing clean energy solutions to slow global warming</p>
-            </div>
-          </div>
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="solution-card">
-              <h4>Coastal Protection</h4>
-              <p>Building sea walls and restoring natural barriers like mangroves</p>
-            </div>
-          </div>
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="solution-card">
-              <h4>Adaptation Planning</h4>
-              <p>Developing resilient infrastructure and relocation strategies</p>
-            </div>
-          </div>
-        </div>
-      </section>
-  
-      <!-- Footer with Return Button -->
-      <div class="footer-section" v-show="showReturnButton">
-        <router-link to="/">
-          <button class="return-btn">Return</button>
-        </router-link>
+  <div class="container-fluid p-0">
+    <!-- Hero Section -->
+    <section class="hero" style="background-image: url('media/seaHero.jpg'); background-size: cover;">
+      <div class="overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span v-for="(letter, index) in heroLetters" :key="index" class="hero-letter"
+            :style="{ animationDelay: `${index * 0.1}s` }">
+            {{ letter }}
+          </span>
+        </h1>
+        <p class="hero-subtitle">A Critical Climate Change Impact</p>
       </div>
+    </section>
+
+    <!-- Key Statistics -->
+    <section class="statistics" style="background-image: url('media/seaStats.jpg'); background-size: cover;">
+      <div class="overlay"></div>
+      <h2 class="section-title" data-aos="fade-up">Key Statistics</h2>
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="stat-card">
+            <h3>3.4 mm</h3>
+            <p><b>Annual sea level rise rate</b></p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="stat-card">
+            <h3>8 inches</h3>
+            <p><b>Sea level rise since 1900</b></p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="stat-card">
+            <h3>1 Billion</h3>
+            <p><b>People at risk by 2050</b></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Causes Section -->
+    <section class="causes" style="background-image: url('media/seaStats.jpg'); background-size: cover;">
+      <div class="overlay"></div>
+      <h2 class="section-title" data-aos="fade-up">Major Causes</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3" data-aos="fade-up">
+          <div class="cause-card">
+            <div class="icon">
+              <img src="media/thermal.png" alt="Icon" />
+            </div>
+            <h4>Thermal Expansion</h4>
+            <p>Warming oceans contribute to <b>50% of sea level rise</b></p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+          <div class="cause-card">
+            <div class="icon">
+              <img src="media/glacier.png" alt="Icon" />
+            </div>
+            <h4>Melting Glaciers</h4>
+            <p>Mountain glaciers are <b>rapidly disappearing</b> worldwide</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+          <div class="cause-card">
+            <div class="icon">
+              <img src="media/global-warming.png" alt="Icon" />
+            </div>
+            <h4>Ice Sheet Loss</h4>
+            <p>Greenland and Antarctica <b>lose billions of tons</b> of ice annually</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+          <div class="cause-card">
+            <div class="icon">
+              <img src="media/flood.png" alt="Icon" />
+            </div>
+            <h4>Land Subsidence</h4>
+            <p><b>Coastal land sinking</b> due to groundwater extraction and development</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Timeline -->
+    <section class="timeline" style="background-image: url('media/seaCauses.jpg'); background-size: cover;">
+      <div class="overlay"></div>
+      <h2 class="section-title" data-aos="fade-up">Environmental Impact</h2>
+      <div class="timeline-container">
+        <div class="timeline-item" data-aos="fade-right">
+          <h4>Coastal Flooding</h4>
+          <p><b>Increased frequency of flooding</b> in coastal cities and islands</p>
+        </div>
+        <div class="timeline-item" data-aos="fade-left">
+          <h4>Ecosystem Destruction</h4>
+          <p>Loss of <b>coastal wetlands</b> and critical <b>marine habitats</b></p>
+        </div>
+        <div class="timeline-item" data-aos="fade-right">
+          <h4>Population Displacement</h4>
+          <p><b>Millions</b> forced to <b>relocate</b> from coastal and low-lying areas</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions" style="background-image: url('media/seaSolution.jpg'); background-size: cover;">
+      <div class="overlay"></div>
+      <h2 class="section-title" data-aos="fade-up">Solutions</h2>
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="solution-card">
+            <h4>Emission Reduction</h4>
+            <p>Implementing <b>clean energy solutions</b> to slow global warming</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="solution-card">
+            <h4>Coastal Protection</h4>
+            <p>Building <b>sea walls</b> and restoring <b>natural barriers</b> like mangroves</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="solution-card">
+            <h4>Adaptation Planning</h4>
+            <p>Developing <b>resilient infrastructure</b> and <b>relocation</b> strategies</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer with Return Button -->
+    <div class="footer-section" v-show="showReturnButton">
+      <router-link to="/">
+        <button class="return-btn">Return</button>
+      </router-link>
     </div>
-  </template>
-  
-  <script>
-  import AOS from 'aos'
-  import 'aos/dist/aos.css'
-  import 'bootstrap/dist/css/bootstrap.min.css'
-  
-  export default {
-    name: 'RisingSeaLevelsPage',
-    data() {
-      return {
-        title: 'Rising Seas',
-        showReturnButton: false
-      }
-    },
-    computed: {
-      heroLetters() {
-        return this.title.split('')
-      }
-    },
-    mounted() {
-      AOS.init({
-        duration: 1000,
-        once: true,
-        offset: 100,
-      });
-      this.setupScrollObserver();
-    },
-    methods: {
-      setupScrollObserver() {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            this.showReturnButton = entry.isIntersecting;
-          });
-        }, { threshold: 0.1 });
-  
-        const solutionsSection = document.querySelector('.solutions');
-        if (solutionsSection) {
-          observer.observe(solutionsSection);
-        }
+  </div>
+</template>
+
+<script>
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+export default {
+  name: 'RisingSeaLevelsPage',
+  data() {
+    return {
+      title: 'Rising Seas',
+      showReturnButton: false
+    }
+  },
+  computed: {
+    heroLetters() {
+      return this.title.split('')
+    }
+  },
+  mounted() {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100,
+    });
+    this.setupScrollObserver();
+  },
+  methods: {
+    setupScrollObserver() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          this.showReturnButton = entry.isIntersecting;
+        });
+      }, { threshold: 0.1 });
+
+      const solutionsSection = document.querySelector('.solutions');
+      if (solutionsSection) {
+        observer.observe(solutionsSection);
       }
     }
   }
-  </script>
-  
-  <style scoped>
+}
+</script>
+
+<style scoped>
 :root {
   --primary-color: #2c3e50;
   --secondary-color: #34495e;
   --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-body {
-  overflow-x: hidden;
+.container-fluid {
+  overflow: hidden;
+  width: 100%;
 }
 
 /* Hero Section */

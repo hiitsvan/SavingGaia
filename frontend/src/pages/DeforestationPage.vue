@@ -23,19 +23,19 @@
         <div class="col-md-4" data-aos="fade-up">
           <div class="stat-card">
             <h3>15 Billion</h3>
-            <p>Trees cut down annually</p>
+            <p><b>Trees cut down annually</b></p>
           </div>
         </div>
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
           <div class="stat-card">
             <h3>46%</h3>
-            <p>Of Earth's trees have been cleared</p>
+            <p><b>Of Earth's trees have been cleared</b></p>
           </div>
         </div>
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
           <div class="stat-card">
             <h3>137</h3>
-            <p>Species lost daily due to deforestation</p>
+            <p><b>Species lost daily due to deforestation</b></p>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
               <img src="media/planting.png" alt="Icon" />
             </div>
             <h4>Agriculture</h4>
-            <p>80% of deforestation is caused by agricultural expansion</p>
+            <p><b>80%</b> of deforestation is due to <b>agricultural expansion</b></p>
           </div>
         </div>
         <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
@@ -61,7 +61,7 @@
               <img src="media/urbanization.png" alt="Icon" />
             </div>
             <h4>Urban Development</h4>
-            <p>Cities expand into forested areas at alarming rates</p>
+            <p>Cities <b>expand into forested areas</b> at alarming rates</p>
           </div>
         </div>
         <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
@@ -70,7 +70,7 @@
               <img src="media/deforestation.png" alt="Icon" />
             </div>
             <h4>Logging</h4>
-            <p>Legal and illegal logging destroys millions of acres</p>
+            <p>Legal and illegal <b>logging</b> destroys <b>millions of acres</b></p>
           </div>
         </div>
         <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
@@ -79,7 +79,7 @@
               <img src="media/forest-fire.png" alt="Icon" />
             </div>
             <h4>Forest Fires</h4>
-            <p>Both natural and human-caused fires devastate forests</p>
+            <p>Both natural and human-caused <b>fires destroys forests</b></p>
           </div>
         </div>
       </div>
@@ -92,15 +92,15 @@
       <div class="timeline-container">
         <div class="timeline-item" data-aos="fade-right">
           <h4>Biodiversity Loss</h4>
-          <p>137 species of plants, animals, and insects go extinct every day</p>
+          <p><b>137 species</b> of plants, animals, and insects <b>go extinct every day</b></p>
         </div>
         <div class="timeline-item" data-aos="fade-left">
           <h4>Climate Change</h4>
-          <p>15% of greenhouse gas emissions come from deforestation</p>
+          <p><b>15% of greenhouse gas</b> emissions come from <b>deforestation</b></p>
         </div>
         <div class="timeline-item" data-aos="fade-right">
           <h4>Soil Erosion</h4>
-          <p>Leads to reduced agricultural productivity and water pollution</p>
+          <p>Leads to <b>reduced agricultural</b> productivity and <b>water pollution</b></p>
         </div>
       </div>
     </section>
@@ -113,19 +113,19 @@
         <div class="col-md-4" data-aos="fade-up">
           <div class="solution-card">
             <h4>Sustainable Farming</h4>
-            <p>Implementing better agricultural practices to reduce forest clearing</p>
+            <p>Implementing better <b>agricultural practices</b> to reduce forest clearing</p>
           </div>
         </div>
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
           <div class="solution-card">
             <h4>Reforestation</h4>
-            <p>Global initiatives to plant billions of trees annually</p>
+            <p>Global initiatives to <b>plant billions of trees annually</b></p>
           </div>
         </div>
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
           <div class="solution-card">
             <h4>Policy Changes</h4>
-            <p>Stricter regulations and enforcement against illegal deforestation</p>
+            <p><b>Stricter regulations and enforcement</b> against illegal deforestation</p>
           </div>
         </div>
       </div>
@@ -188,10 +188,12 @@ export default {
   --primary-color: #2c3e50;
   --secondary-color: #34495e;
   --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
 }
 
-body {
-  overflow-x: hidden;
+.container-fluid {
+  overflow: hidden;
+  width: 100%;
 }
 
 /* Hero Section */
