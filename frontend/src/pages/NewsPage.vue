@@ -297,6 +297,10 @@ h1 {
 }
 
 .header-section:hover {
-  transform: scale(1.05);
+  transform: scale(1.15);
+  
 }
+
+
+
 </style>
