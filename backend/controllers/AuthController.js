@@ -1,4 +1,5 @@
-const { admin, clientAuth } = require('../firebase/firebaseAdmin');
+
+const { admin } = require('../firebase/firebaseAdmin.js')
 const { signInWithEmailAndPassword } = require('firebase/auth');
 
 // Register User using Firebase Admin
@@ -7,6 +8,7 @@ const registerUser = async (req, res) => {
   const { email, password, name } = req.body;
 
   if (!email || !password || !name) {
+    console.log("empty fields")
     return res.status(400).json({
       message: 'Email, password, and name are required fields',
     });
@@ -17,6 +19,8 @@ const registerUser = async (req, res) => {
       email: email,
       password: password,
     });
+    console.log("successful sign up")
+     
 
     // Automatically add user profile to Firestore
     await admin.firestore().collection('users').doc(userRecord.uid).set({
@@ -25,15 +29,25 @@ const registerUser = async (req, res) => {
       createdAt: new Date(),
     });
 
+    console.log("successfully created in database")
+
     res.status(201).json({
       message: 'User created successfully',
       user: userRecord,
     });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    handleAdminError(error);
   }
 };
-
+function handleAdminError(error) {
+  if (error.code === 'auth/email-already-exists') {
+    console.error("Email is already in use.");
+  } else if (error.code === 'auth/invalid-password') {
+    console.error("The password is invalid or does not meet security standards.");
+  } else {
+    console.error("Error creating user:", error.message);
+  }
+}
 // Login User using Firebase Client SDK
 const loginUser = async (req, res) => {
   console.log('Received login request with:', req.body);

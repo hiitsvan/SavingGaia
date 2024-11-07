@@ -133,6 +133,10 @@
                     <img src="/media/535239.png" alt="Location Icon" class="icon me-2">
                     <span>{{ formatLocation(opportunity.location) }}</span>
                   </li>
+                  <li v-if="distance != null" class="d-flex align-items-center mb-2">
+                    <i class="fa fa-location-arrow fa-lg" style="font-size: 24px"></i>
+                    <span class="px-2">{{ distance }}</span>
+                  </li>
                 </ul>
                 <button @click.stop="handleSaveToLikes(opportunity)" class="btn btn-primary">
                   {{ opportunity.isLiked ? 'Unsave' : 'Save' }}
@@ -158,6 +162,7 @@ export default {
   name: 'OpportunitiesPage',
   data() {
     return {
+      distance: null,
       myLocation: '',
       sortOption: '',
       keywords: '',
@@ -356,7 +361,8 @@ export default {
         Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
         Math.sin(dLon/2) * Math.sin(dLon/2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c; // Distance in km
+      this.distance = (R * c).toFixed(1) + 'km from me' ;
+      return R * c;// Distance in km
     },
 
     deg2rad(deg) {
