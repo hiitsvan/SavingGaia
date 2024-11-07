@@ -55,7 +55,7 @@ const signup = async () => {
       email: email.value,
       password: password.value,
     });
-    router.push('/login');
+    router.push('/auth');
   } catch (err) {
     error.value = err?.response?.data?.error || 'Registration failed. Please try again.';
   }

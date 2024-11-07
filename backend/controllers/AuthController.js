@@ -1,4 +1,4 @@
-const { admin, clientAuth } = require('../firebase/firebase');
+const { admin, clientAuth } = require('../firebase/firebaseAdmin');
 const { signInWithEmailAndPassword } = require('firebase/auth');
 
 // Register User using Firebase Admin

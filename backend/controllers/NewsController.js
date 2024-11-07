@@ -1,4 +1,4 @@
-const { db } = require('../firebase/firebase.js'); // Make sure the path is correct
+const { db } = require('../firebase/firebaseAdmin.js'); // Make sure the path is correct
 
 // Controller function to get all news articles
 const getAllNews = async (req, res) => {

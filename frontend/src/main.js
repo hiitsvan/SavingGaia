@@ -15,4 +15,7 @@ const app = createApp(App);
 app.use(router); // Use router if applicable
 app.use(store);  // Use Vuex store
 
-app.mount('#app');
+store.dispatch('initializeAuth').then(() => {
+    // Mount the app only after auth state is initialized
+    app.mount('#app')
+})

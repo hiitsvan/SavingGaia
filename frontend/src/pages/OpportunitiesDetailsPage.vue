@@ -7,9 +7,8 @@
 
 
                 <div class="action-buttons mt-4">
-                    <button @click="toggleLike" class="btn btn-primary me-3" :class="{ 'liked': isLiked }">
-                        <i class="fas" :class="isLiked ? 'fa-heart' : 'fa-heart-o'"></i>
-                        {{ isLiked ? 'Unsave event' : 'Save event' }}
+                    <button @click.stop="handleSaveToLikes()" class="btn btn-primary">
+                        {{ opportunity.isLiked ? 'Unsave' : 'Save' }}
                     </button>
                 </div>
 
@@ -36,7 +35,7 @@
                 </div>
 
                 <div class="details-section mt-5">
-                    <h2 class="section-title text-start mb-4">Event Details</h2>
+                    <h2 class="section-title-2 text-start mb-4">Event Details</h2>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="detail-card">
@@ -111,6 +110,7 @@
 <script>
 /* global google */
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 const googleMapsApiKey = process.env.VUE_APP_GOOGLE_MAPS_API_KEY;
 export default {
     name: 'OpportunityDetails',
@@ -123,14 +123,20 @@ export default {
             marker: null,
         };
     },
+    computed: {
+        ...mapGetters(['user', 'isAuthenticated']),
+    },
     async created() {
         try {
             const response = await axios.get(`http://localhost:8001/opportunities/${this.opportunityId}`);
             this.opportunity = response.data;
 
             // Check if the opportunity is already liked
-            this.checkLikedStatus();
 
+            if (this.isAuthenticated) {
+                console.log("i am authenticated")
+                await this.checkLikedStatus();
+            }
             if (this.opportunity.location) {
                 const locationString = this.formatLocation(this.opportunity.location);
                 if (typeof google !== 'undefined') {
@@ -149,30 +155,56 @@ export default {
                     };
                 }
             }
+            console.log("i am not authenticataed")
         } catch (error) {
             console.error('Error fetching opportunity details:', error);
         }
     },
     methods: {
         async checkLikedStatus() {
+            console.log("poop")
             try {
+                const userId = this.user ? this.user.uid : null;
+
+                if (!userId) {
+                    console.log("User is not logged in, skipping liked opportunities check.");
+                    return;
+                }
                 // Replace with your actual API endpoint
-                const response = await axios.get(`http://localhost:8001/users/likes/${this.opportunityId}`);
-                this.isLiked = response.data.isLiked;
+                const response = await axios.get(`http://localhost:8001/likes/${userId}/${this.opportunityId}`);
+                console.log("user liked this")
+                this.opportunity.isLiked = response.data.isLiked
             } catch (error) {
                 console.error('Error checking liked status:', error);
             }
         },
-        async toggleLike() {
+        async handleSaveToLikes() {
             try {
-                // Replace with your actual API endpoint
-                await axios.post(`http://localhost:8001/users/likes/${this.opportunityId}`, {
-                    liked: !this.isLiked
-                });
-                this.isLiked = !this.isLiked;
-                // Show success message or handle response
+                console.log("Is user logged in:", this.isAuthenticated);
+                // Check if user is logged in
+                if (!this.isAuthenticated) {
+                    // Redirect to login page if not logged in
+                    this.$router.push('/auth');
+                } else {
+                    const userId = this.user.uid;
+
+                    if (this.opportunity.isLiked) {
+                        // If already liked, remove from likes
+                        await axios.delete(`http://localhost:8001/likes/${userId}/${this.opportunityId}`);
+                        this.opportunity.isLiked = false; 
+                        alert('Opportunity removed from likes!');
+                    } else {
+                        // If not liked, save to likes
+                        await axios.post('http://localhost:8001/likes', {
+                            userId: userId,
+                            opportunityId: this.opportunityId,
+                        });
+                        this.opportunity.isLiked = true;
+                        alert('Opportunity saved to likes!');
+                    }
+                }
             } catch (error) {
-                console.error('Error toggling like:', error);
+                console.error('Error saving/removing opportunity to/from likes:', error);
             }
         },
         learnMore() {
@@ -265,26 +297,29 @@ export default {
             return locations.join(', ');
         },
         formatRoles(rolesMap) {
-    if (!rolesMap || typeof rolesMap !== 'object') return [];
-    return Object.entries(rolesMap).map(([key, value]) => {
-        const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-        return `${capitalizedKey} (${value})`;
-    });
-}}}
+            if (!rolesMap || typeof rolesMap !== 'object') return [];
+            return Object.entries(rolesMap).map(([key, value]) => {
+                const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+                return `${capitalizedKey} (${value})`;
+            });
+        }
+    }
+}
 
 </script>
 
 <style scoped>
 .opportunity-details-page {
-    background-color: #ffffff;
+    background-color: black;
     min-height: 100vh;
     padding: 2rem 0;
+    color: black;
 }
 
 .opportunity-title {
     font-size: 2.75rem;
     font-weight: 700;
-    color: #000000;
+    color: white;
     margin-bottom: 1rem;
     letter-spacing: -0.5px;
 }
@@ -302,8 +337,9 @@ export default {
 }
 
 .btn-primary {
-    background-color: black;
+    background-color: white;
     border: none;
+    color: black;
 }
 
 .btn-primary:hover {
@@ -317,12 +353,12 @@ export default {
 
 .btn-outline-primary:hover {
     background-color: green;
-    color: white;
+    color: black;
 }
 
 .btn-outline-primary.liked {
     background-color: black;
-    color: white;
+    color: black;
 }
 
 /* .btn-primary {
@@ -353,13 +389,23 @@ export default {
 .section-title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #000000;
+    color: black;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.3px;
+}
+
+
+.section-title-2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
     margin-bottom: 1.5rem;
     letter-spacing: -0.3px;
 }
 
 .image-container {
     border-radius: 8px;
+    border: 2px solid white;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }

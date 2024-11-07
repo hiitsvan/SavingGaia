@@ -8,7 +8,8 @@
         <input type="email" v-model="email" placeholder="Email" required class="form-input" />
       </div>
       <div class="input-group">
-        <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Password" required class="form-input" />
+        <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Password" required
+          class="form-input" />
         <span class="input-icon clickable" @click="showPassword = !showPassword">
           {{ showPassword ? '👁️' : '👁️‍🗨️' }}
         </span>
@@ -24,25 +25,53 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+<script>
 
-const router = useRouter();
-const email = ref('');
-const password = ref('');
-const error = ref('');
-const showPassword = ref(false);
+import { mapActions, mapState } from 'vuex';
 
-const loginUser = async () => {
+export default {
+  name: 'LoginForm',
+  emits: ['toggle'],
+  data() {
+    return {
+      email: '',
+      password: '',
+      error: '',
+      showPassword: false,
+      isLoading: false,
+    };
+  },
+  computed: {
+    ...mapState(['loading']),
+    submitButtonText() {
+      return this.isLoading ? 'Logging in...' : 'Login';
+    },
+  },
+  methods: {
+    ...mapActions(['login']),
+    togglePassword() {
+      this.showPassword = !this.showPassword;
+    },
+    async loginUser() {
+  if (this.isLoading) return;
+  this.isLoading = true;
+  this.error = '';
+
   try {
-    await axios.post('http://localhost:8001/auth/login', { email: email.value, password: password.value });
-    router.push('/opportunities');
-  } catch (err) {
-    error.value = err?.response?.data?.error || 'Login failed. Please try again.';
+    const result = await this.login({ email: this.email, password: this.password });
+    
+    if (result.success) {
+      this.$router.push('/opportunities');
+    } else {
+      this.error = result.message; // Display the formatted error message
+    }
+  } catch (error) {
+    console.error('Unexpected error during login:', error);
+    this.error = 'An unexpected error occurred. Please try again.';
+  } finally {
+    this.isLoading = false;
   }
-};
+}}}
 </script>
 
 <style scoped>

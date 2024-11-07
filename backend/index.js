@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 
 const PORT = 8001;
 
-const { db } = require("./firebase/firebase.js");
+const { db } = require("./firebase/firebaseAdmin.js");
 // const authMiddleware = require('./middlewares/authMiddleware');
 // const errorHandler = require('./middlewares/errorMiddleware');
 // const logger = require("./middlewares/loggerMiddleware");

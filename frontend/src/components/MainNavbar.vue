@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light" :style="isHomePage ? navbarStyles : ''">
+  <nav class="navbar navbar-expand-lg navbar-light" >
     <div class="container">
       <router-link to="/" class="navbar-brand d-flex align-items-center ms-0">
         <img src="/media/saving_gaia_logo_no_bg2.png" class="logo-image" alt="SavingGaia Logo" />
@@ -33,7 +33,7 @@
           <!-- Opportunities link with hover dropdown -->
           <div class="nav-link dropdown">
             <router-link to="/opportunities" class="nav-link">Opportunities</router-link>
-            <template v-if="isLoggedIn">
+            <template v-if="isAuthenticated">
               <div class="dropdown-content">
                 <div class="news-item">
                   <img src="/media/likes-icon.png" alt="Likes" class="dropdown-icon"/>
@@ -50,11 +50,11 @@
 
         <!-- Right side links -->
         <div class="navbar-right ms-auto">
-          <template v-if="!isLoggedIn">
+          <template v-if="!isAuthenticated">
             <router-link to="/auth" class="nav-link">Login / Sign Up</router-link>
           </template>
           <template v-else>
-            <span class="welcome-message">Welcome Back, {{ username }}!</span>
+            <span v-if="user" class="welcome-message">Welcome Back, {{ user.displayName || 'User'}}!</span>
             <button @click="logoutUser" class="nav-link btn btn-link">Logout</button>
           </template>
         </div>
@@ -65,52 +65,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import axios from 'axios';
+
 
 export default {
   name: "MainNavbar",
-  computed: {
-    ...mapGetters(['isLoggedIn']),
-    isHomePage() {
-      return this.$route.path === "/";
-    },
-    username() {
-      const user = this.$store.getters.getUser;
-      return user ? user.username || user.email?.split('@')[0] || 'User' : 'User';
-    }
-  },
-  methods: {
-    ...mapActions(['logoutUser']),
-    async logoutUser() {
-      try {
-        const user = this.$store.getters.getUser;
-        const token = this.$store.getters.getUserToken;
-
-        if (!user || !user.uid || !token) {
-          console.error("No user information or token found for logout.");
-          return;
-        }
-
-        console.log("User UID being used for logout:", user.uid);
-        console.log("Token being used for logout:", token);
-
-        await axios.post('http://localhost:8001/auth/logout', {
-          uid: user.uid,
-        }, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        await this.$store.dispatch('logout');
-        console.log("User signed out successfully.");
-        this.$router.push('/auth');
-      } catch (error) {
-        console.error("Error during logout: ", error);
-      }
-    }
-  },
   data() {
     return {
       navbarStyles: {
@@ -120,7 +78,22 @@ export default {
         zIndex: '1000'
       }
     };
-  }
+  },
+  computed: {
+    // Use Vuex's isAuthenticated and user getters
+    ...mapGetters(['isAuthenticated', 'user']),
+  },
+  methods: {
+    ...mapActions(['logout']),
+    async logoutUser() {
+      try {
+        await this.logout(); // Call Vuex logout action
+        this.$router.push('/auth'); // Redirect to login page after logout
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    },
+  },
 };
 </script>
 

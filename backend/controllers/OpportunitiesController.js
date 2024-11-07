@@ -1,4 +1,4 @@
-const { db } = require('../firebase/firebase.js'); // Import Firestore from Firebase Admin SDK
+const { db } = require('../firebase/firebaseAdmin.js'); // Import Firestore from Firebase Admin SDK
 
 const searchOpportunities = async (req, res) => {
   try {

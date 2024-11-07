@@ -75,33 +75,39 @@
           </p>
         </section>
 
+
         <!-- Sort Controls -->
-        <div class="sort-controls mb-4 fade-up delay-2">
-          <div class="row align-items-center">
-            <div class="col-md-4">
-              <div class="d-flex align-items-center">
-                <label class="me-3 text-nowrap">Sort by:</label>
-                <select class="form-select" v-model="sortOption" @change="sortOpportunities">
-                  <option value="">Select sorting option...</option>
-                  <option value="nearest">Near Me</option>
-                  <option value="upcoming">Upcoming Events</option>
-                  <option value="alphabetical-asc">Name (A-Z)</option>
-                  <option value="alphabetical-desc">Name (Z-A)</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div v-if="sortOption === 'nearest'" class="location-permission mt-3 mt-md-0 d-flex align-items-center">
-                <!-- Text Input Field for Location -->
-                <input type="text" class="form-control me-2" v-model="enteredLocation"
-                  :placeholder="userLocationName || 'Enter location'" />
-                <button @click="handleManualLocation" class="btn btn-outline-primary btn-sm">
-                  Go
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="sort-controls mb-4 fade-up delay-2">
+  <div class="row align-items-center">
+    <div class="col-md-4">
+      <div class="d-flex align-items-center">
+        <label class="me-3 text-nowrap">Sort by:</label>
+        <select class="form-select" v-model="sortOption" @change="handleSort">
+          <option value="">Select sorting option...</option>
+          <option value="nearest">Near Me</option>
+          <option value="upcoming">Upcoming Events</option>
+          <option value="alphabetical-asc">Name (A-Z)</option>
+          <option value="alphabetical-desc">Name (Z-A)</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div v-if="sortOption === 'nearest'" class="location-permission mt-3 mt-md-0 d-flex align-items-center">
+        <!-- Text Input Field for Location -->
+        <i v-if="isLoadingLocation" class="fas fa-spinner fa-spin me-2"></i><input
+          type="text"
+          class="form-control me-2"
+          v-model="enteredLocation"
+          :placeholder="computedPlaceholder"
+        />
+        <button @click="handleManualLocation" class="btn btn-outline-primary btn-sm">
+         Go
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
         <!-- Opportunities Grid -->
         <div class="row g-4 fade-up delay-3">
@@ -143,9 +149,8 @@
 
 
 <script>
-
 import axios from 'axios';
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 const googleMapsApiKey = process.env.VUE_APP_GOOGLE_MAPS_API_KEY;
 
@@ -168,39 +173,118 @@ export default {
       hours: Array.from({ length: 24 }, (_, i) => {
         const hour = String(i).padStart(2, '0');
         return `${hour}:00`;
-      })
+      }),
     };
+  },
+  watch: {
+    // Watch for changes in userLocationName to ensure placeholder updates properly
+    userLocationName(newVal) {
+      if (newVal && !this.enteredLocation) {
+        this.enteredLocation = newVal; // Automatically set enteredLocation to userLocationName
+      }
+    },
+  },
+  computed: {
+    ...mapGetters(['user', 'isAuthenticated']),
+    computedPlaceholder() {
+      return this.isLoadingLocation ? 'Getting location...' : this.userLocationName || 'Enter location';
+    },
   },
   async mounted() {
     try {
-      await this.searchOpp(); // Fetch opportunities when the page loads
+      // Fetch all opportunities when the page loads
+      await this.searchOpp();
 
-      // Only check liked opportunities if opportunities are successfully fetched
-      if (this.opportunities.length) {
+      // Check if the user is logged in and opportunities are loaded before checking likes
+      if (this.isAuthenticated && this.opportunities.length > 0) {
+        console.log(this.user)
         await this.checkLikedOpportunities();
       }
     } catch (error) {
-      console.error("Error during mounted hook:", error);
+      console.error('Error during mounted hook:', error);
     }
   },
-  computed: {
-    ...mapState(['user']),
-    ...mapGetters(['getUser', 'isLoggedIn']),
-  },
   methods: {
+    async searchOpp() {
+      try {
+        // Make sure to provide a complete URL for the API endpoint
+        const filters = {
+          keywords: this.keywords,
+          locations: this.locations,
+          commitment: this.commitment,
+          startTime: this.startTime,
+          endTime: this.endTime
+        };
+
+        const response = await axios.get(`http://localhost:8001/opportunities/`, {
+          params: filters
+        });
+        this.opportunities = response.data.map((opportunity) => ({
+          ...opportunity,
+          isLiked: false, // Initialize isLiked to false
+        }));
+        if (this.opportunities.length) {
+          await this.checkLikedOpportunities();
+        }
+      } catch (error) {
+        console.error("Error fetching opportunities:", error);
+      }
+    },
+    async checkLikedOpportunities() {
+      if (!this.user || !this.user.uid) {
+        console.warn("User is not logged in, skipping liked opportunities check.");
+        return;
+      }
+
+      try {
+        const userId = this.user.uid;
+        console.log(`Checking liked opportunities for user ID: ${userId}`);
+
+        for (let opportunity of this.opportunities) {
+          try {
+            const response = await axios.get(`http://localhost:8001/likes/${userId}/${opportunity.id}`);
+            opportunity.isLiked = response.data.isLiked || false;
+            console.log(`Opportunity ${opportunity.id} is liked: ${opportunity.isLiked}`);
+          } catch (innerError) {
+            console.error(`Error checking like status for opportunity ${opportunity.id}:`, innerError);
+          }
+        }
+
+        console.log("Updated opportunities with liked status:", this.opportunities);
+      } catch (error) {
+        console.error('Error checking liked opportunities:', error);
+      }
+    },
+    async handleSort() {
+      if (this.sortOption === 'nearest') {
+        // Request user's current location right when "Near Me" is selected
+        if (!this.userLocation) {
+          await this.requestLocation();
+        }
+      }
+      this.sortOpportunities(); // Proceed with sorting opportunities
+    },
+
     async requestLocation() {
+      console.log("Requesting user's location...");
       this.isLoadingLocation = true;
       try {
         const position = await new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject);
         });
-        console.log(position)
+
+        console.log(position);
         this.userLocation = {
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lng: position.coords.longitude,
         };
+
+        // Get the name of the user's location and update enteredLocation accordingly
         await this.getUserLocationName(this.userLocation.lat, this.userLocation.lng);
-        this.sortOpportunities();
+        // Update the placeholder with userLocationName
+        this.enteredLocation = this.userLocationName;
+
+        this.sortOpportunities(); // Sort opportunities after getting user's location
       } catch (error) {
         console.error('Error getting location:', error);
         alert('Unable to get your location. Please enable location services and try again.');
@@ -208,18 +292,15 @@ export default {
         this.isLoadingLocation = false;
       }
     },
+
     async getUserLocationName(lat, lng) {
       try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-          params: {
-            latlng: `${lat},${lng}`,
-            key: googleMapsApiKey
-          }
+          params: { latlng: `${lat},${lng}`, key: googleMapsApiKey },
         });
 
         if (response.data.status === 'OK' && response.data.results.length > 0) {
-          // Get the first result as the user's location name
-          this.userLocationName = response.data.results[0].formatted_address;
+          this.userLocationName = response.data.results[0].formatted_address || 'Unknown location';
           console.log('User location name:', this.userLocationName);
         } else {
           console.error('Error getting user location name:', response.data.status);
@@ -228,6 +309,8 @@ export default {
         console.error('Error getting user location name:', error);
       }
     },
+
+
     async handleManualLocation() {
       if (this.enteredLocation) {
         try {
@@ -245,29 +328,14 @@ export default {
         alert('Please enter a valid location.');
       }
     },
-    calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371; // Radius of the Earth in km
-      const dLat = this.deg2rad(lat2 - lat1);
-      const dLon = this.deg2rad(lon2 - lon1);
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c; // Distance in km
-    },
-
-    deg2rad(deg) {
-      return deg * (Math.PI / 180);
-    },
 
     async getLocationCoordinates(address) {
       try {
         const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
           params: {
             address: address,
-            key: googleMapsApiKey
-          }
+            key: googleMapsApiKey,
+          },
         });
 
         if (response.data.status === 'OK') {
@@ -279,26 +347,37 @@ export default {
         return null;
       }
     },
+    calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Radius of the Earth in km
+      const dLat = this.deg2rad(lat2 - lat1);
+      const dLon = this.deg2rad(lon2 - lon1);
+      const a = 
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c; // Distance in km
+    },
 
+    deg2rad(deg) {
+      return deg * (Math.PI/180);
+    },
     async sortOpportunities() {
       let opportunities = [...this.opportunities];
 
       switch (this.sortOption) {
         case 'nearest':
           if (this.userLocation) {
-            // Step 1: Get all the coordinates asynchronously for each opportunity
             const coordinatesPromises = opportunities.map(async (opportunity) => {
               const location = await this.getLocationCoordinates(this.formatLocation(opportunity.location));
               return {
                 ...opportunity,
-                coordinates: location
+                coordinates: location,
               };
             });
 
-            // Step 2: Wait for all coordinates to be resolved
             opportunities = await Promise.all(coordinatesPromises);
 
-            // Step 3: Sort the opportunities based on distance from user location
             opportunities.sort((a, b) => {
               if (a.coordinates && b.coordinates) {
                 const distanceA = this.calculateDistance(
@@ -315,7 +394,7 @@ export default {
                 );
                 return distanceA - distanceB;
               } else if (a.coordinates) {
-                return -1; // Opportunities with valid coordinates should come first
+                return -1;
               } else if (b.coordinates) {
                 return 1;
               } else {
@@ -347,88 +426,14 @@ export default {
     goToOpportunityDetails(opportunityId) {
       this.$router.push({ name: 'OpportunitiesDetailsPage', params: { opportunityId } });
     },
-    async created() {
-      // Automatically load opportunities when the page loads
-      await this.searchOpp();
-      // Check which opportunities are already liked
-      if (this.isLoggedIn) {
-        await this.checkLikedOpportunities();
-      }
-    },
-    async searchOpp() {
-      try {
-        // Make sure to provide a complete URL for the API endpoint
-        const filters = {
-          keywords: this.keywords,
-          locations: this.locations,
-          commitment: this.commitment,
-          startTime: this.startTime,
-          endTime: this.endTime
-        };
-
-        const response = await axios.get(`http://localhost:8001/opportunities/`, {
-          params: filters
-        });
-        this.opportunities = response.data.map((opportunity) => ({
-          ...opportunity,
-          isLiked: false, // Initialize isLiked to false
-        }));
-        if (this.opportunities.length) {
-          await this.checkLikedOpportunities();
-        }
-      } catch (error) {
-        console.error("Error fetching opportunities:", error);
-      }
-    },
-    async checkLikedOpportunities() {
-      try {
-        const userId = this.getUser ? this.getUser.uid : null;
-
-        if (!userId) {
-          console.log("User is not logged in, skipping liked opportunities check.");
-          return;
-        }
-
-        // Check if opportunities are loaded correctly
-        console.log('Opportunities array:', this.opportunities);
-
-        if (!this.opportunities.length) {
-          console.log('No opportunities found to check likes for.'); // Log if opportunities array is empty
-          return; // Return early if there are no opportunities to check
-        }
-
-        // Loop through each opportunity to check if it's liked
-        for (let opportunity of this.opportunities) {
-          try {
-            console.log(`Checking like status for opportunity ID: ${opportunity.id}`); // Debug log
-
-            const response = await axios.get(`http://localhost:8001/likes/${userId}/${opportunity.id}`);
-            const isLiked = response.data.isLiked;
-
-            opportunity.isLiked = isLiked; // Update the opportunity with the liked status
-            console.log(`Opportunity ${opportunity.id} is liked:`, isLiked); // Debug log
-
-          } catch (innerError) {
-            console.error(`Error checking like status for opportunity ${opportunity.id}:`, innerError);
-          }
-        }
-
-        console.log("Updated opportunities with liked status:", this.opportunities); // Debug log
-
-      } catch (error) {
-        console.error('Error checking liked opportunities:', error);
-      }
-
-
-    },
     async handleSaveToLikes(opportunity) {
       try {
         // Check if user is logged in
-        if (!this.isLoggedIn) {
+        if (!this.isAuthenticated) {
           // Redirect to login page if not logged in
           this.$router.push('/auth');
         } else {
-          const userId = this.getUser.uid;
+          const userId = this.user.uid;
 
           if (opportunity.isLiked) {
             // If already liked, remove from likes
@@ -506,6 +511,11 @@ export default {
 
 
 <style scoped>
+
+.opportunities-page {
+  background-color: black;
+  color: white;
+}
 /* Retain existing animations and custom styles */
 .fade-up {
   opacity: 0;
@@ -532,19 +542,20 @@ export default {
 
 /* Custom styling on top of Bootstrap */
 .filter-panel {
-  background-color: #ffffff;
-  border-right: 1px solid #eaeaea;
+  background-color: black;
+  border-right: 1px solid grey;
   min-height: 100vh;
+  color: white;
 }
 
 .heading {
   font-weight: 700;
-  color: #333;
+  color: white;
   margin-bottom: 1rem;
 }
 
 .paragraph {
-  color: #666;
+  color: white;
 }
 
 .card {

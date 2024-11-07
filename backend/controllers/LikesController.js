@@ -1,4 +1,4 @@
-const { db, admin } = require('../firebase/firebase.js'); // Ensure this path is correct
+const { db, admin } = require('../firebase/firebaseAdmin.js'); // Ensure this path is correct
 
 // Save opportunity to likes
 const SaveToLikes = async (req, res) => {
