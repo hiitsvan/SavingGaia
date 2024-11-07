@@ -230,8 +230,12 @@ export default {
   justify-content: center;
   gap: 0.5rem;
   font-weight: 600;
+  transition: transform 0.5s ease; 
 }
 
+.hero-title:hover{
+  transform: scale(1.25)
+}
 .hero-letter {
   display: inline-block;
   opacity: 0;
@@ -324,7 +328,7 @@ section>* {
   overflow: hidden;
   height: 200px;
   transition: var(--transition);
-  font-size: 4.5vh;
+  font-size: 3.5vh;
 }
 
 .stat-card h3,
