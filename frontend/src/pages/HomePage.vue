@@ -58,57 +58,46 @@
     </section>
 
     <!-- Footer Section -->
-    <footer class="footer">
-      <div class="footer__container">
-        <!-- Logo Section -->
-        <div class="footer__logo">
-          <h2 class="logo__text">SavingGaia</h2>
-          <p class="logo__description">Join us in our mission to protect and preserve our planet for future generations.</p>
-          <div class="social__links">
-            <a href="#" class="social__link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social__link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social__link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social__link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-        </div>
-
-        <!-- Directory Column -->
-        <div class="footer__column">
-          <h3 class="footer__heading">Directory</h3>
-          <ul class="footer__links">
-            <li><a href="home" class="footer__link">Home</a></li>
-            <li><a href="education" class="footer__link">Education</a></li>
-            <li><a href="news" class="footer__link">News</a></li>
-            <li><a href="opportunities" class="footer__link">Opportunities</a></li>
-          </ul>
-        </div>
-
-        <!-- Account Column -->
-        <div class="footer__column">
-          <h3 class="footer__heading">Account</h3>
-          <ul class="footer__links">
-            <li><a href="#" class="footer__link">Sign In</a></li>
-            <li><a href="#" class="footer__link">Register</a></li>
-            <li><a href="#" class="footer__link">My Profile</a></li>
-            <li><a href="#" class="footer__link">My Activities</a></li>
-            <li><a href="#" class="footer__link">Settings</a></li>
-          </ul>
-        </div>
-
-        <!-- Contact Column -->
-        <div class="footer__column">
-          <h3 class="footer__heading">Contact Us</h3>
-          <ul class="footer__contact">
-            <li class="contact__item"><i class="fas fa-map-marker-alt"></i> 123 Eco Street, Green City, 12345</li>
-            <li class="contact__item"><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-            <li class="contact__item"><i class="fas fa-envelope"></i> contact@savinggaia.com</li>
-          </ul>
+  <footer class="footer">
+    <div class="footer__container">
+      <!-- Logo Section -->
+      <div class="footer__logo">
+        <h2 class="logo__text">SavingGaia</h2>
+        <p class="logo__description">Join us in our mission to protect and preserve our planet for future generations.</p>
+        <div class="social__links">
+          <a href="https://www.instagram.com/zwayz_/" target="_blank" class="social__link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/sebestbestebst/" target="_blank" class="social__link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/kangyan_yang/" target="_blank" class="social__link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/hiitsvan/" target="_blank" class="social__link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/notsamuelchua_/" target="_blank" class="social__link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
-      <div class="footer__bottom">
-        <p>&copy; 2024 SavingGaia. All rights reserved.</p>
+
+      <!-- Directory Column -->
+      <div class="footer__column">
+        <h3 class="footer__heading">Directory</h3>
+        <ul class="footer__links">
+          <li><a href="home" class="footer__link">Home</a></li>
+          <li><a href="education" class="footer__link">Education</a></li>
+          <li><a href="news" class="footer__link">News</a></li>
+          <li><a href="opportunities" class="footer__link">Opportunities</a></li>
+        </ul>
       </div>
-    </footer>
+
+      <!-- Contact Column -->
+      <div class="footer__column">
+        <h3 class="footer__heading">Contact Us</h3>
+        <ul class="footer__contact">
+          <li class="contact__item"><i class="fas fa-map-marker-alt"></i>  &nbsp; SebHouse, 576422 </li>
+          <li class="contact__item"><i class="fas fa-phone"></i> +65 8888 88888</li>
+          <li class="contact__item"><i class="fas fa-envelope"></i> &nbsp;goodteam@savinggaia.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; 2024 SavingGaia. All rights reserved.</p>
+    </div>
+  </footer>
   </div>
 </template>
 
@@ -387,7 +376,6 @@ export default {
     transform: translateY(0);
 }
 
-/* Footer Styles */
 .footer {
     background: linear-gradient(to right, #1a1a1a, #2a2a2a);
     color: #fff;
@@ -410,8 +398,8 @@ export default {
     margin: 0 auto;
     padding: 0 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 2fr 1fr 1fr; /* Updated to 3 columns with logo taking more space */
+    gap: 4rem; /* Increased gap for better spacing */
 }
 
 .footer__logo {
@@ -486,7 +474,8 @@ export default {
 .footer__link, .contact__item {
     color: #aaa;
     text-decoration: none;
-    display: inline-block;
+    display: block; /* Changed to block for better spacing */
+    margin-bottom: 0.8rem; /* Added margin between items */
     transition: all 0.3s ease;
 }
 
@@ -506,25 +495,22 @@ export default {
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
+/* Updated Responsive Design */
 @media (max-width: 992px) {
     .footer__container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr; /* Two columns on medium screens */
+        gap: 3rem;
+    }
+    
+    .footer__logo {
+        grid-column: 1 / -1; /* Logo takes full width */
     }
 }
 
 @media (max-width: 576px) {
     .footer__container {
         grid-template-columns: 1fr;
-    }
-    
-    .card__container {
-        grid-template-columns: 1fr;
-    }
-    
-    .about-image {
-        width: 200px;
-        height: 200px;
+        gap: 2rem;
     }
 }
 
