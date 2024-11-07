@@ -142,6 +142,7 @@
                     <i class="fa fa-location-arrow fa-lg" style="font-size: 24px"></i>
                     <span class="px-2">{{ distance }}</span>
                   </li>
+                  <li v-for="(impact, index) in formatImpact(opportunity.dash)" :key="index">{{ impact }} / 5</li>
                 </ul>
                 <button @click.stop="handleSaveToLikes(opportunity)" class="btn btn-primary">
                   {{ opportunity.isLiked ? 'Unsave' : 'Save' }}
@@ -181,6 +182,7 @@ export default {
       enteredLocation: '',
       userLocationName: '',
       status: '',
+      impacts: null,
       hours: Array.from({ length: 24 }, (_, i) => {
         const hour = String(i).padStart(2, '0');
         return `${hour}:00`;
@@ -368,7 +370,7 @@ export default {
         Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      this.distance = (R * c).toFixed(1) + 'km from me';
+      this.distance = (R * c).toFixed(2) + 'km from me';
       return R * c;// Distance in km
     },
 
@@ -467,7 +469,12 @@ export default {
         console.error('Error saving/removing opportunity to/from likes:', error);
       }
     },
-
+    formatImpact(dash) {
+    return Object.entries(dash).map(([key, value]) => {
+      return `${key}: ${value}`;
+    });
+  },
+    
     formatFirestoreTime(timestamp) {
       if (!timestamp || !timestamp._seconds) {
         return '-'; // Return '-' if no timestamp available
