@@ -10,7 +10,7 @@
       <div class="input-group">
         <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Password" required
           class="form-input" />
-        <span class="input-icon clickable" @click="togglePasswordVisibility">
+        <span class="input-icon clickable" @click="togglePassword">
           <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
         </span>
       </div>
