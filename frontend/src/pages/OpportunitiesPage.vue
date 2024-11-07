@@ -678,7 +678,7 @@ export default {
   color: white;
 }
 
-..impact-scores {
+.impact-scores {
   margin: 1.5rem 0;
   padding: 1rem;
   background: rgba(0, 0, 0, 0.02);
