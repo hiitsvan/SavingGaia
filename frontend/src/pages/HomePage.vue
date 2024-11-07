@@ -29,16 +29,16 @@
     <section id="cards" class="card__container__wrapper">
       <div class="card__container">
         <article class="card__article">
-          <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa" alt="Innovation" class="card__img">
+          <img src="/media/dashboard.jpg" alt="Innovation" class="card__img">
           <div class="card__data">
-            <span class="card__description">Education</span>
+            <span class="card__description">Environmental Dashboard</span>
             <h2 class="card__title">Learn More</h2>
             <a href="education" class="card__button">Read More</a>
           </div>
         </article>
 
         <article class="card__article">
-          <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2" alt="News" class="card__img">
+          <img src="/media/news.jpg" alt="News" class="card__img">
           <div class="card__data">
             <span class="card__description">Latest News</span>
             <h2 class="card__title">Read More</h2>
@@ -47,9 +47,9 @@
         </article>
 
         <article class="card__article">
-          <img src="https://images.unsplash.com/photo-1558402529-d2638a7023e9" alt="Volunteer" class="card__img">
+          <img src="/media/volopp.jpg" alt="Volunteer" class="card__img">
           <div class="card__data">
-            <span class="card__description">Volunteer</span>
+            <span class="card__description">Volunteering Opportunities </span>
             <h2 class="card__title">Contribute More</h2>
             <a href="opportunities" class="card__button">Read More</a>
           </div>
