@@ -105,8 +105,6 @@
 export default {
   name: 'HomePage',
   mounted() {
-    // Remove the overflow settings since they're not needed
-    // Smooth scroll
     document.querySelector('.scroll-link').addEventListener('click', function(e) {
       e.preventDefault();
       const targetId = this.getAttribute('href');
@@ -114,7 +112,6 @@ export default {
       targetSection.scrollIntoView({ behavior: 'smooth' });
     });
 
-    // About section animation
     const aboutContent = document.querySelector('.about-content');
     const observer = new IntersectionObserver(
       (entries) => {
@@ -141,24 +138,28 @@ export default {
     scroll-behavior: smooth;
 }
 
-/* Hero Section */
+/* Updated Hero Section styles */
 .hero {
+    position: relative;
+    width: 100%;
     height: 100vh;
     display: flex;
     align-items: center;
-    padding-bottom: 120px;
     justify-content: center;
-    position: relative;
+    overflow: hidden; /* Add this to contain the video */
 }
 
 .hero video {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
     object-fit: cover;
-    z-index: -1;
+    z-index: 0; /* Changed from -1 to 0 */
 }
 
 .overlay {
@@ -168,19 +169,23 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 0;
+    z-index: 1;
 }
+
+.hero-content {
+    position: relative;
+    text-align: center;
+    z-index: 2; /* Increased z-index to ensure content stays on top */
+    animation: fadeIn 1s ease-out;
+    padding: 0 20px; /* Added padding for better mobile display */
+}
+
 
 @keyframes backgroundMove {
     0% { transform: translate(0, 0); }
     100% { transform: translate(-20px, -20px); }
 }
 
-.hero-content {
-    text-align: center;
-    z-index: 1;
-    animation: fadeIn 1s ease-out;
-}
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
