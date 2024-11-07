@@ -190,7 +190,7 @@ export default {
 .hero h1 {
     font-size: 6rem;
     margin-bottom: 1rem;
-    background: linear-gradient(45deg, #fff, rgba(0, 255, 0, 0.5));
+    background: linear-gradient(45deg, #4CAF50, #2196F3);    
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -214,7 +214,7 @@ export default {
     }
     50% {
         transform: scale(1.3);
-        color: rgba(0, 255, 0, 0.5);
+        color: whitesmoke
     }
 }
 
