@@ -15,13 +15,12 @@
     <!-- About Section -->
     <section id="about" class="about">
       <div class="about-content">
-        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" alt="Team" class="about-image">
+        <img src="/media/us.jpg" alt="Team" class="about-image">
         <h2>About Us</h2>
         <p class="about-text">
-          We are a team of passionate innovators dedicated to creating extraordinary experiences.
-          Our mission is to push the boundaries of what's possible and deliver exceptional results
-          that inspire and amaze. With years of experience and a commitment to excellence,
-          we transform ideas into reality.
+          SavingGaia is a platform empowering individuals to make a positive environmental impact. Through accessible insights on deforestation, 
+          climate change, live environmental trackers, eco news, and community engagement, we help users adopt sustainable practices in daily life. 
+          Join us in protecting and restoring our planet for future generations. Together, we can create lasting change.
         </p>
       </div>
     </section>
