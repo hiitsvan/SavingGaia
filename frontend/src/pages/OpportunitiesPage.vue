@@ -59,6 +59,15 @@
               <option value="long-term">Long-term</option>
             </select>
           </div>
+          <!-- status  -->
+          <div class="mb-4">
+            <label for="status-filter" class="form-label">Status</label>
+            <select id="status-filter" class="form-select" v-model="status">
+              <option value="">All</option>
+              <option value="saved">Saved</option>
+              <option value="unsaved">Unsaved</option>
+            </select>
+          </div>
 
           <button @click="searchOpp" class="btn btn-outline-primary">Search</button>
         </div>
@@ -77,36 +86,32 @@
 
 
         <!-- Sort Controls -->
-<div class="sort-controls mb-4 fade-up delay-2">
-  <div class="row align-items-center">
-    <div class="col-md-4">
-      <div class="d-flex align-items-center">
-        <label class="me-3 text-nowrap">Sort by:</label>
-        <select class="form-select" v-model="sortOption" @change="handleSort">
-          <option value="">Select sorting option...</option>
-          <option value="nearest">Near Me</option>
-          <option value="upcoming">Upcoming Events</option>
-          <option value="alphabetical-asc">Name (A-Z)</option>
-          <option value="alphabetical-desc">Name (Z-A)</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div v-if="sortOption === 'nearest'" class="location-permission mt-3 mt-md-0 d-flex align-items-center">
-        <!-- Text Input Field for Location -->
-        <i v-if="isLoadingLocation" class="fas fa-spinner fa-spin me-2"></i><input
-          type="text"
-          class="form-control me-2"
-          v-model="enteredLocation"
-          :placeholder="computedPlaceholder"
-        />
-        <button @click="handleManualLocation" class="btn btn-outline-primary btn-sm">
-         Go
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+        <div class="sort-controls mb-4 fade-up delay-2">
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <div class="d-flex align-items-center">
+                <label class="me-3 text-nowrap">Sort by:</label>
+                <select class="form-select" v-model="sortOption" @change="handleSort">
+                  <option value="">Select sorting option...</option>
+                  <option value="nearest">Near Me</option>
+                  <option value="upcoming">Upcoming Events</option>
+                  <option value="alphabetical-asc">Name (A-Z)</option>
+                  <option value="alphabetical-desc">Name (Z-A)</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div v-if="sortOption === 'nearest'" class="location-permission mt-3 mt-md-0 d-flex align-items-center">
+                <!-- Text Input Field for Location -->
+                <i v-if="isLoadingLocation" class="fas fa-spinner fa-spin me-2"></i><input type="text"
+                  class="form-control me-2" v-model="enteredLocation" :placeholder="computedPlaceholder" />
+                <button @click="handleManualLocation" class="btn btn-outline-primary btn-sm">
+                  Go
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
         <!-- Opportunities Grid -->
@@ -175,6 +180,7 @@ export default {
       userLocation: null,
       enteredLocation: '',
       userLocationName: '',
+      status: '',
       hours: Array.from({ length: 24 }, (_, i) => {
         const hour = String(i).padStart(2, '0');
         return `${hour}:00`;
@@ -191,9 +197,6 @@ export default {
   },
   computed: {
     ...mapGetters(['user', 'isAuthenticated']),
-    computedPlaceholder() {
-      return this.isLoadingLocation ? 'Getting location...' : this.userLocationName || 'Enter location';
-    },
   },
   async mounted() {
     try {
@@ -254,7 +257,11 @@ export default {
             console.error(`Error checking like status for opportunity ${opportunity.id}:`, innerError);
           }
         }
-
+        if (this.status === 'saved') {
+          this.opportunities = this.opportunities.filter(opportunity => opportunity.isLiked);
+        } else if (this.status === 'unsaved') {
+          this.opportunities = this.opportunities.filter(opportunity => !opportunity.isLiked);
+        }
         console.log("Updated opportunities with liked status:", this.opportunities);
       } catch (error) {
         console.error('Error checking liked opportunities:', error);
@@ -356,17 +363,17 @@ export default {
       const R = 6371; // Radius of the Earth in km
       const dLat = this.deg2rad(lat2 - lat1);
       const dLon = this.deg2rad(lon2 - lon1);
-      const a = 
-        Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
-        Math.sin(dLon/2) * Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      this.distance = (R * c).toFixed(1) + 'km from me' ;
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      this.distance = (R * c).toFixed(1) + 'km from me';
       return R * c;// Distance in km
     },
 
     deg2rad(deg) {
-      return deg * (Math.PI/180);
+      return deg * (Math.PI / 180);
     },
     async sortOpportunities() {
       let opportunities = [...this.opportunities];
@@ -517,11 +524,11 @@ export default {
 
 
 <style scoped>
-
 .opportunities-page {
   background-color: black;
   color: white;
 }
+
 /* Retain existing animations and custom styles */
 .fade-up {
   opacity: 0;
@@ -552,6 +559,11 @@ export default {
   border-right: 1px solid grey;
   min-height: 100vh;
   color: white;
+}
+
+.sticky-top {
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .heading {
