@@ -2,7 +2,7 @@
   <div>
     <!-- Hero Section -->
     <div class="hero">
-      <video autoplay muted loop>
+      <video autoplay muted loop preload="auto">
         <source src="/media/globe.mp4" type="video/mp4">
       </video>
       <div class="overlay"></div>
@@ -64,8 +64,7 @@
         <!-- Logo Section -->
         <div class="footer__logo">
           <h2 class="logo__text">SavingGaia</h2>
-          <p class="logo__description">Join us in our mission to protect and preserve our planet for future generations.
-          </p>
+          <p class="logo__description">Join us in our mission to protect and preserve our planet for future generations.</p>
           <div class="social__links">
             <a href="#" class="social__link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social__link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -118,6 +117,7 @@
 export default {
   name: 'HomePage',
   mounted() {
+    // Remove the overflow settings since they're not needed
     // Smooth scroll
     document.querySelector('.scroll-link').addEventListener('click', function(e) {
       e.preventDefault();
@@ -145,18 +145,12 @@ export default {
 </script>
 
 <style scoped>
+/* Remove all overflow and height restrictions from the root level */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
-}
-
-body {
-    background: #000;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
 }
 
 /* Hero Section */
@@ -167,7 +161,6 @@ body {
     padding-bottom: 120px;
     justify-content: center;
     position: relative;
-    overflow: hidden;
 }
 
 .hero video {
@@ -180,14 +173,13 @@ body {
     z-index: -1;
 }
 
-/* Dark overlay styling */
 .overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 0;
 }
 
@@ -217,7 +209,6 @@ body {
     animation: shimmer 3s infinite linear;
 }
 
-/* Smooth Scroll Link */
 .scroll-link {
     color: #fff;
     text-decoration: none;
@@ -234,8 +225,8 @@ body {
         color: #fff;
     }
     50% {
-        transform: scale(1.3); /* Enlarges more */
-        color: rgba(0, 255, 0, 0.5); /* Changes to green */
+        transform: scale(1.3);
+        color: rgba(0, 255, 0, 0.5);
     }
 }
 
@@ -375,7 +366,7 @@ body {
 }
 
 .card__article:hover {
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); /* Green shadow on hover */
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
 }
 
 .card__article:hover::before {
@@ -403,7 +394,6 @@ body {
     color: #fff;
     padding: 4rem 0 2rem;
     position: relative;
-    overflow: hidden;
 }
 
 .footer::before {
@@ -536,5 +526,11 @@ body {
         width: 200px;
         height: 200px;
     }
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  overflow: visible !important;
 }
 </style>
