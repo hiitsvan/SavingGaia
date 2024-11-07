@@ -1,26 +1,35 @@
 <template>
-  <div class="auth-page">
+  <div class="auth-page" :style="backgroundStyle">
     <AuthCard />
   </div>
 </template>
 
 <script>
-import AuthCard from '../components/AuthCard.vue';
+import AuthCard from "@/components/AuthCard.vue";
 
 export default {
-  name: 'AuthPage',
   components: {
-    AuthCard
-  }
+    AuthCard,
+  },
+  data() {
+    return {
+      backgroundStyle: {
+        backgroundImage: "url('/media/login.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+    };
+  },
 };
 </script>
 
 <style scoped>
-.auth-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.auth-page > * {
+  width: 400px; /* Set a fixed width to the card to avoid stretching */
 }
-
 </style>

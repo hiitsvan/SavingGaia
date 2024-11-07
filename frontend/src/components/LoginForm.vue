@@ -1,105 +1,124 @@
 <template>
-  <div class="card-body p-5">
-    <img src="/media/Botanic.jpg" alt="Botanic" class="logo">
-    <h1 class="text-center mb-4 mt-4 fw-bold">Login</h1>
-    
-    <form @submit.prevent="login">
-      <div class="mb-3">
-        <label for="email" class="form-label">Email:</label>
-        <input 
-          type="email" 
-          v-model="email" 
-          class="form-control form-control-lg p-3"
-          placeholder="Enter a valid email address" 
-          required 
-        />
-      </div>
+  <div class="form-container">
+    <h1 class="title">Login</h1>
+    <p class="subtitle">Access your account</p>
 
-      <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
-        <input 
-          v-model="password" 
-          class="form-control form-control-lg p-3"
-          placeholder="Enter your password"
-          :type="showPassword ? 'text' : 'password'" 
-          required 
-        />
+    <form @submit.prevent="loginUser" class="auth-form">
+      <div class="input-group">
+        <input type="email" v-model="email" placeholder="Email" required class="form-input" />
       </div>
-
-      <div class="mb-3 form-check">
-        <input 
-          id="showPassword" 
-          class="form-check-input" 
-          type="checkbox" 
-          v-model="showPassword"
-        />
-        <label class="form-check-label" for="showPassword">Show Password</label>
+      <div class="input-group">
+        <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Password" required class="form-input" />
+        <span class="input-icon clickable" @click="showPassword = !showPassword">
+          {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+        </span>
       </div>
-
-      <button @click="loginUser" class="btn btn-primary w-100 p-3">Login</button>
+      <button type="submit" class="submit-btn">Login</button>
+      <p v-if="error" class="error-message">{{ error }}</p>
     </form>
 
-    <p v-if="error" class="text-danger text-center">{{ error }}</p>
-    <p class="text-center mt-3">
-      <a href="#" @click.prevent="$emit('toggle')" class="text-secondary">
-        Don't have an account yet? Sign up
-      </a>
+    <p class="switch-prompt">
+      Don’t have an account?
+      <a @click.prevent="$emit('toggle')" href="#" class="switch-link">Sign up here</a>
     </p>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-import axios from 'axios'; 
-import { mapActions } from 'vuex';
+const router = useRouter();
+const email = ref('');
+const password = ref('');
+const error = ref('');
+const showPassword = ref(false);
 
-export default {
-  name: 'LoginForm',
-  data() {
-    return {
-      email: '',
-      password: '',
-      error: '',
-      showPassword: false
-    };
-  },
-  methods: {
-    ...mapActions(['login']), 
-  async loginUser() {
-    try {
-      // Send the login request to the backend
-      const response = await axios.post('http://localhost:8001/auth/login', {
-        email: this.email,
-        password: this.password,
-      });
-
-      console.log('User logged in successfully:', response.data);
-
-      // Set the user in the store after successful login, including the token
-      await this.login({
-        uid: response.data.uid,
-        email: response.data.email,
-        token: response.data.token, // Add the token to the payload
-      });
-
-      // Redirect to the opportunities page after login
-      this.$router.push('/opportunities');
-    } catch (err) {
-      this.error = "Error logging in: " + (err.response?.data?.error || err.message);
-    }
+const loginUser = async () => {
+  try {
+    await axios.post('http://localhost:8001/auth/login', { email: email.value, password: password.value });
+    router.push('/opportunities');
+  } catch (err) {
+    error.value = err?.response?.data?.error || 'Login failed. Please try again.';
   }
-}
 };
 </script>
 
 <style scoped>
-.btn-primary {
-  background-color: rgb(135, 179, 250);
-  border: 0;
+.form-container {
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(34, 34, 34, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.logo {
-  max-width: 100%;
-  height: auto;
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #bbbbbb;
+  margin-bottom: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #ffffff;
+}
+
+.form-input::placeholder {
+  color: #aaaaaa;
+}
+
+.submit-btn {
+  padding: 12px;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: green;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: rgb(0, 75, 0);
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.switch-prompt {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #bbbbbb;
+}
+
+.switch-link {
+  color: green;
+  cursor: pointer;
 }
 </style>

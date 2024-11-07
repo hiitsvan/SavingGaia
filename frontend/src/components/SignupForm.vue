@@ -1,102 +1,141 @@
 <template>
-  <div class="card-body p-5">
-    <img src="/media/Botanic.jpg" alt="Botanic" class="logo">
-    <h1 class="text-center mb-4 mt-4 fw-bold">Sign Up</h1>
+  <div class="form-container">
+    <h1 class="title">Sign Up</h1>
+    <p class="subtitle">Join SavingGaia today!</p>
 
-    <form @submit.prevent="signup">
-      <div class="mb-3">
-        <label for="name" class="form-label">Name:</label>
-        <input type="text" v-model="name" class="form-control form-control-lg p-3" placeholder="Enter your name"
-          required />
+    <form @submit.prevent="signup" class="auth-form">
+      <div class="input-group">
+        <input type="text" v-model="name" placeholder="Name" required class="form-input" />
       </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email:</label>
-        <input type="email" v-model="email" class="form-control form-control-lg p-3"
-          placeholder="Enter a valid email address" required />
+      <div class="input-group">
+        <input type="email" v-model="email" placeholder="Email" required class="form-input" />
       </div>
-
-      <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
-        <input v-model="password" class="form-control form-control-lg p-3" placeholder="Enter your password"
-          :type="showPassword ? 'text' : 'password'" required />
+      <div class="input-group">
+        <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Password" required class="form-input" />
       </div>
-
-      <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirm Password:</label>
-        <input v-model="confirmPassword" class="form-control form-control-lg p-3" placeholder="Confirm your password"
-          :type="showPassword ? 'text' : 'password'" required />
+      <div class="input-group">
+        <input :type="showPassword ? 'text' : 'password'" v-model="confirmPassword" placeholder="Confirm Password" required class="form-input" />
+        <span class="input-icon clickable" @click="showPassword = !showPassword">
+          {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+        </span>
       </div>
-
-      <div class="mb-3 form-check">
-        <input id="showPassword" class="form-check-input" type="checkbox" v-model="showPassword" />
-        <label class="form-check-label" for="showPassword">Show Password</label>
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100 p-3">Sign Up</button>
+      <button type="submit" class="submit-btn">Sign Up</button>
+      <p v-if="error" class="error-message">{{ error }}</p>
     </form>
 
-    <p v-if="error" class="text-danger text-center">{{ error }}</p>
-    <p class="text-center mt-3">
-      <a href="#" @click.prevent="$emit('toggle')" class="text-secondary">
-        Already have an account? Login
-      </a>
+    <p class="switch-prompt">
+      Already have an account?
+      <a @click.prevent="$emit('toggle')" href="#" class="switch-link">Login here</a>
     </p>
   </div>
 </template>
 
-<script>
-
+<script setup>
+import { ref } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-export default {
-  name: 'SignupForm',
-  data() {
-    return {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      name: '',
-      error: '',
-      showPassword: false
-    };
-  },
-  methods: {
-    async signup() {
-      if (this.password !== this.confirmPassword) {
-        this.error = "Passwords don't match";
-        return;
-      }
+const router = useRouter();
+const name = ref('');
+const email = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+const error = ref('');
+const showPassword = ref(false);
 
-      try {
-        console.log({ email: this.email, password: this.password, name: this.name });
-        const response = await axios.post('http://localhost:8001/auth/register', {
-          email: this.email,
-          password: this.password,
-          name: this.name
-        }, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+const signup = async () => {
+  if (password.value !== confirmPassword.value) {
+    error.value = "Passwords don't match";
+    return;
+  }
 
-        console.log(response.data);
-        this.$router.push('/login');
-      } catch (err) {
-        this.error = "Error signing up: " + err.message;
-      }
-    }
+  try {
+    await axios.post('http://localhost:8001/auth/register', {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+    });
+    router.push('/login');
+  } catch (err) {
+    error.value = err?.response?.data?.error || 'Registration failed. Please try again.';
   }
 };
 </script>
 
 <style scoped>
-.btn-primary {
-  background-color: rgb(135, 179, 250);
-  border: 0;
+.form-container {
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(34, 34, 34, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.logo {
-  max-width: 100%;
-  height: auto;
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #bbbbbb;
+  margin-bottom: 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #ffffff;
+}
+
+.form-input::placeholder {
+  color: #aaaaaa;
+}
+
+.submit-btn {
+  padding: 12px;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: green;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: rgb(0, 75, 0);
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.switch-prompt {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #bbbbbb;
+}
+
+.switch-link {
+  color: green;
+  cursor: pointer;
 }
 </style>
