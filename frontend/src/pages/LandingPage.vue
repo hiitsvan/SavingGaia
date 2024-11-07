@@ -64,7 +64,7 @@
           <source src="media/earthdying.mp4" type="video/mp4">
         </video>
         <div class="final-content-wrapper">
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="section-title">
+          <a href="https://www.youtube.com/watch?v=SQ2ufFGm9xE" target="_blank" rel="noopener noreferrer" class="section-title">
             <span v-for="(char, index) in 'It    Is   Not    Too    Late.'" :key="index"
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 4 }">

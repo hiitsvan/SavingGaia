@@ -9,8 +9,8 @@
       </div>
       <div class="input-group">
         <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Password" required class="form-input" />
-        <span class="input-icon clickable" @click="showPassword = !showPassword">
-          {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+        <span class="input-icon clickable" @click="togglePasswordVisibility">
+          <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
         </span>
       </div>
       <button type="submit" class="submit-btn">Login</button>
@@ -42,6 +42,10 @@ const loginUser = async () => {
   } catch (err) {
     error.value = err?.response?.data?.error || 'Login failed. Please try again.';
   }
+};
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
 };
 </script>
 
@@ -87,6 +91,20 @@ const loginUser = async () => {
 
 .form-input::placeholder {
   color: #aaaaaa;
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #ffffff;
 }
 
 .submit-btn {
