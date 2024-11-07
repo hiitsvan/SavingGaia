@@ -11,15 +11,17 @@
         <input type="email" v-model="email" placeholder="Email" required class="form-input" />
       </div>
       <div class="input-group">
-        <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Password" required class="form-input" />
-        <span class="input-icon clickable" @click="togglePasswordVisibility">
+        <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Password" required
+          class="form-input" />
+        <span class="input-icon clickable" @click="togglePassword">
           <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
         </span>
       </div>
       <div class="input-group">
-        <input :type="showPassword ? 'text' : 'password'" v-model="confirmPassword" placeholder="Confirm Password" required class="form-input" />
-        <span class="input-icon clickable" @click="togglePasswordVisibility">
-          <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+        <input :type="showConfirmPassword ? 'text' : 'password'" v-model="confirmPassword"
+          placeholder="Confirm Password" required class="form-input" />
+        <span class="input-icon clickable" @click="toggleConfirmPassword">
+          <i :class="showConfirmPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
         </span>
       </div>
       <button type="submit" class="submit-btn">Sign Up</button>
@@ -35,6 +37,7 @@
 
 <script>
 import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'SignupForm',
@@ -45,19 +48,24 @@ export default {
       confirmPassword: '',
       name: '',
       error: '',
-      showPassword: false
-    };
+      showPassword: false,
+      showConfirmPassword: false,
+    }
   },
   methods: {
+    ...mapActions(['login']),
     togglePassword() {
       this.showPassword = !this.showPassword;
+    },
+    toggleConfirmPassword() {
+      this.showConfirmPassword = !this.showConfirmPassword;
     },
     async signup() {
       if (this.password !== this.confirmPassword) {
         this.error = "Passwords don't match";
         return;
       }
-      if (this.password.length < 6){
+      if (this.password.length < 6) {
         this.error = "Passwords must be at least six characters";
         return;
       }
@@ -75,23 +83,28 @@ export default {
         });
 
         console.log(response.data);
-        this.$router.push('/auth');
-      } catch (error) {
-        if (error.response) {
-      // Backend responded with a status other than 200
-      this.error = error.response.data.message
-      console.error("Registration error:", error.response.data.message || "Something went wrong");
-    } else if (error.request) {
-      // Request was made but no response received
-      console.error("No response received:", error.request);
-    } else {
-      // Something went wrong setting up the request
-      console.error("Error in registration request:", error.message);
-    }
+        alert("Successful signup, logging you in...")
+        const result = await this.login({ email: this.email, password: this.password });
+
+        if (result.success) {
+          this.$router.push('/opportunities');
+        }}
+        catch (error) {
+          if (error.response) {
+            // Backend responded with a status other than 200
+            this.error = error.response.data.message
+            console.error("Registration error:", error.response.data.message || "Something went wrong");
+          } else if (error.request) {
+            // Request was made but no response received
+            console.error("No response received:", error.request);
+          } else {
+            // Something went wrong setting up the request
+            console.error("Error in registration request:", error.message);
+          }
+        }
       }
-    }
   }
-};
+  };
 </script>
 
 <style scoped>
