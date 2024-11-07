@@ -206,6 +206,7 @@ export default {
   justify-content: center;
   text-align: center;
   color: white;
+
 }
 
 .overlay {
@@ -228,6 +229,11 @@ export default {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+  transition: transform 0.5s ease;
+}
+
+.hero-title:hover{
+transform: scale(1.25);
 }
 
 .hero-letter {
@@ -321,7 +327,7 @@ section>* {
   overflow: hidden;
   height: 200px;
   transition: var(--transition);
-  font-size: 4.5vh;
+  font-size: 3.5vh;
 }
 
 .stat-card h3,
