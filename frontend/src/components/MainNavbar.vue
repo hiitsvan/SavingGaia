@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light" :style="isHomePage ? navbarStyles : ''">
     <div class="container">
-      <router-link to="/" class="navbar-brand d-flex align-items-center ms-0">
+      <router-link to="/home" class="navbar-brand d-flex align-items-center ms-0">
         <img src="/media/saving_gaia_logo_no_bg2.png" class="logo-image" alt="SavingGaia Logo" />
-        <span class="ms-2">SavingGaia</span>
+        <span class="savingGaia ms-2">SavingGaia</span>
       </router-link>
       <button
         class="navbar-toggler"
@@ -22,7 +22,7 @@
         <div class="navbar-left ">
           <!-- Education link without hover dropdown -->
           <div class="nav-link">
-            <router-link to="/education" class="nav-link">Education</router-link>
+            <router-link to="/education" class="nav-link">Dashboard</router-link>
           </div>
 
           <!-- News link with hover dropdown -->
@@ -125,8 +125,12 @@ export default {
 </script>
 
 <style scoped>
+
+.savingGaia:hover {
+ color: white;
+}
 .navbar {
-  padding: 0.0rem 0;
+  padding: 1rem 0;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   background-color: black;
 }
@@ -143,7 +147,7 @@ export default {
 }
 
 .nav-link {
-  color: White;
+  color: White !important; /* Force white color */
   font-weight: 500;
   padding: 0.5rem 1rem;
   transition: color 0.3s ease;
@@ -152,11 +156,17 @@ export default {
   display: inline-block;
 }
 
-.nav-link:hover {
-  color: #28a745;
-}
 
 .nav-link::before {
+  content: none;
+}
+.router-link-active,
+a.nav-link {
+  position: relative;
+}
+
+.router-link-active::before,
+a.nav-link::before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -167,9 +177,21 @@ export default {
   transition: width 0.3s ease, left 0.3s ease;
 }
 
+.router-link-active:hover::before,
+a.nav-link:hover::before {
+  width: 100%;
+  left: 0;
+}
+
+
 .nav-link:hover::before {
   width: 100%;
   left: 0;
+}
+.nav-link:visited,
+.router-link-active,
+.router-link-exact-active {
+  color: White !important;
 }
 
 .navbar-left {
@@ -183,8 +205,8 @@ export default {
   height: auto;
   display: inline-block;
   vertical-align: middle;
+  color: white;
 }
-
 .ms-2 {
   margin-left: 0.5rem;
 }

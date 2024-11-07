@@ -424,6 +424,7 @@ export default {
     margin-bottom: 1rem;
     background: linear-gradient(45deg, #4CAF50, #2196F3);
     display: inline-block;
+    padding: 0.5vh 1.5vw;
 }
 
 .logo__description {
