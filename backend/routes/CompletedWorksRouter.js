@@ -6,13 +6,13 @@ const {
     DeleteCompletedWork 
 } = require('../controllers/CompletedWorksController');
 
-// POST /completed-works
+// Route to save completed works
 router.post('/', SaveCompletedWorks);
 
-// GET /completed-works/:userId
+// Route to get user's completed works
 router.get('/:userId', GetUserCompletedWorks);
 
-// DELETE /completed-works/:userId/:workId
+// Route to delete a completed work
 router.delete('/:userId/:workId', DeleteCompletedWork);
 
 module.exports = router;
