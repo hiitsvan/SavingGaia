@@ -3,58 +3,50 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const PORT = 8001;
-
 const { db } = require("./firebase/firebaseAdmin.js");
-// const authMiddleware = require('./middlewares/authMiddleware');
-// const errorHandler = require('./middlewares/errorMiddleware');
-// const logger = require("./middlewares/loggerMiddleware");
 
 const app = express();
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// app.use(logger); // Logging middleware
-// app.use(bodyParser.json());
-const allowedOrigins = [
-	"http://localhost:8080",
-  ];
-  
-  const corsOptions = {
-	origin: allowedOrigins,
-	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-	credentials: true, // to allow cookies to be sent along with requests
-  };
-  
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: ["http://localhost:8080", "http://localhost:5173"],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true
+}));
 
-//server check
-app.listen(PORT, (error) => {
-	if (!error)
-		console.log(
-			"Server is Successfully Running, and App is listening on port " + PORT
-		);
-	else console.log("Error occurred, server can't start", error);
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-//routes
-app.get("/", (req, res) => {
-	res.status(200).json("Welcome, your app is working well");
-});
-app.get('/test', (req, res) => {
-    res.send('Server is working!');
-});
+// Routes
+const OpportunitiesRouter = require('./routes/OpportunitiesRouter');
+const AuthRouter = require('./routes/AuthRouter');
+const LikesRouter = require('./routes/LikesRouter');
+const NewsRouter = require('./routes/NewsRouter');
+const CompletedWorksRouter = require('./routes/CompletedWorksRouter');
 
-//authentication
-// app.use("/auth", require("./routes/auth"));
-const OpportunitiesRouter = require('./routes/OpportunitiesRouter.js')
-app.use('/opportunities', OpportunitiesRouter)
-
-const AuthRouter = require('./routes/AuthRouter.js');
+app.use('/opportunities', OpportunitiesRouter);
 app.use('/auth', AuthRouter);
+app.use('/likes', LikesRouter);
+app.use('/news', NewsRouter);
+app.use('/completed-works', CompletedWorksRouter);
 
-const LikesRouter = require("./routes/LikesRouter.js");
-app.use('/likes', LikesRouter)
+// Health check route
+app.get("/", (req, res) => {
+    res.status(200).json({ message: "Server is running" });
+});
 
-const NewsRouter = require("./routes/NewsRouter.js");
-app.use('/news', NewsRouter)
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ 
+        error: 'Internal Server Error',
+        message: err.message 
+    });
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+

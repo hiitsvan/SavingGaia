@@ -5,6 +5,7 @@ import OpportunitiesPage from './pages/OpportunitiesPage.vue';
 import NewsPage from './pages/NewsPage.vue';
 import AuthPage from './pages/AuthPage.vue';
 import EducationPage from './pages/EducationPage.vue';
+import DashboardPage from './pages/Dashboard.vue';
 import OpportunitiesDetailsPage from './pages/OpportunitiesDetailsPage.vue';
 import DeforestationPage from './pages/DeforestationPage.vue';
 import RisingSeaLevelPage from './pages/RisingSeaLevelPage.vue';
@@ -86,6 +87,11 @@ const routes = [
     name: 'EducationPage',
     component: EducationPage,
     path: '/education'
+  },
+  {
+    name: 'DashboardPage',
+    component: DashboardPage,
+    path: '/dashboard'
   }
 ];
 
