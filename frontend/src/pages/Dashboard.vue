@@ -154,8 +154,7 @@ export default {
         async markAsIncomplete(work) {
             try {
                 // First, delete from completed works
-
-
+                await axios.delete(`http://localhost:8001/completed-works/${this.user.uid}/${work.id}`)
                 // Then, add back to likes
                 await axios.post('http://localhost:8001/likes', {
                     userId: this.user.uid,

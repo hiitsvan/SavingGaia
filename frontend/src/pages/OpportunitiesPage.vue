@@ -5,7 +5,7 @@
       <aside class="col-lg-3 col-md-4 filter-panel">
         <div class="sticky-top pt-4">
           <h2 class="mb-3">Apply filters</h2>
-          <p class="text-muted mb-4">Filter volunteering opportunities.</p>
+          <p class="mb-4 text-light">Filter volunteering opportunities.</p>
 
           <!-- Keyword Filter -->
           <div class="mb-4">
