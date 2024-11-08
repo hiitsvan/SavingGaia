@@ -132,7 +132,7 @@
                   <li class="d-flex align-items-center mb-2">
                     <img src="/media/time_icon.png" alt="Time Icon" class="icon me-2">
                     <span>{{ formatFirestoreTime(opportunity.startTime) }} - {{ formatFirestoreTime(opportunity.endTime)
-                      }}</span>
+                    }}</span>
                   </li>
                   <li class="d-flex align-items-center mb-2">
                     <img src="/media/535239.png" alt="Location Icon" class="icon me-2">
@@ -142,7 +142,27 @@
                     <i class="fa fa-location-arrow fa-lg" style="font-size: 24px"></i>
                     <span class="px-2">{{ opportunity.distance }} km from me</span>
                   </li>
-                  <li v-for="(impact, index) in formatImpact(opportunity.dash)" :key="index">{{ impact }} / 5</li>
+                  <div class="impact-scores">
+                    <h5 class="impact-title">Impact Score:</h5>
+                    <div v-for="(value, key) in opportunity.dash" :key="key" class="impact-row">
+                      <span class="impact-label">{{ key }}:</span>
+                      <div class="impact-indicators">
+                        <template v-for="n in 5" :key="n">
+                          <i :class="[
+                            'impact-icon',
+                            {
+                              'active': n <= value,
+                              'fa': true,
+                              'fa-thermometer-full': key === 'temp',
+                              'fa-tint': key === 'water',
+                              'fa-leaf': key === 'carbon',
+                              'fa-mountain': key === 'land'
+                            }
+                          ]"></i>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
                 </ul>
                 <button @click.stop="handleSaveToLikes(opportunity)" class="btn btn-primary">
                   {{ opportunity.isLiked ? 'Unsave' : 'Save' }}
@@ -722,7 +742,205 @@ export default {
   color: white;
 }
 
+.impact-scores {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
 
+.impact-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.impact-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.impact-label {
+  min-width: 70px;
+  text-transform: capitalize;
+  color: #666;
+}
+
+.impact-indicators {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.impact-icon {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  opacity: 0.3;
+  transform: scale(0.9);
+}
+
+.impact-icon.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Color schemes for different impact types */
+.fa-thermometer-full.active {
+  color: #ff4444;
+}
+
+.fa-tint.active {
+  color: #2196f3;
+}
+
+.fa-leaf.active {
+  color: #4caf50;
+}
+
+.fa-mountain.active {
+  color: #795548;
+}
+
+/* Hover animations */
+.card:hover .impact-icon {
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Add slight delay to each icon's animation */
+.impact-icon:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.impact-icon:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.impact-icon:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.impact-icon:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.impact-icon:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+impact-scores {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
+
+.impact-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.impact-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.impact-label {
+  min-width: 70px;
+  text-transform: capitalize;
+  color: #666;
+}
+
+.impact-indicators {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.impact-icon {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  opacity: 0.3;
+  transform: scale(0.9);
+}
+
+.impact-icon.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Color schemes for different impact types */
+.fa-thermometer-full.active {
+  color: #ff4444;
+}
+
+.fa-tint.active {
+  color: #2196f3;
+}
+
+.fa-leaf.active {
+  color: #4caf50;
+}
+
+.fa-mountain.active {
+  color: #795548;
+}
+
+/* Hover animations */
+.card:hover .impact-icon {
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Add slight delay to each icon's animation */
+.impact-icon:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.impact-icon:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.impact-icon:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.impact-icon:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.impact-icon:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+</style>
 /* Responsive adjustments */
 @media (max-width: 991.98px) {
   .filter-panel {
@@ -750,4 +968,3 @@ export default {
     height: 180px;
   }
 }
-</style>
