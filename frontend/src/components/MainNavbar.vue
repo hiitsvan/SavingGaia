@@ -54,7 +54,7 @@
             <router-link to="/auth" class="nav-link">Login / Sign Up</router-link>
           </template>
           <template v-else>
-            <span v-if="user" class="welcome-message">Welcome Back, {{ user.displayName || 'User'}}!</span>
+            <span v-if="user" class="welcome-message">Welcome back, {{ user.displayName || 'user'}}!</span>
             <button @click="logoutUser" class="nav-link btn btn-link">Logout</button>
           </template>
         </div>
