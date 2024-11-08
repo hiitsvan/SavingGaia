@@ -57,12 +57,7 @@
                         <div class="col-md-6">
                             <div class="detail-card">
                                 <div class="detail-item">
-                                    <span class="detail-label">Location</span>
-                                    <span class="detail-value">{{ formatLocation(opportunity.location) }}</span>
-                                </div>
-                                <div class="detail-item">
                                     <span class="detail-label">Available Roles</span>
-
                                     <span class="detail-value">
                                         <ul>
                                             <li v-for="(role, index) in formatRoles(opportunity.roles)" :key="index">{{
@@ -70,21 +65,28 @@
                                             </li>
                                         </ul>
                                     </span>
-
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Impact Level</span>
+                                    <span class="detail-value">
+                                        <ul>
+                                            <li v-for="(impact, index) in formatImpact(this.opportunity.dash)" :key="index">{{ impact }} / 5</li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
 
                 <!-- Location Section with Map -->
-                <div class="location-section mt-5">
-                    <h2 class="section-title text-start mb-4">Location</h2>
+                <div class="location-section mt-4">
                     <div class="location-container">
                         <div class="row g-4">
                             <div class="col-md-4">
                                 <div class="location-details detail-card">
-                                    <h3 class="location-title">Address</h3>
+                                    <span class="detail-label">Address</span>
                                     <p class="location-address">{{ formatLocation(opportunity.location) }}</p>
                                     <button @click="openInGoogleMaps" class="btn btn-outline-primary mt-3">
                                         <i class="fas fa-directions me-2"></i>
@@ -267,6 +269,11 @@ export default {
 
             this.marker.addListener('click', () => {
                 infoWindow.open(this.map, this.marker);
+            });
+        },
+        formatImpact(dash) {
+            return Object.entries(dash).map(([key, value]) => {
+                return `${key}: ${value}`;
             });
         },
         formatFirestoreTime(timestamp) {

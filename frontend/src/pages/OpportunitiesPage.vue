@@ -104,7 +104,7 @@
               <div v-if="sortOption === 'nearest'" class="location-permission mt-3 mt-md-0 d-flex align-items-center">
                 <!-- Text Input Field for Location -->
                 <i v-if="isLoadingLocation" class="fas fa-spinner fa-spin me-2"></i><input type="text"
-                  class="form-control me-2" v-model="enteredLocation" :placeholder="computedPlaceholder" />
+                  class="form-control me-2" v-model="enteredLocation" />
                 <button @click="handleManualLocation" class="btn btn-outline-primary btn-sm">
                   Go
                 </button>
@@ -138,9 +138,9 @@
                     <img src="/media/535239.png" alt="Location Icon" class="icon me-2">
                     <span>{{ formatLocation(opportunity.location) }}</span>
                   </li>
-                  <li v-if="distance != null" class="d-flex align-items-center mb-2">
+                  <li v-if="opportunity.distance != null" class="d-flex align-items-center mb-2">
                     <i class="fa fa-location-arrow fa-lg" style="font-size: 24px"></i>
-                    <span class="px-2">{{ distance }}</span>
+                    <span class="px-2">{{ opportunity.distance }} km from me</span>
                   </li>
                   <li v-for="(impact, index) in formatImpact(opportunity.dash)" :key="index">{{ impact }} / 5</li>
                 </ul>
@@ -168,7 +168,6 @@ export default {
   name: 'OpportunitiesPage',
   data() {
     return {
-      distance: null,
       myLocation: '',
       sortOption: '',
       keywords: '',
@@ -233,6 +232,8 @@ export default {
           ...opportunity,
           isLiked: false, // Initialize isLiked to false
         }));
+
+
         if (this.opportunities.length) {
           await this.checkLikedOpportunities();
         }
@@ -271,13 +272,47 @@ export default {
     },
     async handleSort() {
       if (this.sortOption === 'nearest') {
-        // Request user's current location right when "Near Me" is selected
+        // Request user's current location or use manually entered location
         if (!this.userLocation) {
-          await this.requestLocation();
+          await this.requestLocation(); // Requests geolocation from the browser
+        } else if (this.enteredLocation) {
+          await this.handleManualLocation(); // Uses the manually entered location
+        }
+
+        if (this.userLocation) {
+          // Get location coordinates for opportunities if they are missing lat/lng
+          await Promise.all(this.opportunities.map(async (opportunity) => {
+            if (!opportunity.lat || !opportunity.lng) {
+              console.log(`Fetching coordinates for opportunity: ${opportunity.name}`);
+              const coordinates = await this.getLocationCoordinates(this.formatLocation(opportunity.location));
+              if (coordinates) {
+                opportunity.lat = coordinates.lat;
+                opportunity.lng = coordinates.lng;
+                console.log(`Coordinates for ${opportunity.name}:`, coordinates);
+              } else {
+                console.warn(`Skipping distance calculation for ${opportunity.name} due to missing lat/lng.`);
+                return;
+              }
+            }
+
+            // Calculate distance for each opportunity and keep it persistently updated
+            if (opportunity.lat && opportunity.lng) {
+              opportunity.distance = this.calculateDistance(
+                this.userLocation.lat,
+                this.userLocation.lng,
+                opportunity.lat,
+                opportunity.lng
+              );
+              console.log(`Opportunity ${opportunity.name}: Distance calculated as ${opportunity.distance} km`);
+            }
+          }));
+
+          // Sort the opportunities based on the newly calculated distances
+          this.sortOpportunities();
         }
       }
-      this.sortOpportunities(); // Proceed with sorting opportunities
     },
+
 
     async requestLocation() {
       console.log("Requesting user's location...");
@@ -330,8 +365,40 @@ export default {
         try {
           const coordinates = await this.getLocationCoordinates(this.enteredLocation);
           if (coordinates) {
+            console.log(coordinates)
             this.userLocation = coordinates;
-            this.sortOpportunities(); // Sort opportunities after getting the location from the entered address
+
+            if (this.userLocation) {
+          // Get location coordinates for opportunities if they are missing lat/lng
+          await Promise.all(this.opportunities.map(async (opportunity) => {
+            if (!opportunity.lat || !opportunity.lng) {
+              console.log(`Fetching coordinates for opportunity: ${opportunity.name}`);
+              const coordinates = await this.getLocationCoordinates(this.formatLocation(opportunity.location));
+              if (coordinates) {
+                opportunity.lat = coordinates.lat;
+                opportunity.lng = coordinates.lng;
+                console.log(`Coordinates for ${opportunity.name}:`, coordinates);
+              } else {
+                console.warn(`Skipping distance calculation for ${opportunity.name} due to missing lat/lng.`);
+                return;
+              }
+            }
+
+            // Calculate distance for each opportunity and keep it persistently updated
+            if (opportunity.lat && opportunity.lng) {
+              opportunity.distance = this.calculateDistance(
+                this.userLocation.lat,
+                this.userLocation.lng,
+                opportunity.lat,
+                opportunity.lng
+              );
+              console.log(`Opportunity ${opportunity.name}: Distance calculated as ${opportunity.distance} km`);
+            }
+          }));
+
+          // Sort the opportunities based on the newly calculated distances
+          this.sortOpportunities();
+        }
           } else {
             alert('Unable to determine the coordinates for the entered location. Please try again.');
           }
@@ -362,82 +429,79 @@ export default {
       }
     },
     calculateDistance(lat1, lon1, lat2, lon2) {
+      if (lat1 == null || lon1 == null || lat2 == null || lon2 == null) {
+        return; // Return null if any coordinate is missing
+      }
+
       const R = 6371; // Radius of the Earth in km
       const dLat = this.deg2rad(lat2 - lat1);
       const dLon = this.deg2rad(lon2 - lon1);
       const a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        Math.cos(this.deg2rad(lat1)) *
+        Math.cos(this.deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      this.distance = (R * c).toFixed(2) + 'km from me';
-      return R * c;// Distance in km
+      const distance = (R * c).toFixed(2); // Distance in km
+
+      return parseFloat(distance); // Return distance as a number
     },
 
     deg2rad(deg) {
       return deg * (Math.PI / 180);
     },
     async sortOpportunities() {
-      let opportunities = [...this.opportunities];
-
       switch (this.sortOption) {
         case 'nearest':
           if (this.userLocation) {
-            const coordinatesPromises = opportunities.map(async (opportunity) => {
-              const location = await this.getLocationCoordinates(this.formatLocation(opportunity.location));
-              return {
-                ...opportunity,
-                coordinates: location,
-              };
+            // Sort the opportunities array in place by distance from nearest to furthest
+            this.opportunities.sort((a, b) => {
+              // Ensure distances are not undefined
+              if (a.distance == null && b.distance == null) {
+                return 0; // Both are null, keep the same order
+              } else if (a.distance == null) {
+                return 1; // Place items with no distance at the end
+              } else if (b.distance == null) {
+                return -1; // Place items with a distance before those without
+              } else {
+                // Sort by distance if both distances are valid (nearest first)
+                return a.distance - b.distance;
+              }
             });
 
-            opportunities = await Promise.all(coordinatesPromises);
-
-            opportunities.sort((a, b) => {
-              if (a.coordinates && b.coordinates) {
-                const distanceA = this.calculateDistance(
-                  this.userLocation.lat,
-                  this.userLocation.lng,
-                  a.coordinates.lat,
-                  a.coordinates.lng
-                );
-                const distanceB = this.calculateDistance(
-                  this.userLocation.lat,
-                  this.userLocation.lng,
-                  b.coordinates.lat,
-                  b.coordinates.lng
-                );
-                return distanceA - distanceB;
-              } else if (a.coordinates) {
-                return -1;
-              } else if (b.coordinates) {
-                return 1;
-              } else {
-                return 0;
-              }
+            // Log each opportunity to confirm distance values after sorting
+            this.opportunities.forEach((opportunity, index) => {
+              console.log(`Opportunity ${index + 1} - ${opportunity.name}: Distance after sorting = ${opportunity.distance} km`);
             });
           }
           break;
 
         case 'upcoming':
-          opportunities.sort((a, b) => {
-            const timeA = a.startTime && a.startTime._seconds ? a.startTime._seconds : 10000000000000
-            const timeB = b.startTime && b.startTime._seconds ? b.startTime._seconds : 10000000000000
+          // Sort opportunities by start time in ascending order
+          this.opportunities.sort((a, b) => {
+            const timeA = a.startTime && a.startTime._seconds ? a.startTime._seconds : Number.MAX_SAFE_INTEGER;
+            const timeB = b.startTime && b.startTime._seconds ? b.startTime._seconds : Number.MAX_SAFE_INTEGER;
             return timeA - timeB;
           });
           break;
 
         case 'alphabetical-asc':
-          opportunities.sort((a, b) => a.name.localeCompare(b.name));
+          // Sort opportunities alphabetically in ascending order
+          this.opportunities.sort((a, b) => a.name.localeCompare(b.name));
           break;
 
         case 'alphabetical-desc':
-          opportunities.sort((a, b) => b.name.localeCompare(a.name));
+          // Sort opportunities alphabetically in descending order
+          this.opportunities.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+
+        default:
+          console.warn('Unknown sort option:', this.sortOption);
           break;
       }
-
-      this.opportunities = opportunities;
     },
+
     goToOpportunityDetails(opportunityId) {
       this.$router.push({ name: 'OpportunitiesDetailsPage', params: { opportunityId } });
     },
@@ -470,11 +534,11 @@ export default {
       }
     },
     formatImpact(dash) {
-    return Object.entries(dash).map(([key, value]) => {
-      return `${key}: ${value}`;
-    });
-  },
-    
+      return Object.entries(dash).map(([key, value]) => {
+        return `${key}: ${value}`;
+      });
+    },
+
     formatFirestoreTime(timestamp) {
       if (!timestamp || !timestamp._seconds) {
         return '-'; // Return '-' if no timestamp available
