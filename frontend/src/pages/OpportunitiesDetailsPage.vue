@@ -136,8 +136,11 @@ export default {
             // Check if the opportunity is already liked
 
             if (this.isAuthenticated) {
-                console.log("i am authenticated")
+                console.log("i am authenticated as" ,this.user.displayName)
                 await this.checkLikedStatus();
+            }
+            else {
+                console.log("i am not authenticataed")
             }
             if (this.opportunity.location) {
                 const locationString = this.formatLocation(this.opportunity.location);
@@ -157,7 +160,7 @@ export default {
                     };
                 }
             }
-            console.log("i am not authenticataed")
+            
         } catch (error) {
             console.error('Error fetching opportunity details:', error);
         }

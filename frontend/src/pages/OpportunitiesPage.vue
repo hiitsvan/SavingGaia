@@ -94,6 +94,11 @@
                 <select class="form-select" v-model="sortOption" @change="handleSort">
                   <option value="">Select sorting option...</option>
                   <option value="nearest">Near Me</option>
+                  <option value="totalImpact">Highest Impact Score (Total)</option>
+                  <option value="carbonImpact">Highest Impact Score (Carbon)</option>
+                  <option value="landImpact">Highest Impact Score (Land)</option>
+                  <option value="tempImpact">Highest Impact Score (Temperature)</option>
+                  <option value="waterImpact">Highest Impact Score (Water)</option>
                   <option value="upcoming">Upcoming Events</option>
                   <option value="alphabetical-asc">Name (A-Z)</option>
                   <option value="alphabetical-desc">Name (Z-A)</option>
@@ -104,7 +109,8 @@
               <div v-if="sortOption === 'nearest'" class="location-permission mt-3 mt-md-0 d-flex align-items-center">
                 <!-- Text Input Field for Location -->
                 <i v-if="isLoadingLocation" class="fas fa-spinner fa-spin me-2"></i><input type="text"
-                  class="form-control me-2" v-model="enteredLocation" />
+                  class="form-control me-2" v-model="enteredLocation"
+                  :placeholder="isLoadingLocation ? 'Getting location...' : 'Enter your location'" />
                 <button @click="handleManualLocation" class="btn btn-outline-primary btn-sm">
                   Go
                 </button>
@@ -132,7 +138,7 @@
                   <li class="d-flex align-items-center mb-2">
                     <img src="/media/time_icon.png" alt="Time Icon" class="icon me-2">
                     <span>{{ formatFirestoreTime(opportunity.startTime) }} - {{ formatFirestoreTime(opportunity.endTime)
-                    }}</span>
+                      }}</span>
                   </li>
                   <li class="d-flex align-items-center mb-2">
                     <img src="/media/535239.png" alt="Location Icon" class="icon me-2">
@@ -223,7 +229,7 @@ export default {
     try {
       // Fetch all opportunities when the page loads
       await this.searchOpp();
-
+      await this.requestLocation(); // This will calculate distance for each opportunity
       // Check if the user is logged in and opportunities are loaded before checking likes
       if (this.isAuthenticated && this.opportunities.length > 0) {
         console.log(this.user)
@@ -292,13 +298,35 @@ export default {
     },
     async handleSort() {
       if (this.sortOption === 'nearest') {
-        // Request user's current location or use manually entered location
-        if (!this.userLocation) {
-          await this.requestLocation(); // Requests geolocation from the browser
-        } else if (this.enteredLocation) {
-          await this.handleManualLocation(); // Uses the manually entered location
+        // Only recalculate distances if a new location is manually entered
+        if (this.enteredLocation) {
+          await this.handleManualLocation(); // Uses the manually entered location and recalculates distances
+        } else {
+          // If no manual location is entered, use the pre-calculated distances to sort
+          this.sortOpportunities(); // Sort using existing opportunity.distance values
         }
+      } else {
+        // Handle other sorting options
+        this.sortOpportunities();
+      }
+    },
 
+    async requestLocation() {
+      console.log("Requesting user's location...");
+      this.isLoadingLocation = true; // Set loading status to true
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        console.log(position);
+        this.userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        console.log(this.userLocation)
+
+        // Calculate distance for each opportunity after fetching location
         if (this.userLocation) {
           // Get location coordinates for opportunities if they are missing lat/lng
           await Promise.all(this.opportunities.map(async (opportunity) => {
@@ -326,39 +354,12 @@ export default {
               console.log(`Opportunity ${opportunity.name}: Distance calculated as ${opportunity.distance} km`);
             }
           }));
-
-          // Sort the opportunities based on the newly calculated distances
-          this.sortOpportunities();
         }
-      }
-    },
-
-
-    async requestLocation() {
-      console.log("Requesting user's location...");
-      this.isLoadingLocation = true;
-      try {
-        const position = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-
-        console.log(position);
-        this.userLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-
-        // Get the name of the user's location and update enteredLocation accordingly
-        await this.getUserLocationName(this.userLocation.lat, this.userLocation.lng);
-        // Update the placeholder with userLocationName
-        this.enteredLocation = this.userLocationName;
-
-        this.sortOpportunities(); // Sort opportunities after getting user's location
       } catch (error) {
         console.error('Error getting location:', error);
         alert('Unable to get your location. Please enable location services and try again.');
       } finally {
-        this.isLoadingLocation = false;
+        this.isLoadingLocation = false; // Set loading status to false after location is fetched or on error
       }
     },
 
@@ -389,36 +390,36 @@ export default {
             this.userLocation = coordinates;
 
             if (this.userLocation) {
-          // Get location coordinates for opportunities if they are missing lat/lng
-          await Promise.all(this.opportunities.map(async (opportunity) => {
-            if (!opportunity.lat || !opportunity.lng) {
-              console.log(`Fetching coordinates for opportunity: ${opportunity.name}`);
-              const coordinates = await this.getLocationCoordinates(this.formatLocation(opportunity.location));
-              if (coordinates) {
-                opportunity.lat = coordinates.lat;
-                opportunity.lng = coordinates.lng;
-                console.log(`Coordinates for ${opportunity.name}:`, coordinates);
-              } else {
-                console.warn(`Skipping distance calculation for ${opportunity.name} due to missing lat/lng.`);
-                return;
-              }
-            }
+              // Get location coordinates for opportunities if they are missing lat/lng
+              await Promise.all(this.opportunities.map(async (opportunity) => {
+                if (!opportunity.lat || !opportunity.lng) {
+                  console.log(`Fetching coordinates for opportunity: ${opportunity.name}`);
+                  const coordinates = await this.getLocationCoordinates(this.formatLocation(opportunity.location));
+                  if (coordinates) {
+                    opportunity.lat = coordinates.lat;
+                    opportunity.lng = coordinates.lng;
+                    console.log(`Coordinates for ${opportunity.name}:`, coordinates);
+                  } else {
+                    console.warn(`Skipping distance calculation for ${opportunity.name} due to missing lat/lng.`);
+                    return;
+                  }
+                }
 
-            // Calculate distance for each opportunity and keep it persistently updated
-            if (opportunity.lat && opportunity.lng) {
-              opportunity.distance = this.calculateDistance(
-                this.userLocation.lat,
-                this.userLocation.lng,
-                opportunity.lat,
-                opportunity.lng
-              );
-              console.log(`Opportunity ${opportunity.name}: Distance calculated as ${opportunity.distance} km`);
-            }
-          }));
+                // Calculate distance for each opportunity and keep it persistently updated
+                if (opportunity.lat && opportunity.lng) {
+                  opportunity.distance = this.calculateDistance(
+                    this.userLocation.lat,
+                    this.userLocation.lng,
+                    opportunity.lat,
+                    opportunity.lng
+                  );
+                  console.log(`Opportunity ${opportunity.name}: Distance calculated as ${opportunity.distance} km`);
+                }
+              }));
 
-          // Sort the opportunities based on the newly calculated distances
-          this.sortOpportunities();
-        }
+              // Sort the opportunities based on the newly calculated distances
+              this.sortOpportunities();
+            }
           } else {
             alert('Unable to determine the coordinates for the entered location. Please try again.');
           }
@@ -497,6 +498,68 @@ export default {
           }
           break;
 
+        case 'totalImpact':
+          console.log("sorting by total impact")
+          this.opportunities.sort((a, b) => {
+            const totalImpactA = Object.values(a.dash).reduce((sum, value) => sum + value, 0);
+            const totalImpactB = Object.values(b.dash).reduce((sum, value) => sum + value, 0);
+
+            return totalImpactB - totalImpactA; // Sort by total impact from highest to lowest
+          });
+          this.opportunities.forEach((opportunity, index) => {
+            const totalImpact = Object.values(opportunity.dash).reduce((sum, value) => sum + value, 0);
+            console.log(`Opportunity ${index + 1} - ${opportunity.name}: Total Impact = ${totalImpact}`);
+          });
+          break;
+
+        case 'carbonImpact':
+          this.opportunities.sort((a, b) => {
+            const carbonOffsetA = a.dash["Carbon Offset"] ?? 0; // Use 0 if value is undefined or missing
+            const carbonOffsetB = b.dash["Carbon Offset"] ?? 0; // Use 0 if value is undefined or missing
+
+            return carbonOffsetB - carbonOffsetA; // Sort by Carbon Offset from highest to lowest
+          });
+          this.opportunities.forEach((opportunity, index) => {
+            console.log(`Opportunity ${index + 1} - ${opportunity.name}: Carbon Offset = ${opportunity.dash["Carbon Offset"]}`);
+          });
+          break;
+
+        case 'tempImpact':
+          this.opportunities.sort((a, b) => {
+            const tempOffsetA = a.dash["Temperature Moderated"] ?? 0; // Use 0 if value is undefined or missing
+            const tempOffsetB = b.dash["Temperature Moderated"] ?? 0; // Use 0 if value is undefined or missing
+
+            return tempOffsetB - tempOffsetA; // Sort by Carbon Offset from highest to lowest
+          });
+          this.opportunities.forEach((opportunity, index) => {
+            console.log(`Opportunity ${index + 1} - ${opportunity.name}: Temperature Moderated = ${opportunity.dash["Temperature Moderated"]}`);
+          });
+          break;
+
+        case 'landImpact':
+          this.opportunities.sort((a, b) => {
+            const landOffsetA = a.dash["Land Reforested"] ?? 0; // Use 0 if value is undefined or missing
+            const landOffsetB = b.dash["Land Reforested"] ?? 0; // Use 0 if value is undefined or missing
+
+            return landOffsetB - landOffsetA; // Sort by Carbon Offset from highest to lowest
+          });
+          this.opportunities.forEach((opportunity, index) => {
+            console.log(`Opportunity ${index + 1} - ${opportunity.name}: Land Reforested = ${opportunity.dash["Land Reforested"]}`);
+          });
+          break;
+
+        case 'waterImpact':
+          this.opportunities.sort((a, b) => {
+            const waterOffsetA = a.dash["Water Conserved"] ?? 0; // Use 0 if value is undefined or missing
+            const waterOffsetB = b.dash["Water Conserved"] ?? 0; // Use 0 if value is undefined or missing
+
+            return waterOffsetB - waterOffsetA; // Sort by Carbon Offset from highest to lowest
+          });
+          this.opportunities.forEach((opportunity, index) => {
+            console.log(`Opportunity ${index + 1} - ${opportunity.name}: Water Conserved = ${opportunity.dash["Water Conserved"]}`);
+          });
+          break;
+
         case 'upcoming':
           // Sort opportunities by start time in ascending order
           this.opportunities.sort((a, b) => {
@@ -538,7 +601,7 @@ export default {
             // If already liked, remove from likes
             await axios.delete(`http://localhost:8001/likes/${userId}/${opportunity.id}`);
             opportunity.isLiked = false;
-            alert('Opportunity removed from likes!');
+            alert('Opportunity unsaved!');
           } else {
             // If not liked, save to likes
             await axios.post('http://localhost:8001/likes', {
@@ -546,7 +609,7 @@ export default {
               opportunityId: opportunity.id,
             });
             opportunity.isLiked = true;
-            alert('Opportunity saved to likes!');
+            alert('Opportunity saved!');
           }
         }
       } catch (error) {
@@ -558,7 +621,6 @@ export default {
         return `${key}: ${value}`;
       });
     },
-
     formatFirestoreTime(timestamp) {
       if (!timestamp || !timestamp._seconds) {
         return '-'; // Return '-' if no timestamp available
@@ -939,32 +1001,31 @@ impact-scores {
 .impact-icon:nth-child(5) {
   animation-delay: 0.4s;
 }
-
 </style>
 /* Responsive adjustments */
 @media (max-width: 991.98px) {
-  .filter-panel {
-    border-right: none;
-    border-bottom: 1px solid #eaeaea;
-    min-height: auto;
-  }
+.filter-panel {
+border-right: none;
+border-bottom: 1px solid #eaeaea;
+min-height: auto;
+}
 
-  .sticky-top {
-    position: relative !important;
-    top: 0 !important;
-  }
+.sticky-top {
+position: relative !important;
+top: 0 !important;
+}
 
-  .heading {
-    font-size: 2.5rem;
-  }
+.heading {
+font-size: 2.5rem;
+}
 }
 
 @media (max-width: 767.98px) {
-  .heading {
-    font-size: 2rem;
-  }
+.heading {
+font-size: 2rem;
+}
 
-  .card-image-wrapper {
-    height: 180px;
-  }
+.card-image-wrapper {
+height: 180px;
+}
 }
