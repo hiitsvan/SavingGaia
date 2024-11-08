@@ -149,7 +149,7 @@
                     <span class="px-2">{{ opportunity.distance }} km from me</span>
                   </li>
                   <div class="impact-scores">
-                    <h5 class="impact-title">Impact Score:</h5>
+                    <h5>Impact Scores:</h5>
                     <div v-for="(value, key) in opportunity.dash" :key="key" class="impact-row">
                       <span class="impact-label">{{ key }}:</span>
                       <div class="impact-indicators">
@@ -159,10 +159,10 @@
                             {
                               'active': n <= value,
                               'fa': true,
-                              'fa-thermometer-full': key === 'temp',
-                              'fa-tint': key === 'water',
-                              'fa-leaf': key === 'carbon',
-                              'fa-mountain': key === 'land'
+                              'fa-thermometer-full': key === 'Temperature Moderated',
+                              'fa-tint': key === 'Water Conserved',
+                              'fa-leaf': key === 'Carbon Offset',
+                              'fa-mountain': key === 'Land Reforested'
                             }
                           ]"></i>
                         </template>
