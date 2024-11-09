@@ -1,5 +1,5 @@
 <template>
-  <div class="opportunities-page container-fluid">
+  <div class="opportunities-page container-fluid mb-5">
     <div class="row">
       <!-- Filter Panel -->
       <aside class="col-lg-3 col-md-4 filter-panel">

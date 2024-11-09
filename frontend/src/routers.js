@@ -19,7 +19,8 @@ const routes = [
     component: LandingPage,
     path: '/',
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      hideFooter: true
     }
   },
   {
@@ -27,7 +28,8 @@ const routes = [
     component: DeforestationPage,
     path: '/deforestation',
     meta: {
-      requiresAuth: false // or true, depending on your authentication requirements
+      requiresAuth: false,
+      hideFooter: true// or true, depending on your authentication requirements
     }
   },
   {
@@ -35,7 +37,8 @@ const routes = [
     component: RisingSeaLevelPage,
     path: '/risingsealevel',
     meta: {
-      requiresAuth: false // or true, depending on your authentication requirements
+      requiresAuth: false,
+      hideFooter: true // or true, depending on your authentication requirements
     }
   },
   {
@@ -43,7 +46,8 @@ const routes = [
     component: CarbonEmissionPage,
     path: '/carbonemission',
     meta: {
-      requiresAuth: false // or true, depending on your authentication requirements
+      requiresAuth: false,
+      hideFooter: true// or true, depending on your authentication requirements
     }
   },
   {
@@ -51,7 +55,7 @@ const routes = [
     component: HomePage,
     path: '/home',
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
     }
   },
   {
@@ -81,7 +85,8 @@ const routes = [
   {
     name: 'AuthPage',
     component: AuthPage,
-    path: '/auth'
+    path: '/auth',
+    meta: { hideFooter: true },
   },
   {
     name: 'EducationPage',
