@@ -27,36 +27,71 @@
 
     <!-- Cards Section -->
     <section id="cards" class="card__container__wrapper">
-      <div class="card__container">
-        <article class="card__article">
-          <img src="/media/dashboard.jpg" alt="Innovation" class="card__img">
-          <div class="card__data">
-            <span class="card__description">Environmental Dashboard</span>
-            <h2 class="card__title">Learn More</h2>
-            <a href="education" class="card__button">Read More</a>
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-12 col-sm-6 col-lg-4">
+            <article class="card__article">
+              <div class="card__inner">
+                <div class="card-img-wrapper">
+                  <img src="/media/dashboard.jpg" alt="Innovation" class="card__img">
+                </div>
+                <div class="card__data">
+                  <span class="card__description">Environmental Dashboard</span>
+                  <h2 class="card__title">See Your Contributions</h2>
+                  <a href="education" class="card__button">Click Here</a>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
 
-        <article class="card__article">
-          <img src="/media/news.jpg" alt="News" class="card__img">
-          <div class="card__data">
-            <span class="card__description">Latest News</span>
-            <h2 class="card__title">Read More</h2>
-            <a href="news" class="card__button">Read More</a>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <article class="card__article">
+              <div class="card__inner">
+                <div class="card-img-wrapper">
+                  <img src="/media/news.jpg" alt="News" class="card__img">
+                </div>
+                <div class="card__data">
+                  <span class="card__description">Latest News</span>
+                  <h2 class="card__title">Learn More</h2>
+                  <a href="news" class="card__button">Read Here</a>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
 
-        <article class="card__article">
-          <img src="/media/volopp.jpg" alt="Volunteer" class="card__img">
-          <div class="card__data">
-            <span class="card__description">Volunteering Opportunities </span>
-            <h2 class="card__title">Contribute More</h2>
-            <a href="opportunities" class="card__button">Read More</a>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <article class="card__article">
+              <div class="card__inner">
+                <div class="card-img-wrapper">
+                  <img src="/media/earthpage.jpg" alt="Innovation" class="card__img">
+                </div>
+                <div class="card__data">
+                  <span class="card__description">Earth</span>
+                  <h2 class="card__title">How Has Earth Changed</h2>
+                  <a href="education" class="card__button">Find Out Here</a>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
+
+          <div class="col-12 col-sm-6 col-lg-4">
+            <article class="card__article">
+              <div class="card__inner">
+                <div class="card-img-wrapper">
+                  <img src="/media/volopp.jpg" alt="Volunteer" class="card__img">
+                </div>
+                <div class="card__data">
+                  <span class="card__description">Volunteering Opportunities</span>
+                  <h2 class="card__title">Play Your Part</h2>
+                  <a href="opportunities" class="card__button">Source here</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -88,7 +123,6 @@ export default {
 </script>
 
 <style scoped>
-/* Remove all overflow and height restrictions from the root level */
 * {
     margin: 0;
     padding: 0;
@@ -96,7 +130,6 @@ export default {
     scroll-behavior: smooth;
 }
 
-/* Updated Hero Section styles */
 .hero {
     position: relative;
     width: 100%;
@@ -104,7 +137,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Add this to contain the video */
+    overflow: hidden;
 }
 
 .hero video {
@@ -117,7 +150,7 @@ export default {
     height: auto;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    z-index: 0; /* Changed from -1 to 0 */
+    z-index: 0;
 }
 
 .overlay {
@@ -133,17 +166,10 @@ export default {
 .hero-content {
     position: relative;
     text-align: center;
-    z-index: 2; /* Increased z-index to ensure content stays on top */
+    z-index: 2;
     animation: fadeIn 1s ease-out;
-    padding: 0 20px; /* Added padding for better mobile display */
+    padding: 0 20px;
 }
-
-
-@keyframes backgroundMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-20px, -20px); }
-}
-
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
@@ -191,7 +217,6 @@ export default {
     100% { background-position: 200% center; }
 }
 
-/* About Section */
 .about {
     background: black;
     min-height: 100vh;
@@ -228,36 +253,32 @@ export default {
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
 }
 
-/* Card Styles */
+/* Updated Card Styles */
 .card__container__wrapper {
     padding: 5rem 1.5rem;
     background: black;
 }
 
-.card__container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+.card__article {
+    height: 400px;
+    margin-bottom: 30px;
 }
 
-.card__article {
+.card__inner {
     position: relative;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     border-radius: 1.5rem;
     overflow: hidden;
-    transition: box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    background: transparent;
 }
 
-.card__article::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%);
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+.card-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .card__img {
@@ -316,32 +337,52 @@ export default {
     text-decoration: underline;
 }
 
-.card__article:hover {
+.card__inner:hover {
     box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
 }
 
-.card__article:hover::before {
-    opacity: 1;
-}
-
-.card__article:hover .card__img {
+.card__inner:hover .card__img {
     transform: scale(1.1);
 }
 
-.card__article:hover .card__data {
+.card__inner:hover .card__data {
     transform: translateY(0);
 }
 
-.card__article:hover .card__description,
-.card__article:hover .card__title,
-.card__article:hover .card__button {
+.card__inner:hover .card__description,
+.card__inner:hover .card__title,
+.card__inner:hover .card__button {
     opacity: 1;
     transform: translateY(0);
 }
 
 #app {
-  width: 100%;
-  min-height: 100vh;
-  overflow: visible !important;
+    width: 100%;
+    min-height: 100vh;
+    overflow: visible !important;
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 4rem;
+    }
+    
+    .scroll-link {
+        font-size: 1.5rem;
+    }
+
+    .card__article {
+        height: 350px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .card__article {
+        height: 300px;
+    }
 }
 </style>

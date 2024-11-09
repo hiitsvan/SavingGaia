@@ -142,7 +142,7 @@ export default {
             this.errorDetails = null;
         } catch (error) {
             console.error("Error fetching completed works:", error);
-            this.error = "Failed to load completed works";
+            this.error = " You Have No Completed Works Yet";
             if (error.response?.data?.error) {
                 this.errorDetails = error.response.data.error;
             }
