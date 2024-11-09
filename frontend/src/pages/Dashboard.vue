@@ -34,7 +34,7 @@
 
             <!-- Impact Breakdown -->
             <div class="impact-breakdown">
-                <h2>Environmental Impact Breakdown</h2>
+                <h2>My Contributions Towards Saving Gaia</h2>
                 <div class="impact-metrics">
                     <div class="impact-metric">
                         <i class="fa fa-leaf"></i>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="impact-metric">
                         <i class="fa fa-thermometer-full"></i>
-                        <h4>Temperature Impact</h4>
+                        <h4>Temperature Moderated</h4>
                         <p>{{ getTotalForMetric('Temperature Moderated') }}</p>
                     </div>
                     <div class="impact-metric">

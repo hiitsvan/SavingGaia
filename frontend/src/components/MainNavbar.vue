@@ -22,7 +22,7 @@
         <div class="navbar-left">
           <!-- Education link without hover dropdown -->
           <div class="nav-link">
-            <router-link to="/education" class="nav-link">Earth</router-link>
+            <router-link to="/education" class="nav-link">Gaia</router-link>
           </div>
           <div class="nav-link">
             <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
