@@ -2,40 +2,40 @@
     <div class="main-app-education education-page-container">
         <main class="main">
             <section class="globeSelection separated">
-                <div class="container">
-                    <!-- Title Section -->
-                    <div class="container">
-                        <div id="title" class="text-white" style="z-index: 999;" >Surface Temperature Anomalies in the Past Century</div>
-
-                        <!-- Globe Container: ref is used to bind it to Vue component -->
-                        <!-- This will be the div where the 3D globe will be rendered -->
-                        <div ref="globeContainer" id="container"></div>
+                <div class="container-fluid px-4 px-md-5">
+                    <div class="position-relative globe-container">
+                        <!-- Title Section -->
+                        <div id="title" class="text-white mb-4">Surface Temperature Anomalies in the Past Century</div>
 
                         <!-- Current Information about the data -->
-                        <div id="currentInfo">
-                            <!-- Loop through years array and render a clickable year for each decade -->
-                            <span v-for="year in years" :key="year" :id="'year' + year" class="year" :class="selectedYear == year ? 'active' : ''"
-                                @click="handleYearChange(year)">
-                                {{ year }}s <!-- Display the decade (e.g., "1910s") -->
+                        <div id="currentInfo" class="mb-4">
+                            <span v-for="year in years" :key="year" :id="'year' + year" class="year"
+                                :class="selectedYear == year ? 'active' : ''" @click="handleYearChange(year)">
+                                {{ year }}s
                             </span>
                         </div>
 
-                        <!-- Bio Section explaining the data -->
-                        <div id="bio">
+                        <!-- Bio Section -->
+                        <div id="bio" class="mb-4">
                             The globe shows the average temperature anomalies between 1910 and 2019 (decades). The
                             temperature anomalies are the difference in temperature at that location between a given
                             time period and the average temperature between the years of 1951 and 1980 (selected by
                             NASA).
                         </div>
 
-                        <!-- Key explaining the color and scale of the temperature anomalies -->
-                        <div id="key">
+                        <!-- Globe Container -->
+                        <div class="globe-wrapper mb-4">
+                            <div ref="globeContainer" id="container"></div>
+                        </div>
+
+                        <!-- Key Section -->
+                        <div id="key" class="mb-4">
                             The colour and height of the spikes are jointly scaled to show the change in temperature
                             against the average of 1951-1980. Blues and purples symbolize temperatures cooler than the
                             average, while reds, yellows, and oranges symbolize temperatures warmer than the average.
                         </div>
 
-                        <!-- Info Section with external links to source data -->
+                        <!-- Info Section -->
                         <div id="info">
                             <strong>
                                 <a href="http://www.chromeexperiments.com/globe" class="separated">WebGL Globe</a>
@@ -46,41 +46,102 @@
                     </div>
                 </div>
             </section>
+
+            <div class="container px-4 px-md-5 my-5">
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 ">
+                        <div class="chart-wrapper h-100">
+                            <CarbonLevelsChart />
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 ">
+                        <div class="chart-wrapper h-100">
+                            <EnergyConsumptionChart />
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 ">
+                        <div class="chart-wrapper h-100">
+                            <SeaLevelChart />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 </template>
-  
+
 <script setup>
-/* eslint-disable */
-import { ref, onMounted} from 'vue';
+// Script remains exactly the same as before
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import * as THREE from 'three';
 import Globe from 'globe.gl';
+import CarbonLevelsChart from '../components/CarbonLevelsChart.vue';
+import EnergyConsumptionChart from '../components/EnergyConsumptionChart.vue';
+import SeaLevelChart from '../components/SeaLevelChart.vue';
 
-const selectedYear = ref('1910')
-
-const globe = ref(null)
-const years = ref(['1910', '1920', '1930', '1940', '1980', '1990', '2000', '2010'])
-const jsonData = ref([])
-
-const globeContainer = ref(null)
+const selectedYear = ref('1910');
+const globe = ref(null);
+const years = ref(['1910', '1920', '1930', '1940', '1980', '1990', '2000', '2010']);
+const jsonData = ref([]);
+const globeContainer = ref(null);
+let resizeTimeout = null;
 
 onMounted(async () => {
-    await fetchGlobeData()
+    await fetchGlobeData();
+    await nextTick();
     initGlobe('1910');
+    
+    window.addEventListener('resize', handleResizeDebounced);
 });
 
-const initGlobe = (year) => {
-    const pointsData = preparePointsData(year);
+onUnmounted(() => {
+    window.removeEventListener('resize', handleResizeDebounced);
+    if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+    }
+});
 
-    globe.value = Globe()
-        .globeImageUrl('BM.jpeg')
-        .pointsData(pointsData)
-        .pointAltitude(d => {
-            return d.magnitude * 0.02 + 0.2;  // Adjust altitude based on magnitude
-        })
-        .pointColor(d => d.color)  // Use color returned by colorFn
-        .pointRadius(d => d.size)  // Set radius based on magnitude
-        (globeContainer.value);
+const handleResizeDebounced = () => {
+    if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+    }
+    resizeTimeout = setTimeout(handleResize, 250);
+};
+
+const handleResize = () => {
+    if (!globe.value || !globeContainer.value) return;
+
+    try {
+        const containerWidth = globeContainer.value.clientWidth;
+        const containerHeight = window.innerHeight < 768 
+            ? Math.max(400, window.innerHeight * 0.6)  // Minimum height of 400px
+            : Math.max(500, window.innerHeight * 0.8); // Minimum height of 500px
+
+        globe.value.width(containerWidth);
+        globe.value.height(containerHeight);
+    } catch (error) {
+        console.error('Error resizing globe:', error);
+    }
+};
+
+const initGlobe = async (year) => {
+    if (!globeContainer.value) return;
+
+    try {
+        const pointsData = preparePointsData(year);
+        
+        globe.value = Globe()
+            .globeImageUrl('BM.jpeg')
+            .pointsData(pointsData)
+            .pointAltitude(d => d.magnitude * 0.02 + 0.2)
+            .pointColor(d => d.color)
+            .pointRadius(d => d.size)(globeContainer.value);
+
+        await nextTick();
+        handleResize();
+    } catch (error) {
+        console.error('Error initializing globe:', error);
+    }
 };
 
 const preparePointsData = (year) => {
@@ -89,19 +150,18 @@ const preparePointsData = (year) => {
 
     const [yearName, coords] = yearData;
 
-    // Transform the coordinates into points
     return coords.reduce((acc, _, i, arr) => {
         if (i % 3 === 0) {
             const lat = arr[i];
             const lng = arr[i + 1];
-            const magnitude = arr[i + 2];  // Use magnitude as the third value
+            const magnitude = arr[i + 2];
             acc.push({
                 lat,
                 lng,
                 magnitude,
                 year: yearName,
-                color: colorFn(magnitude),  // Apply color based on magnitude
-                size: sizeFn(magnitude),    // Apply size based on magnitude
+                color: colorFn(magnitude),
+                size: sizeFn(magnitude),
             });
         }
         return acc;
@@ -109,60 +169,57 @@ const preparePointsData = (year) => {
 };
 
 const colorFn = (x) => {
-    var c = new THREE.Color();
+    const c = new THREE.Color();
 
     if (x > 0.0) {
         c.setHSL(0.2139 - (x / 1.619) * 0.5, 1.0, 0.5);
-
     }
     else if (x < 0.0) {
         c.setHSL(0.5111 - (x / 1.619), 1.0, 0.6);
-
     }
     else {
         c.setRGB(1.0, 1.0, 1.0);
     }
 
-    const color = c.getHexString()
-    console.log(color)
-    return '#' + color
+    return '#' + c.getHexString();
 };
 
-
-// Size function based on magnitude
 const sizeFn = (magnitude) => {
-    return magnitude * 0.7;  // Adjust this scale factor as needed
+    return magnitude * 0.7;
 };
-
 
 const handleYearChange = (year) => {
-    selectedYear.value = year
-    // Destroy the old globe instance
-    if (globe.value) globe.value = null
-
-    // Initialize the globe with data for the selected year
-    initGlobe(year);
+    selectedYear.value = year;
+    if (globe.value) {
+        const pointsData = preparePointsData(year);
+        globe.value.pointsData(pointsData);
+    }
 };
 
 const fetchGlobeData = async () => {
-    await fetch('temp_anomaly_land.json')
-        .then(response => response.json())
-        .then(data => {
-            jsonData.value = data;
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    try {
+        const response = await fetch('temp_anomaly_land.json');
+        const data = await response.json();
+        jsonData.value = data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
+</script>
+
+<style scoped>
+.main {
+    overflow-x: hidden;
 }
 
-</script>
-  
-<style scoped>
-    /* for the globe body */
-    .main {
-        overflow-x: hidden;
-    }
-    .separated {
+.globe-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+}
+
+.separated {
     font-family: sans-serif;
     line-height: 20px;
     font-size: 13px;
@@ -171,162 +228,155 @@ const fetchGlobeData = async () => {
     padding: 0;
     color: #ffffff;
     height: 100%;
-    }
+}
 
-    /* for the globe link */
-    a.separated {
+a.separated {
     color: #fff;
     text-decoration: none;
-    }
+}
 
-    /* for the globe link */
-    a:hover.separated {
+a:hover.separated {
     text-decoration: underline;
-    }
+}
 
-
-    /* separation here */
-    /* globe css code */
-
-    /* New Wrapper */
-    .container {
-    position: relative;
-    padding-top: 0; /* Adjust as needed */
-    padding-bottom: 100px;
-    }
-
-    #info {
-    position: absolute;
-    bottom: 140px;
-    right: 10px;
-    /* left: 20px; */
+#info {
     font-size: 11px;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 3px;
     padding: 10px;
     opacity: 0.7;
-    }
+    text-align: right;
+}
 
-    #info a {
-    color: white;
-    text-decoration: none;
-    }
-
-    #info a:hover {
-    text-decoration: underline;
-    }
-
-    #currentInfo {
-    width: 70px;
-    position: absolute;
-    left: 20px;
-    top: 140px;
+#currentInfo {
     padding: 10px;
-    background-color: rgba(.9,0.9,0.9,0.3);
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 3px;
     font: 15px Georgia;
-    }
+}
 
-    #dataSelectDropdown {
-    width: 350px;
-    position: absolute;
-    left: 20px;
-    top: 85px;
-    border-top: 1px solid rgba(255,255,255,0.4);
-    border-bottom: 1px solid rgba(255,255,255,0.4);
-    padding: 10px;
-    }
-
-
-    .bull {
-    color: #555;
-    margin: 0 5px;
-    }
-    #container {
-    margin: 0 auto;
-    height: 100vh;
+.globe-wrapper {
     width: 100%;
     position: relative;
-    min-height: 400px; 
-    }
+}
 
-    /* Ensure the section takes up full viewport height */
-    .globeSelection {
-    min-height: 100vh;
+#container {
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    min-height: 400px;
+    height: calc(100vh - 200px);
+    max-height: 80vh;
+}
+
+.globeSelection {
     background-color: black;
-    }
+    position: relative;
+    min-height: 100vh;
+}
 
-    /* Link styling within the globe section */
-    .separated {
-    color: white;
-    text-decoration: none;
-    }
-
-    .separated:hover {
-    text-decoration: underline;
-    }
-
-    #key {
-    position: absolute;
-    bottom: 180px;
-    left: 20px;
-    width: 350px;
+#key {
     text-align: left;
-    opacity: 0.7;
-    color: white;
-    background-color: rgba(0.9, 0.9, 0.9, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 3px;
     font: 15px Georgia;
     padding: 10px;
-    }
+    max-width: 800px;
+    margin: 0 auto;
+}
 
-    #bio {
-    position: absolute;
-    top: 20px;
-    width: 350px;
-    right: 20px;
-    color: white;
-    background-color: rgba(.9,.9,.9,0.3);
+#bio {
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 3px;
     font: 15px Georgia;
     padding: 10px;
-    text-align: right;
-    }
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
 
-    #title {
-    position: absolute;
-    top: 20px;
-    width: 380px;
-    left: 20px;
-    background-color: rgba(0,0,0,0.2);
+#title {
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 3px;
     font: 20px Georgia;
     padding: 10px;
-    }
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
 
-    .year {
-    font: 11px Verdana, Geneva, sans-serif;
+.year {
+    font: 12px Verdana, Geneva, sans-serif;
     line-height: 30px;
     height: 30px;
     text-align: left;
     float: left;
     width: 150px;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     transition: all 0.1s ease-out;
-    opacity: 0.4;
+    opacity: 0.8;
     display: block;
     margin: 5px 0;
-    }
+}
 
-    .year:hover, .year.active {
-    font-size: 13px;
+.year:hover,
+.year.active {
+    font-size: 14px;
     color: #fff;
     opacity: 1;
+}
+
+.chart-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+    #container {
+        height: 60vh;
+        min-height: 400px;
     }
 
-    #dataSelection option {
-    background: #466c41;
+    #key, #bio, #title {
+        max-width: 100%;
+        font-size: 13px;
+        padding: 8px;
     }
 
+    #title {
+        font-size: 16px;
+    }
+
+    .year {
+        font-size: 11px;
+        line-height: 25px;
+        height: 25px;
+    }
+
+    .year:hover,
+    .year.active {
+        font-size: 12px;
+    }
+
+    .globeSelection {
+        padding: 1rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    #key, #bio {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    #title {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
 </style>
