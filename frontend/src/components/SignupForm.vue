@@ -24,7 +24,7 @@
           <i :class="showConfirmPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
         </span>
       </div>
-      <button type="submit" class="submit-btn">Sign Up</button>
+      <button type="submit" class="submit-btn">{{ submitButtonText }}</button>
       <p v-if="error" class="error-message">{{ error }}</p>
     </form>
 
@@ -50,7 +50,13 @@ export default {
       error: '',
       showPassword: false,
       showConfirmPassword: false,
+      isLoading: false,
     }
+  },
+  computed: {
+    submitButtonText() {
+      return this.isLoading ? 'Signing you up...' : 'Sign Up';
+    },
   },
   methods: {
     ...mapActions(['login']),
@@ -61,11 +67,17 @@ export default {
       this.showConfirmPassword = !this.showConfirmPassword;
     },
     async signup() {
+      if (this.isLoading) return;
+
+      this.isLoading = true;
+      this.error = '';
       if (this.password !== this.confirmPassword) {
+        this.isLoading = false;
         this.error = "Passwords don't match";
         return;
       }
       if (this.password.length < 6) {
+        this.isLoading = false;
         this.error = "Passwords must be at least six characters";
         return;
       }
@@ -88,23 +100,27 @@ export default {
 
         if (result.success) {
           this.$router.push('/opportunities');
-        }}
-        catch (error) {
-          if (error.response) {
-            // Backend responded with a status other than 200
-            this.error = error.response.data.message
-            console.error("Registration error:", error.response.data.message || "Something went wrong");
-          } else if (error.request) {
-            // Request was made but no response received
-            console.error("No response received:", error.request);
-          } else {
-            // Something went wrong setting up the request
-            console.error("Error in registration request:", error.message);
-          }
         }
       }
+      catch (error) {
+        this.isLoading = false;
+        if (error.response) {
+          // Backend responded with a status other than 200
+          this.error = error.response.data.message
+          console.error("Registration error:", error.response.data.message || "Something went wrong");
+        } else if (error.request) {
+          // Request was made but no response received
+          console.error("No response received:", error.request);
+        } else {
+          // Something went wrong setting up the request
+          console.error("Error in registration request:", error.message);
+        }
+      } finally {
+        this.isLoading = false;
+      }
+    }
   }
-  };
+};
 </script>
 
 <style scoped>
