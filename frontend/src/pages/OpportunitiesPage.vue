@@ -1,11 +1,11 @@
 <template>
-  <div class="opportunities-page container-fluid">
+  <div class="opportunities-page container-fluid mb-5">
     <div class="row">
       <!-- Filter Panel -->
       <aside class="col-lg-3 col-md-4 filter-panel">
         <div class="sticky-top pt-4">
           <h2 class="mb-3">Apply filters</h2>
-          <p class="text-muted mb-4">Filter volunteering opportunities.</p>
+          <p class="mb-4 text-light">Filter volunteering opportunities.</p>
 
           <!-- Keyword Filter -->
           <div class="mb-4">
@@ -149,7 +149,7 @@
                     <span class="px-2">{{ opportunity.distance }} km from me</span>
                   </li>
                   <div class="impact-scores">
-                    <h5 class="impact-title">Impact Score:</h5>
+                    <h5>Impact Scores:</h5>
                     <div v-for="(value, key) in opportunity.dash" :key="key" class="impact-row">
                       <span class="impact-label">{{ key }}:</span>
                       <div class="impact-indicators">
@@ -159,10 +159,10 @@
                             {
                               'active': n <= value,
                               'fa': true,
-                              'fa-thermometer-full': key === 'temp',
-                              'fa-tint': key === 'water',
-                              'fa-leaf': key === 'carbon',
-                              'fa-mountain': key === 'land'
+                              'fa-thermometer-full': key === 'Temperature Moderated',
+                              'fa-tint': key === 'Water Conserved',
+                              'fa-leaf': key === 'Carbon Offset',
+                              'fa-mountain': key === 'Land Reforested'
                             }
                           ]"></i>
                         </template>

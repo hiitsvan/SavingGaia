@@ -2,16 +2,19 @@
   <div>
     <MainNavbar v-if="showNavbar" />
     <router-view />
+    <FooterComp v-if="!$route.meta.hideFooter" />
   </div>
 </template>
 <script>
 
+import FooterComp from './components/FooterComp.vue';
 import MainNavbar from './components/MainNavbar.vue';
 
 export default {
   name: 'App',
   components: {
     MainNavbar,
+    FooterComp
   },
   // async created() {
   //   const token = localStorage.getItem('authToken');

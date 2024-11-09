@@ -2,7 +2,8 @@
     <div class="container">
       <section id="selection-header">
         <h1>{{ headerText }}</h1>
-        <p class="text-muted">Select the volunteer work you have completed</p>
+        <p v-if="volunteerCards.length >0" class="text-light">Select the volunteer work you have completed</p>
+        <p v-else class="text-light">You have not saved any volunteer work yet</p>
       </section>
   
       <section id="volunteer-cards" class="cards-grid" v-show="showCardsSection">

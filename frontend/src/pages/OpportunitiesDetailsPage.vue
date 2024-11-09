@@ -66,16 +66,28 @@
                                         </ul>
                                     </span>
                                 </div>
-                                <div class="detail-item">
-                                    <span class="detail-label">Impact Level</span>
-                                    <span class="detail-value">
-                                        <ul>
-                                            <li v-for="(impact, index) in formatImpact(this.opportunity.dash)" :key="index">{{ impact }} / 5</li>
-                                        </ul>
-                                    </span>
+                                <div class="impact-scores">
+                                    <span class="detail-label mt-2">Impact Scores:</span>
+                                    <div v-for="(value, key) in opportunity.dash" :key="key" class="impact-row">
+                                        <span class="impact-label">{{ key }}:</span>
+                                        <div class="impact-indicators">
+                                            <template v-for="n in 5" :key="n">
+                                                <i :class="[
+                                                    'impact-icon',
+                                                    {
+                                                        'active': n <= value,
+                                                        'fa': true,
+                                                        'fa-thermometer-full': key === 'Temperature Moderated',
+                                                        'fa-tint': key === 'Water Conserved',
+                                                        'fa-leaf': key === 'Carbon Offset',
+                                                        'fa-mountain': key === 'Land Reforested'
+                                                    }
+                                                ]"></i>
+                                            </template>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -136,7 +148,7 @@ export default {
             // Check if the opportunity is already liked
 
             if (this.isAuthenticated) {
-                console.log("i am authenticated as" ,this.user.displayName)
+                console.log("i am authenticated as", this.user.displayName)
                 await this.checkLikedStatus();
             }
             else {
@@ -160,7 +172,7 @@ export default {
                     };
                 }
             }
-            
+
         } catch (error) {
             console.error('Error fetching opportunity details:', error);
         }
@@ -384,6 +396,45 @@ export default {
   background-color: green;
   transform: scale(1.02);
 } */
+
+
+/* .impact-scores {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+  } */
+  
+  .impact-row {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+    gap: 1rem;
+  }
+  
+  .impact-label {
+    min-width: 70px;
+    color: black
+  }
+  
+  .impact-indicators {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .impact-icon {
+    font-size: 1rem;
+    opacity: 0.3;
+  }
+  
+  .impact-icon.active {
+    opacity: 1;
+  }
+  
+  .fa-thermometer-full.active { color: #ff4444; }
+  .fa-tint.active { color: #2196f3; }
+  .fa-leaf.active { color: #4caf50; }
+  .fa-mountain.active { color: #795548; }
 
 .fade-up {
     opacity: 0;
