@@ -6,7 +6,7 @@
     </div>
 
     <!-- Carousel Section -->
-    <div v-if="newsArticles.length" id="newsCarousel" class="carousel slide fade-up delay-2" data-bs-ride="carousel" data-bs-interval="4000">
+    <div v-if="newsArticles.length" id="newsCarousel" class="carousel slide fade-up delay-2" data-bs-ride="carousel" data-bs-interval="3000">
       <div class="carousel-inner">
         <div
           v-for="(article, index) in newsArticles"
@@ -49,6 +49,7 @@
 
 <script>
 import axios from 'axios';
+import { Carousel } from 'bootstrap'; // Import only the Carousel component
 
 export default {
   data() {
@@ -58,15 +59,26 @@ export default {
   },
   async created() {
     try {
-      // Make an HTTP request to your backend to get news articles
       const response = await axios.get('http://localhost:8001/news');
       this.newsArticles = response.data;
     } catch (error) {
       console.error("Error fetching news articles: ", error);
     }
+  },
+  mounted() {
+    // Start the carousel immediately upon mounting
+    const carouselElement = document.getElementById('newsCarousel');
+    if (carouselElement) {
+      const carouselInstance = new Carousel(carouselElement, {
+        interval: 3000,
+        ride: 'carousel'
+      });
+      carouselInstance.cycle(); // Start the automatic scrolling
+    }
   }
 };
 </script>
+
 
 <style scoped>
 /* Make the entire viewport background black */
