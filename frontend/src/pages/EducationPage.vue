@@ -1,6 +1,6 @@
 <template>
     <div class="main-app-education education-page-container">
-        <main>
+        <main class="main">
             <section class="globeSelection separated">
                 <div class="container">
                     <!-- Title Section -->
@@ -195,6 +195,9 @@ const fetchGlobeData = async () => {
   
 <style scoped>
     /* for the globe body */
+    .main {
+        overflow-x: hidden;
+    }
     .separated {
     font-family: sans-serif;
     line-height: 20px;
