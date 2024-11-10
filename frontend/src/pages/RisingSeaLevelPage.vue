@@ -347,11 +347,26 @@ section>* {
 }
 
 .cause-card .icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   transition: var(--transition);
   opacity: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.cause-card .icon img {
+  width: clamp(32px, 4vw, 48px);
+  height: auto;
+  min-width: auto;
+  max-width: none;
+  margin-bottom: 0;
+}
+
 
 .stat-card:hover h3,
 .cause-card:hover h4,
