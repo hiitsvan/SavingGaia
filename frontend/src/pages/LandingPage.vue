@@ -22,6 +22,7 @@
           </a>
         </div>
         <nav class="navigation">
+          <i class="chevron left" @click="goToPrevSection">&lt;</i>
           <i class="chevron right" @click="goToNextSection">&gt;</i>
         </nav>
       </section>

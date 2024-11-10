@@ -39,7 +39,7 @@
             <template v-if="isAuthenticated">
               <div class="dropdown-content">
                 <div class="news-item">
-                  <img src="/media/likes-icon.png" alt="Likes" class="dropdown-icon"/>
+                  <img src="/media/saved_icon.jpg" alt="Likes" class="dropdown-icon"/>
                   <router-link to="/comparison" class="nav-link">Saved</router-link>
                 </div>
                 <div class="news-item">

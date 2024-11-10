@@ -31,24 +31,24 @@
                         <!-- Key Section -->
                         <div id="key" class="mb-4">
                             The colour and height of the spikes are jointly scaled to show the change in temperature
-                            against the average of 1951-1980.
+                            against the average of 1951-1980. Blues and purples symbolises temperatures
                             <span style="background-image: linear-gradient(to right, rgb(69, 162, 255), purple);
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;">
                                 cooler than the average
-                            </span>, while<span style="background-image: linear-gradient(to right, red, yellow, orange);
+                            </span>, while  reds, yellows and oranges symbolises temperatures<span style="background-image: linear-gradient(to right, red, yellow, orange);
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;">
-                                warmer than the average
+                                warmer than the average.
                             </span>.
                         </div>
 
                         <!-- Info Section -->
                         <div id="info">
                             <strong>
-                                <a href="http://www.chromeexperiments.com/globe" class="separated">WebGL Globe</a>
+                                <a href="http://www.chromeexperiments.com/globe" class="separated">WebGL Globe </a>
                             </strong>
-                            <span class="bull">&bull;</span>Data acquired from
+                            <span class="bull">&bull;</span> Data acquired from
                             <a href="https://data.giss.nasa.gov/gistemp/" class="separated">NASA-GISTEMPv4</a>
                         </div>
                     </div>
@@ -56,24 +56,25 @@
             </section>
 
             <div class="charts-section container px-4 px-md-5 my-5">
-                <div class="row g-4">
-                    <div class="col-12 col-md-6">
-                        <div class="chart-box">
-                            <CarbonLevelsChart />
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="chart-box">
-                            <EnergyConsumptionChart />
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="chart-box">
-                            <SeaLevelChart />
-                        </div>
-                    </div>
-                </div>
+    <div class="row g-4">
+        <div class="col-12 col-md-6">
+            <div class="chart-box">
+                <CarbonLevelsChart />
             </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="chart-box">
+                <EnergyConsumptionChart />
+            </div>
+        </div>
+        <div class="col-12 col-md-6 offset-md-3">
+            <div class="chart-box">
+                <SeaLevelChart />
+            </div>
+        </div>
+    </div>
+</div>
+
         </main>
     </div>
 </template>

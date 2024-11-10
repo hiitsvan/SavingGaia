@@ -1,76 +1,79 @@
 <template>
-  <div class="opportunities-page container-fluid mb-5">
+  <div class="opportunities-page container-fluid pb-5">
     <div class="row">
       <!-- Filter Panel -->
       <aside class="col-lg-3 col-md-4 filter-panel">
-        <div class="filter-content">
-          <h2 class="mb-3">Apply filters</h2>
-          <p class="mb-4 text-light">Filter volunteering opportunities.</p>
+        <form @submit.prevent="searchOpp" class="filter-content">
+          <div class="filter-content">
+            <h2 class="mb-3">Apply filters</h2>
+            <p class="mb-4 text-light">Filter volunteering opportunities.</p>
 
-          <!-- Keyword Filter -->
-          <div class="mb-4">
-            <label for="keyword" class="form-label">Keyword</label>
-            <input type="text" id="keyword" class="form-control" placeholder="Search by keyword" v-model="keywords">
-          </div>
+            <!-- Keyword Filter -->
+            <div class="mb-4">
+              <label for="keyword" class="form-label">Keyword</label>
+              <input type="text" id="keyword" class="form-control" placeholder="Search by keyword" v-model="keywords">
+            </div>
 
-          <!-- Time Filter -->
-          <div class="mb-4">
-            <label class="form-label">Time</label>
-            <div class="mb-2">
-              <label for="start-time" class="form-label small">Start Time</label>
-              <select id="start-time" class="form-select" v-model="startTime">
-                <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+            <!-- Time Filter -->
+            <div class="mb-4">
+              <label class="form-label">Time</label>
+              <div class="mb-2">
+                <label for="start-time" class="form-label small">Start Time</label>
+                <select id="start-time" class="form-select" v-model="startTime">
+                  <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                </select>
+              </div>
+              <div>
+                <label for="end-time" class="form-label small">End Time</label>
+                <select id="end-time" class="form-select" v-model="endTime">
+                  <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Location Filter -->
+            <div class="mb-4">
+              <label class="form-label">Location</label>
+              <div class="form-check mb-2">
+                <input type="checkbox" id="location-central" class="form-check-input" value="central"
+                  v-model="locations">
+                <label class="form-check-label" for="location-central">Central</label>
+              </div>
+              <div class="form-check mb-2">
+                <input type="checkbox" id="location-east" class="form-check-input" value="east" v-model="locations">
+                <label class="form-check-label" for="location-east">East</label>
+              </div>
+              <div class="form-check mb-2">
+                <input type="checkbox" id="location-south" class="form-check-input" value="south" v-model="locations">
+                <label class="form-check-label" for="location-south">South</label>
+              </div>
+              <div class="form-check mb-2">
+                <input type="checkbox" id="location-west" class="form-check-input" value="west" v-model="locations">
+                <label class="form-check-label" for="location-west">West</label>
+              </div>
+            </div>
+
+            <!-- Commitment Filter -->
+            <div class="mb-4">
+              <label for="commitment-filter" class="form-label">Commitment</label>
+              <select id="commitment-filter" class="form-select" v-model="commitment">
+                <option value="ad-hoc">Adhoc</option>
+                <option value="long-term">Long-term</option>
               </select>
             </div>
-            <div>
-              <label for="end-time" class="form-label small">End Time</label>
-              <select id="end-time" class="form-select" v-model="endTime">
-                <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+            <!-- status  -->
+            <div class="mb-4">
+              <label for="status-filter" class="form-label">Status</label>
+              <select id="status-filter" class="form-select" v-model="status">
+                <option value="">All</option>
+                <option value="saved">Saved</option>
+                <option value="unsaved">Unsaved</option>
               </select>
             </div>
-          </div>
 
-          <!-- Location Filter -->
-          <div class="mb-4">
-            <label class="form-label">Location</label>
-            <div class="form-check mb-2">
-              <input type="checkbox" id="location-central" class="form-check-input" value="central" v-model="locations">
-              <label class="form-check-label" for="location-central">Central</label>
-            </div>
-            <div class="form-check mb-2">
-              <input type="checkbox" id="location-east" class="form-check-input" value="east" v-model="locations">
-              <label class="form-check-label" for="location-east">East</label>
-            </div>
-            <div class="form-check mb-2">
-              <input type="checkbox" id="location-south" class="form-check-input" value="south" v-model="locations">
-              <label class="form-check-label" for="location-south">South</label>
-            </div>
-            <div class="form-check mb-2">
-              <input type="checkbox" id="location-west" class="form-check-input" value="west" v-model="locations">
-              <label class="form-check-label" for="location-west">West</label>
-            </div>
+            <button type="submit" class="btn btn-outline-primary">Search</button>
           </div>
-
-          <!-- Commitment Filter -->
-          <div class="mb-4">
-            <label for="commitment-filter" class="form-label">Commitment</label>
-            <select id="commitment-filter" class="form-select" v-model="commitment">
-              <option value="ad-hoc">Adhoc</option>
-              <option value="long-term">Long-term</option>
-            </select>
-          </div>
-          <!-- status  -->
-          <div class="mb-4">
-            <label for="status-filter" class="form-label">Status</label>
-            <select id="status-filter" class="form-select" v-model="status">
-              <option value="">All</option>
-              <option value="saved">Saved</option>
-              <option value="unsaved">Unsaved</option>
-            </select>
-          </div>
-
-          <button @click="searchOpp" class="btn btn-outline-primary">Search</button>
-        </div>
+        </form>
       </aside>
 
       <!-- Main Content -->
@@ -119,9 +122,13 @@
           </div>
         </div>
 
-
+        <!-- Spinner section -->
+        <div v-if="loadingOpps" class="spinner-container">
+          <div class="spinner mx-2"></div>
+          <p>Loading opportunities...</p>
+        </div>
         <!-- Opportunities Grid -->
-        <div class="row g-4 fade-up delay-3">
+        <div v-else class="row g-4 fade-up delay-3">
           <div class="col-xl-4 col-md-6" v-for="opportunity in opportunities" :key="opportunity.id">
             <div class="card h-100" @click="goToOpportunityDetails(opportunity.id)">
               <div class="card-image-wrapper">
@@ -208,6 +215,7 @@ export default {
       userLocationName: '',
       status: '',
       impacts: null,
+      loadingOpps: false,
       hours: Array.from({ length: 24 }, (_, i) => {
         const hour = String(i).padStart(2, '0');
         return `${hour}:00`;
@@ -241,7 +249,9 @@ export default {
   },
   methods: {
     async searchOpp() {
+      this.loadingOpps = true;
       try {
+
         // Make sure to provide a complete URL for the API endpoint
         const filters = {
           keywords: this.keywords,
@@ -254,11 +264,12 @@ export default {
         const response = await axios.get(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/opportunities`, {
           params: filters
         });
+        this.loadingOpps = false;
         this.opportunities = response.data.map((opportunity) => ({
           ...opportunity,
           isLiked: false, // Initialize isLiked to false
         }));
-
+        await this.requestLocation();
 
         if (this.opportunities.length) {
           await this.checkLikedOpportunities();
@@ -1052,6 +1063,34 @@ impact-scores {
 
   .card-image-wrapper {
     height: 180px;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Adjust based on desired spinner position */
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #eaeaea;
+  border-top: 3px solid #000000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

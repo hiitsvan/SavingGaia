@@ -198,7 +198,7 @@ export default {
 
 /* Hero Section */
 .hero {
-  height: 100vh;
+  width: 100vw;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -328,7 +328,7 @@ section>* {
   overflow: hidden;
   height: 200px;
   transition: var(--transition);
-  font-size: 3.5vh;
+  font-size: 1.5vw;
 }
 
 .stat-card h3,

@@ -260,11 +260,50 @@ export default {
     background: black;
 }
 
-.card__article {
-    height: 400px;
-    margin-bottom: 30px;
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -1rem;
+}
+
+/* Center alignment for larger screens */
+@media (min-width: 1024px) {
+    .row {
+        justify-content: center;
+    }
+    
+    .col-lg-4 {
+        flex: 0 0 calc(33.333% - 2rem);
+        max-width: calc(33.333% - 2rem);
+        margin: 1rem;
+    }
+}
+
+.col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 1rem;
+}
+
+@media (min-width: 576px) {
+    .col-sm-6 {
+        flex: 0 0 calc(50% - 2rem);
+        max-width: calc(50% - 2rem);
+        margin: 1rem;
+    }
+}
+
+.card__article {
+    height: 400px;
+    margin-bottom: 0; /* Removed margin-bottom since we're using grid gap */
+}
+
+/* Rest of the styles remain unchanged */
 .card__inner {
     position: relative;
     width: 100%;
@@ -357,33 +396,19 @@ export default {
     transform: translateY(0);
 }
 
-#app {
-    width: 100%;
-    min-height: 100vh;
-    overflow: visible !important;
-}
-
 @media (max-width: 768px) {
-    .hero h1 {
-        font-size: 4rem;
-    }
-    
-    .scroll-link {
-        font-size: 1.5rem;
-    }
-
     .card__article {
         height: 350px;
     }
 }
 
 @media (max-width: 576px) {
-    .hero h1 {
-        font-size: 3rem;
-    }
-
     .card__article {
         height: 300px;
+    }
+    
+    .col-12 {
+        margin: 1rem 0;
     }
 }
 </style>
