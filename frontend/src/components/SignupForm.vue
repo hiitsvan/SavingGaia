@@ -84,7 +84,7 @@ export default {
 
       try {
         console.log({ email: this.email, password: this.password, name: this.name });
-        const response = await axios.post('http://localhost:8001/auth/register', {
+        const response = await axios.post('https://us-central1-wad2proj-c747a.cloudfunctions.net/app/auth/register', {
           email: this.email,
           password: this.password,
           name: this.name

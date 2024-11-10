@@ -1,18 +1,15 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
 
-const PORT = 8001;
+const express = require("express");
+const bodyParser = require("body-parser");
+const functions = require("firebase-functions");
+
+// const PORT = 8080;
 const { db } = require("./firebase/firebaseAdmin.js");
 
 const app = express();
+const cors = require('cors');
 
-// Middleware
-app.use(cors({
-    origin: ["http://localhost:8080", "http://localhost:5173"],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true
-}));
+app.use(cors())
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,8 +42,10 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });
+
+exports.app = functions.https.onRequest(app);
 
 

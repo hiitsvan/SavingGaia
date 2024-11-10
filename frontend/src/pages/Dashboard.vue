@@ -136,7 +136,7 @@ export default {
 
         try {
             this.loading = true;
-            const response = await axios.get(`http://localhost:8001/completed-works/${this.user.uid}`);
+            const response = await axios.get(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/completed-works/${this.user.uid}`);
             this.completedWorks = response.data || [];
             this.error = null;
             this.errorDetails = null;
@@ -154,9 +154,9 @@ export default {
         async markAsIncomplete(work) {
             try {
                 // First, delete from completed works
-                await axios.delete(`http://localhost:8001/completed-works/${this.user.uid}/${work.id}`)
+                await axios.delete(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/completed-works/${this.user.uid}/${work.id}`)
                 // Then, add back to likes
-                await axios.post('http://localhost:8001/likes', {
+                await axios.post('https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes', {
                     userId: this.user.uid,
                     opportunityId: work.id,
                     opportunity: {

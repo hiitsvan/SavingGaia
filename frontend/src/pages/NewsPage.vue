@@ -59,7 +59,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get('http://localhost:8001/news');
+      const response = await axios.get('https://us-central1-wad2proj-c747a.cloudfunctions.net/app/news');
       this.newsArticles = response.data;
     } catch (error) {
       console.error("Error fetching news articles: ", error);

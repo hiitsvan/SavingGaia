@@ -1,6 +1,6 @@
 
 const { admin } = require('../firebase/firebaseAdmin.js')
-const { signInWithEmailAndPassword } = require('firebase/auth');
+// const { signInWithEmailAndPassword } = require('firebase/auth');
 
 // Register User using Firebase Admin
 const registerUser = async (req, res) => {
@@ -49,25 +49,25 @@ function handleAdminError(error) {
   }
 }
 // Login User using Firebase Client SDK
-const loginUser = async (req, res) => {
-  console.log('Received login request with:', req.body);
-  const { email, password } = req.body;
+// const loginUser = async (req, res) => {
+//   console.log('Received login request with:', req.body);
+//   const { email, password } = req.body;
 
-  try {
-    const userCredential = await signInWithEmailAndPassword(clientAuth, email, password);
-    const user = userCredential.user;
-    const token = await user.getIdToken();
+//   try {
+//     const userCredential = await signInWithEmailAndPassword(clientAuth, email, password);
+//     const user = userCredential.user;
+//     const token = await user.getIdToken();
 
-    res.status(200).json({
-      message: 'User logged in successfully',
-      uid: user.uid,
-      email: user.email,
-      token: token,
-    });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
+//     res.status(200).json({
+//       message: 'User logged in successfully',
+//       uid: user.uid,
+//       email: user.email,
+//       token: token,
+//     });
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
 
 // Logout User using Firebase Admin (example, typically handled by client)
 const logoutUser = async (req, res) => {
@@ -111,7 +111,7 @@ const verifyToken = async (req, res) => {
 
 module.exports = {
   registerUser,
-  loginUser,
+  // loginUser,
   logoutUser,
   verifyToken
 };

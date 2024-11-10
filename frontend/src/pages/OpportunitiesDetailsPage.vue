@@ -142,7 +142,7 @@ export default {
     },
     async created() {
         try {
-            const response = await axios.get(`http://localhost:8001/opportunities/${this.opportunityId}`);
+            const response = await axios.get(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/opportunities/${this.opportunityId}`);
             this.opportunity = response.data;
 
             // Check if the opportunity is already liked
@@ -188,7 +188,7 @@ export default {
                     return;
                 }
                 // Replace with your actual API endpoint
-                const response = await axios.get(`http://localhost:8001/likes/${userId}/${this.opportunityId}`);
+                const response = await axios.get(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes/${userId}/${this.opportunityId}`);
                 console.log("user liked this")
                 this.opportunity.isLiked = response.data.isLiked
             } catch (error) {
@@ -207,12 +207,12 @@ export default {
 
                     if (this.opportunity.isLiked) {
                         // If already liked, remove from likes
-                        await axios.delete(`http://localhost:8001/likes/${userId}/${this.opportunityId}`);
+                        await axios.delete(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes/${userId}/${this.opportunityId}`);
                         this.opportunity.isLiked = false;
                         alert('Opportunity removed from likes!');
                     } else {
                         // If not liked, save to likes
-                        await axios.post('http://localhost:8001/likes', {
+                        await axios.post('https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes', {
                             userId: userId,
                             opportunityId: this.opportunityId,
                         });

@@ -71,7 +71,7 @@
       if (this.isAuthenticated && this.user) {
         try {
           const userId = this.user.uid;
-          const response = await axios.get(`http://localhost:8001/likes/${userId}`);
+          const response = await axios.get(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes/${userId}`);
           this.volunteerCards = response.data;
         } catch (error) {
           console.error("Error fetching saved likes:", error);
@@ -97,7 +97,7 @@
   
           console.log('Sending completed works to backend:', completedWorks);
           
-          const response = await axios.post('http://localhost:8001/completed-works', {
+          const response = await axios.post('https://us-central1-wad2proj-c747a.cloudfunctions.net/app/completed-works', {
             userId: this.user.uid,
             works: completedWorks
           }, {
@@ -111,7 +111,7 @@
   
           // Remove completed works from likes
           await Promise.all(completedWorks.map(work => 
-            axios.delete(`http://localhost:8001/likes/${this.user.uid}/${work.id}`)
+            axios.delete(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes/${this.user.uid}/${work.id}`)
           ));
   
           // Navigate to dashboard

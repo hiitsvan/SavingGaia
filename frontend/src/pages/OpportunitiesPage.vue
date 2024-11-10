@@ -251,7 +251,7 @@ export default {
           endTime: this.endTime
         };
 
-        const response = await axios.get(`http://localhost:8001/opportunities/`, {
+        const response = await axios.get(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/opportunities`, {
           params: filters
         });
         this.opportunities = response.data.map((opportunity) => ({
@@ -279,7 +279,7 @@ export default {
 
         for (let opportunity of this.opportunities) {
           try {
-            const response = await axios.get(`http://localhost:8001/likes/${userId}/${opportunity.id}`);
+            const response = await axios.get(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes/${userId}/${opportunity.id}`);
             opportunity.isLiked = response.data.isLiked || false;
             console.log(`Opportunity ${opportunity.id} is liked: ${opportunity.isLiked}`);
           } catch (innerError) {
@@ -599,12 +599,12 @@ export default {
 
           if (opportunity.isLiked) {
             // If already liked, remove from likes
-            await axios.delete(`http://localhost:8001/likes/${userId}/${opportunity.id}`);
+            await axios.delete(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes/${userId}/${opportunity.id}`);
             opportunity.isLiked = false;
             alert('Opportunity unsaved!');
           } else {
             // If not liked, save to likes
-            await axios.post('http://localhost:8001/likes', {
+            await axios.post('https://us-central1-wad2proj-c747a.cloudfunctions.net/app/likes', {
               userId: userId,
               opportunityId: opportunity.id,
             });
