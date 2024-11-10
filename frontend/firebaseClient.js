@@ -6,11 +6,11 @@ import { getFirestore } from 'firebase/firestore';
 
 // Firebase Client SDK Configuration
 const firebaseClientConfig = {
-  apiKey: "AIzaSyC6nkvQ1WfLPr8iJzuOfeaxfkHJB6BR_Fo",
-  authDomain: "wad2proj-c747a.firebaseapp.com",
-  projectId: "wad2proj-c747a",
-  messagingSenderId:"626544421561",
-  appId: "1:626544421561:web:d6b702246df00a24598968",
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase Client SDK
