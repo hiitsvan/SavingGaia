@@ -31,8 +31,16 @@
                         <!-- Key Section -->
                         <div id="key" class="mb-4">
                             The colour and height of the spikes are jointly scaled to show the change in temperature
-                            against the average of 1951-1980. Blues and purples symbolize temperatures cooler than the
-                            average, while reds, yellows, and oranges symbolize temperatures warmer than the average.
+                            against the average of 1951-1980.
+                            <span style="background-image: linear-gradient(to right, rgb(69, 162, 255), purple);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;">
+                                cooler than the average
+                            </span>, while<span style="background-image: linear-gradient(to right, red, yellow, orange);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;">
+                                warmer than the average
+                            </span>.
                         </div>
 
                         <!-- Info Section -->
@@ -47,20 +55,20 @@
                 </div>
             </section>
 
-            <div class="container px-4 px-md-5 my-5">
+            <div class="charts-section container px-4 px-md-5 my-5">
                 <div class="row g-4">
-                    <div class="col-12 col-md-6 ">
-                        <div class="chart-wrapper h-100">
+                    <div class="col-12 col-md-6">
+                        <div class="chart-box">
                             <CarbonLevelsChart />
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 ">
-                        <div class="chart-wrapper h-100">
+                    <div class="col-12 col-md-6">
+                        <div class="chart-box">
                             <EnergyConsumptionChart />
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 ">
-                        <div class="chart-wrapper h-100">
+                    <div class="col-12 col-md-6">
+                        <div class="chart-box">
                             <SeaLevelChart />
                         </div>
                     </div>
@@ -71,7 +79,6 @@
 </template>
 
 <script setup>
-// Script remains exactly the same as before
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import * as THREE from 'three';
 import Globe from 'globe.gl';
@@ -85,12 +92,11 @@ const years = ref(['1910', '1920', '1930', '1940', '1980', '1990', '2000', '2010
 const jsonData = ref([]);
 const globeContainer = ref(null);
 let resizeTimeout = null;
-
 onMounted(async () => {
     await fetchGlobeData();
     await nextTick();
     initGlobe('1910');
-    
+
     window.addEventListener('resize', handleResizeDebounced);
 });
 
@@ -113,9 +119,9 @@ const handleResize = () => {
 
     try {
         const containerWidth = globeContainer.value.clientWidth;
-        const containerHeight = window.innerHeight < 768 
-            ? Math.max(400, window.innerHeight * 0.6)  // Minimum height of 400px
-            : Math.max(500, window.innerHeight * 0.8); // Minimum height of 500px
+        const containerHeight = window.innerHeight < 768
+            ? Math.max(400, window.innerHeight * 0.6)
+            : Math.max(500, window.innerHeight * 0.8);
 
         globe.value.width(containerWidth);
         globe.value.height(containerHeight);
@@ -129,7 +135,7 @@ const initGlobe = async (year) => {
 
     try {
         const pointsData = preparePointsData(year);
-        
+
         globe.value = Globe()
             .globeImageUrl('BM.jpeg')
             .pointsData(pointsData)
@@ -210,6 +216,20 @@ const fetchGlobeData = async () => {
 <style scoped>
 .main {
     overflow-x: hidden;
+    background-color: #242424;
+}
+
+.charts-section {
+    background-color: #242424;
+    padding: 2rem 0;
+}
+
+.chart-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: 100%;
+    min-height: 500px;
 }
 
 .globe-container {
@@ -329,20 +349,15 @@ a:hover.separated {
     opacity: 1;
 }
 
-.chart-wrapper {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 1rem;
-    height: 100%;
-}
-
 @media (max-width: 768px) {
     #container {
         height: 60vh;
         min-height: 400px;
     }
 
-    #key, #bio, #title {
+    #key,
+    #bio,
+    #title {
         max-width: 100%;
         font-size: 13px;
         padding: 8px;
@@ -369,7 +384,9 @@ a:hover.separated {
 }
 
 @media (max-width: 480px) {
-    #key, #bio {
+
+    #key,
+    #bio {
         font-size: 12px;
         padding: 8px;
     }
