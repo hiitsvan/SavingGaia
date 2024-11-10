@@ -19,7 +19,8 @@
         <h3 class="footer__heading">Directory</h3>
         <ul class="footer__links">
           <li><a href="home" class="footer__link">Home</a></li>
-          <li><a href="education" class="footer__link">Education</a></li>
+          <li><a href="gaia" class="footer__link">Gaia</a></li>
+          <li><a href="dashboard" class="footer__link">Dashboard</a></li>
           <li><a href="news" class="footer__link">News</a></li>
           <li><a href="opportunities" class="footer__link">Opportunities</a></li>
         </ul>

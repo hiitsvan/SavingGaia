@@ -4,7 +4,7 @@ import ComparisonPage from './pages/ComparisonPage.vue';
 import OpportunitiesPage from './pages/OpportunitiesPage.vue';
 import NewsPage from './pages/NewsPage.vue';
 import AuthPage from './pages/AuthPage.vue';
-import EducationPage from './pages/EducationPage.vue';
+import GaiaPage from './pages/GaiaPage.vue';
 import DashboardPage from './pages/Dashboard.vue';
 import OpportunitiesDetailsPage from './pages/OpportunitiesDetailsPage.vue';
 import DeforestationPage from './pages/DeforestationPage.vue';
@@ -62,13 +62,13 @@ const routes = [
     name: '/OpportunitiesPage',
     component: OpportunitiesPage,
     path: '/opportunities'
-    },
-    {
-        name: 'OpportunitiesDetailsPage',
-        component: OpportunitiesDetailsPage,
-        path: '/opportunities/:opportunityId', // Dynamic route with opportunityId parameter
-        props: true, // Allows route params to be passed as props
-    },
+  },
+  {
+      name: 'OpportunitiesDetailsPage',
+      component: OpportunitiesDetailsPage,
+      path: '/opportunities/:opportunityId', // Dynamic route with opportunityId parameter
+      props: true, // Allows route params to be passed as props
+  },
   {
     name: 'ComparisonPage',
     component: ComparisonPage,
@@ -89,9 +89,9 @@ const routes = [
     meta: { hideFooter: true },
   },
   {
-    name: 'EducationPage',
-    component: EducationPage,
-    path: '/education'
+    name: 'GaiaPage',
+    component: GaiaPage,
+    path: '/gaia'
   },
   {
     name: 'DashboardPage',
