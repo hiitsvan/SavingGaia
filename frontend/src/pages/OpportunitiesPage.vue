@@ -3,7 +3,7 @@
     <div class="row">
       <!-- Filter Panel -->
       <aside class="col-lg-3 col-md-4 filter-panel">
-        <div class="sticky-top pt-4">
+        <div class="filter-content">
           <h2 class="mb-3">Apply filters</h2>
           <p class="mb-4 text-light">Filter volunteering opportunities.</p>
 
@@ -710,13 +710,37 @@ export default {
 .filter-panel {
   background-color: black;
   border-right: 1px solid grey;
-  min-height: 100vh;
   color: white;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.filter-content {
+  padding: 2rem 1rem;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.filter-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filter-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filter-content::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
 }
 
 .sticky-top {
-  max-height: 100vh;
-  overflow-y: auto;
+  max-height: none;
+  overflow-y: visible;
 }
 
 .heading {
@@ -1001,31 +1025,33 @@ impact-scores {
 .impact-icon:nth-child(5) {
   animation-delay: 0.4s;
 }
-</style>
-/* Responsive adjustments */
+
 @media (max-width: 991.98px) {
-.filter-panel {
-border-right: none;
-border-bottom: 1px solid #eaeaea;
-min-height: auto;
-}
+  .filter-panel {
+    position: relative;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid grey;
+  }
 
-.sticky-top {
-position: relative !important;
-top: 0 !important;
-}
+  .filter-content {
+    padding: 1rem;
+    height: auto;
+    overflow: visible;
+  }
 
-.heading {
-font-size: 2.5rem;
-}
+  .heading {
+    font-size: 2.5rem;
+  }
 }
 
 @media (max-width: 767.98px) {
-.heading {
-font-size: 2rem;
-}
+  .heading {
+    font-size: 2rem;
+  }
 
-.card-image-wrapper {
-height: 180px;
+  .card-image-wrapper {
+    height: 180px;
+  }
 }
-}
+</style>
