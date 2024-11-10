@@ -251,7 +251,7 @@ video {
 }
 
 .section-title {
-  font-size: clamp(2rem, 6vw, 4rem);
+  font-size: clamp(2rem, 6vw, 8rem);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -263,6 +263,7 @@ video {
   max-width: 80vw;
   flex-wrap: wrap;
   text-decoration: none;
+
 }
 
 .section-title span {
@@ -331,7 +332,7 @@ video {
   position: relative;
   z-index: 2;
   padding: 1rem 2rem;
-  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-size: clamp(1rem, 4vw, 2.5rem);
   background: transparent;
   color: #ffffff;
   border: 2px solid #808080;
