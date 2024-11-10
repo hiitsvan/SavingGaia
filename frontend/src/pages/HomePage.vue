@@ -33,12 +33,26 @@
             <article class="card__article">
               <div class="card__inner">
                 <div class="card-img-wrapper">
+                  <img src="/media/earthpage.jpg" alt="Innovation" class="card__img">
+                </div>
+                <div class="card__data">
+                  <span class="card__description">Gaia</span>
+                  <h2 class="card__title">How Has Earth Changed</h2>
+                  <a href="gaia" class="card__button">Find Out Here</a>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <article class="card__article">
+              <div class="card__inner">
+                <div class="card-img-wrapper">
                   <img src="/media/dashboard.jpg" alt="Innovation" class="card__img">
                 </div>
                 <div class="card__data">
                   <span class="card__description">Environmental Dashboard</span>
                   <h2 class="card__title">See Your Contributions</h2>
-                  <a href="education" class="card__button">Click Here</a>
+                  <a href="dashboard" class="card__button">Click Here</a>
                 </div>
               </div>
             </article>
@@ -59,20 +73,6 @@
             </article>
           </div>
 
-          <div class="col-12 col-sm-6 col-lg-4">
-            <article class="card__article">
-              <div class="card__inner">
-                <div class="card-img-wrapper">
-                  <img src="/media/earthpage.jpg" alt="Innovation" class="card__img">
-                </div>
-                <div class="card__data">
-                  <span class="card__description">Earth</span>
-                  <h2 class="card__title">How Has Earth Changed</h2>
-                  <a href="education" class="card__button">Find Out Here</a>
-                </div>
-              </div>
-            </article>
-          </div>
 
           <div class="col-12 col-sm-6 col-lg-4">
             <article class="card__article">
