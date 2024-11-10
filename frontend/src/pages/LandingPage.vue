@@ -1,14 +1,14 @@
 <template>
   <div class="landing-page-container">
-    <main>
-      <section id="intro" :class="{ active: currentSection === 0 }">
+    <main class="main">
+      <section id="intro" :class="{ active: currentSection === 0 }" class="section">
         <video autoplay muted loop playsinline>
           <source src="media/rain_forest.mp4" type="video/mp4">
         </video>
         <button class="start-button" @click="goToNextSection">Begin Journey</button>
       </section>
 
-      <section id="deforestation" :class="{ active: currentSection === 1 }">
+      <section class="section" id="deforestation" :class="{ active: currentSection === 1 }">
         <video autoplay muted loop playsinline>
           <source src="media/forestFire.mp4" type="video/mp4">
         </video>
@@ -26,7 +26,7 @@
         </nav>
       </section>
 
-      <section id="rising-seas" :class="{ active: currentSection === 2 }">
+      <section class="section" id="rising-seas" :class="{ active: currentSection === 2 }">
         <video autoplay muted loop playsinline>
           <source src="media/waves.mp4" type="video/mp4">
         </video>
@@ -45,7 +45,7 @@
         </nav>
       </section>
 
-      <section id="carbonemission" :class="{ active: currentSection === 3 }">
+      <section class="section" id="carbonemission" :class="{ active: currentSection === 3 }">
         <video autoplay muted loop playsinline>
           <source src="media/Carbon.mp4" type="video/mp4">
         </video>
@@ -64,7 +64,7 @@
         </nav>
       </section>
 
-      <section id="earth-dying" :class="{ active: currentSection === 4 }">
+      <section class="section" id="earth-dying" :class="{ active: currentSection === 4 }">
         <video autoplay muted loop playsinline>
           <source src="media/earthdying.mp4" type="video/mp4">
         </video>
@@ -216,7 +216,7 @@ export default {
   box-sizing: border-box;
 }
 
-main {
+.main {
   display: flex;
   width: 500vw;
   height: 100vh;
@@ -224,7 +224,7 @@ main {
   transition: transform 0.5s ease;
 }
 
-section {
+.section {
   position: relative;
   width: 100vw;
   height: 100vh;
