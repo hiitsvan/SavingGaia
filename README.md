@@ -1,5 +1,7 @@
 # wad2proj
 
+Link to our deployed SavingGaia website: https://wad2proj-c747a.web.app/
+
 ## Project setup
 ```
 npm install

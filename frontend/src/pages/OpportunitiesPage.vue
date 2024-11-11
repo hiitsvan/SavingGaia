@@ -15,7 +15,7 @@
             </div>
 
             <!-- Time Filter -->
-            <div class="mb-4">
+            <!-- <div class="mb-4">
               <label class="form-label">Time</label>
               <div class="mb-2">
                 <label for="start-time" class="form-label small">Start Time</label>
@@ -29,7 +29,7 @@
                   <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
                 </select>
               </div>
-            </div>
+            </div> -->
 
             <!-- Location Filter -->
             <div class="mb-4">
