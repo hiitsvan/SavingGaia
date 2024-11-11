@@ -28,8 +28,8 @@ const data = {
   datasets: [{
     label: 'Global Sea Level Rise (mm)',
     data: Array.from({ length: 101 }, (_, i) => i * 3.4),
-    borderColor: '#45B7D1',
-    backgroundColor: 'rgba(69, 183, 209, 0.5)',
+    borderColor: '#8A2BE2', // Changed to purple
+    backgroundColor: 'rgba(138, 43, 226, 0.5)', // Changed to purple with transparency
     fill: true,
     tension: 0.4,
   }]

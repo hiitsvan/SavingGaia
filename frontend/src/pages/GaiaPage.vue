@@ -17,31 +17,29 @@
 
                         <!-- Bio Section -->
                         <div id="bio" class="mb-4">
-                            The globe shows the average temperature anomalies between 1910 and 2019 (decades). The
-                            temperature anomalies are the difference in temperature at that location between a given
-                            time period and the average temperature between the years of 1951 and 1980 (selected by
-                            NASA).
+                            The globe shows temperature anomalies between 1910 and 2019. The
+                            temperature anomalies are the difference in temperature at that location and the average temperature between the years of 1951 and 1980.
                         </div>
-
+                        <div id="key" class="mb-4">
+                            The colour and height of the spikes show the change in temperature
+                            against the average of 1951-1980. Blues-purples symbolises temperatures
+                            <span style="background-image: linear-gradient(to right, rgb(69, 162, 255), purple);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;">
+                                cooler than the average
+                            </span>, while  reds-oranges symbolises temperatures<span style="background-image: linear-gradient(to right, red, yellow, orange);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;">
+                                warmer than the average
+                            </span>.
+                        </div>
                         <!-- Globe Container -->
                         <div class="globe-wrapper mb-4">
                             <div ref="globeContainer" id="container"></div>
                         </div>
 
                         <!-- Key Section -->
-                        <div id="key" class="mb-4">
-                            The colour and height of the spikes are jointly scaled to show the change in temperature
-                            against the average of 1951-1980. Blues and purples symbolises temperatures
-                            <span style="background-image: linear-gradient(to right, rgb(69, 162, 255), purple);
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;">
-                                cooler than the average
-                            </span>, while  reds, yellows and oranges symbolises temperatures<span style="background-image: linear-gradient(to right, red, yellow, orange);
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;">
-                                warmer than the average.
-                            </span>.
-                        </div>
+                        
 
                         <!-- Info Section -->
                         <div id="info">
@@ -297,7 +295,7 @@ a:hover.separated {
 }
 
 #key {
-    text-align: left;
+    text-align: center;
     color: rgba(255, 255, 255, 0.9);
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 3px;

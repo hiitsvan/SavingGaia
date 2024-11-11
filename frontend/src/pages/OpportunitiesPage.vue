@@ -127,6 +127,7 @@
           <div class="spinner mx-2"></div>
           <p>Loading opportunities...</p>
         </div>
+        <div v-if="this.message" class="spinner-container">{{ this.message }}</div>
         <!-- Opportunities Grid -->
         <div v-else class="row g-4 fade-up delay-3">
           <div class="col-xl-4 col-md-6" v-for="opportunity in opportunities" :key="opportunity.id">
@@ -214,6 +215,7 @@ export default {
       enteredLocation: '',
       userLocationName: '',
       status: '',
+      message: '',
       impacts: null,
       loadingOpps: false,
       hours: Array.from({ length: 24 }, (_, i) => {
@@ -260,6 +262,7 @@ export default {
           startTime: this.startTime,
           endTime: this.endTime
         };
+        console.log(filters)
 
         const response = await axios.get(`https://us-central1-wad2proj-c747a.cloudfunctions.net/app/opportunities`, {
           params: filters
@@ -269,6 +272,9 @@ export default {
           ...opportunity,
           isLiked: false, // Initialize isLiked to false
         }));
+        if (this.opportunities.length == 0){
+          this.message = "No matching opportunities found."
+        }
         await this.requestLocation();
 
         if (this.opportunities.length) {

@@ -5,14 +5,15 @@
         <div class="overlay"></div>
         <div class="hero-content">
           <h1 class="hero-title">
-            <span v-for="(letter, index) in heroLetters" :key="index" class="hero-letter"
-              :style="{ animationDelay: `${index * 0.1}s` }">
-              {{ letter }}
-            </span>
+            <div class="title-wrapper">
+              <span v-for="(letter, index) in heroLetters" :key="index" class="hero-letter"
+                :style="{ animationDelay: `${index * 0.1}s` }">
+                {{ letter }}
+              </span>
+            </div>
           </h1>
           <p class="hero-subtitle">A Global Environmental Crisis</p>
         </div>
-    
     </section>
 
     <!-- Key Statistics -->
@@ -134,8 +135,8 @@
     <!-- Footer with Return Button -->
     <div class="footer-section" v-show="showReturnButton">
       <router-link to="/">
-      <button class="return-btn">Return</button>
-    </router-link>
+        <button class="return-btn">Return</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -188,17 +189,17 @@ export default {
   --primary-color: #2c3e50;
   --secondary-color: #34495e;
   --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
 }
 
 .container-fluid {
-  overflow: hidden;
+  overflow-x: hidden;
   width: 100%;
 }
 
 /* Hero Section */
 .hero {
-  width: 100vw;
+  width: 100%;
+  height: 100vh;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -207,6 +208,8 @@ export default {
   justify-content: center;
   text-align: center;
   color: white;
+  padding: 2rem 1rem;
+  margin: 0;
 }
 
 .overlay {
@@ -215,63 +218,57 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+section .overlay {
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title-wrapper {
+  display: inline-flex;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .hero-title {
-  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-size: min(8vw, 5rem);
   margin-bottom: 1rem;
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
   font-weight: 600;
-  transition: transform 0.5s ease; 
+  transition: transform 0.5s ease;
+  padding: 0 1rem;
+  line-height: 1.2;
 }
 
-.hero-title:hover{
-  transform: scale(1.25)
-}
 .hero-letter {
   display: inline-block;
+  margin: 0 0.25rem;
   opacity: 0;
   animation: letterFadeIn 0.5s forwards;
-  transform-origin: center;
 }
 
-@keyframes letterFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) scale(0.8);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.hero-title:hover {
+  transform: scale(1.1);
 }
 
 .hero-subtitle {
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
   opacity: 0;
   animation: fadeInSubtitle 1s forwards;
   animation-delay: 1.5s;
-}
-
-@keyframes fadeInSubtitle {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  padding: 0 1rem;
+  margin-top: 1rem;
 }
 
 /* Section Styles */
@@ -279,61 +276,46 @@ section {
   background-attachment: fixed !important;
   background-size: cover !important;
   background-position: center !important;
-  padding: 6rem 0;
+  padding: clamp(3rem, 6vw, 6rem) 1rem;
   position: relative;
+  overflow: hidden;
 }
 
-img {
-  min-width: 4vw;
-  max-width: 4vw;
-  height: auto;
-  margin-bottom: 1rem;
-}
-
-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 0;
-}
-
-section>* {
+section > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .section-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
   color: white;
+  position: relative;
+  z-index: 2;
 }
-
 
 /* Card Styles */
 .stat-card,
 .cause-card,
 .solution-card {
   background: linear-gradient(145deg, #ffffff, #f5f7fa);
-  padding: 2rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
   border-radius: 15px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05),
     -5px -5px 15px rgba(255, 255, 255, 0.8);
   text-align: center;
   position: relative;
   overflow: hidden;
-  height: 200px;
+  height: auto;
+  min-height: clamp(180px, 25vw, 200px);
   transition: var(--transition);
-  font-size: 1.5vw;
 }
 
 .stat-card h3,
 .cause-card h4,
 .solution-card h4 {
+  font-size: clamp(1.2rem, 3vw, 2rem);
   transition: var(--transition);
   opacity: 1;
   position: absolute;
@@ -341,11 +323,40 @@ section>* {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
+  padding: 0 1rem;
 }
 
 .stat-card h3 {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
   margin-bottom: 0.5rem;
+}
+
+.stat-card p,
+.cause-card p,
+.solution-card p {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  padding: 1rem;
+  transform: translate(-50%, 100%);
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+}
+
+.stat-card:hover p,
+.cause-card:hover p,
+.solution-card:hover p {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+.stat-card:hover h3,
+.cause-card:hover h4,
+.cause-card:hover .icon,
+.solution-card:hover h4 {
+  opacity: 0;
 }
 
 .cause-card .icon {
@@ -362,40 +373,11 @@ section>* {
 }
 
 .cause-card .icon img {
-  width: clamp(32px, 4vw, 48px);
+  width: clamp(32px, 6vw, 48px);
   height: auto;
   min-width: auto;
   max-width: none;
   margin-bottom: 0;
-}
-
-
-.stat-card:hover h3,
-.cause-card:hover h4,
-.cause-card:hover .icon,
-.solution-card:hover h4 {
-  opacity: 0;
-}
-
-.stat-card p,
-.cause-card p,
-.solution-card p {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  padding: 1rem;
-  transform: translate(-50%, 100%);
-  opacity: 0;
-  transition: all 0.5s ease-in-out;
-}
-
-.stat-card:hover p,
-.cause-card:hover p,
-.solution-card:hover p {
-  transform: translate(-50%, -50%);
-  opacity: 1;
-  transition: all 0.5s ease-in-out;
 }
 
 /* Timeline Styles */
@@ -403,28 +385,33 @@ section>* {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(1.5rem, 3vw, 2rem);
+  padding: 0 1rem;
 }
 
 .timeline-item {
   background: linear-gradient(145deg, #ffffff, #f5f7fa);
-  padding: 2rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
   border-radius: 15px;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2rem);
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
-  width: 80%;
+  width: 100%;
   max-width: 600px;
-  justify-content: center;
-  text-align: center;
 }
 
-/* Section Backgrounds */
+.timeline-item h4 {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  margin-bottom: 1rem;
+}
 
+.timeline-item p {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+}
 
 /* Footer Styles */
 .footer-section {
   background-color: var(--primary-color);
-  padding: 2rem 0;
+  padding: 1rem;
   text-align: center;
   position: fixed;
   bottom: 0;
@@ -436,18 +423,58 @@ section>* {
   background: black;
   color: white;
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1.2rem, 3vw, 1.5rem);
   border-radius: 30px;
   cursor: pointer;
   transition: var(--transition);
   font-weight: bold;
+  font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
 .return-btn:hover {
-  background: black;
-  color: white;
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .row {
+    margin: 0;
+  }
+  
+  .col-md-4,
+  .col-md-6,
+  .col-lg-3 {
+    padding: 0.5rem;
+  }
+
+  .stat-card,
+  .cause-card,
+  .solution-card {
+    margin: 0.5rem 0;
+  }
+
+  .hero-title:hover {
+    transform: scale(1.05);
+  }
+
+  .hero-title {
+    font-size: min(10vw, 5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 100vh;
+  }
+
+  .hero-letter {
+    margin: 0 0.1rem;
+  }
+
+  .section-title {
+    margin-bottom: 1.5rem;
+  }
 }
 
 /* Animations */
@@ -456,7 +483,6 @@ section>* {
     opacity: 0;
     transform: translateY(20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -468,31 +494,9 @@ section>* {
     opacity: 0;
     transform: translateY(20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  section {
-    padding: 4rem 0;
-  }
-
-  .stat-card,
-  .cause-card,
-  .solution-card {
-    height: 160px;
-  }
-
-  .stat-card h3 {
-    font-size: 2rem;
-  }
-
-  .timeline-item {
-    width: 90%;
   }
 }
 </style>

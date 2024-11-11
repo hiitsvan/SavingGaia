@@ -14,7 +14,7 @@
         </video>
         <div class="content-wrapper">
           <a href="deforestation" target="_self" rel="noopener noreferrer" class="section-title">
-            <span v-for="(char, index) in 'Deforestation'" :key="index" 
+            <span v-for="(char, index) in 'Land'" :key="index" 
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 1 }">
               {{ char }}
@@ -33,7 +33,7 @@
         </video>
         <div class="content-wrapper">
           <a href="risingsealevel" target="_self" rel="noopener noreferrer" class="section-title">
-            <span v-for="(char, index) in 'Sea Levels'" :key="index"
+            <span v-for="(char, index) in 'Sea'" :key="index"
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 2 }">
               {{ char }}
@@ -52,7 +52,7 @@
         </video>
         <div class="content-wrapper">
           <a href="carbonemission" target="_self" rel="noopener noreferrer" class="section-title">
-            <span v-for="(char, index) in 'CO2 levels'" :key="index"
+            <span v-for="(char, index) in 'Air'" :key="index"
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   :class="{ 'animate-char': currentSection === 3 }">
               {{ char }}

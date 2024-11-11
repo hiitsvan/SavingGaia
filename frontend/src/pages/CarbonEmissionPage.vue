@@ -19,19 +19,19 @@
       <div class="overlay"></div>
       <h2 class="section-title" data-aos="fade-up">Key Statistics</h2>
       <div class="row g-4">
-        <div class="col-md-4" data-aos="fade-up">
+        <div class="col-12 col-sm-6 col-md-4" data-aos="fade-up">
           <div class="stat-card">
             <h3>36.3 GT</h3>
             <p>Global <b>CO2</b> emissions <b>annually</b></p>
           </div>
         </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-12 col-sm-6 col-md-4" data-aos="fade-up" data-aos-delay="100">
           <div class="stat-card">
             <h3>419 ppm</h3>
             <p><b>Current</b> atmospheric <b>CO2</b> levels</p>
           </div>
         </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-12 col-sm-6 col-md-4" data-aos="fade-up" data-aos-delay="200">
           <div class="stat-card">
             <h3>1.1°C</h3>
             <p><b>Global temperature rise</b> since 1900</p>
@@ -45,7 +45,7 @@
       <div class="overlay"></div>
       <h2 class="section-title" data-aos="fade-up">Major Sources</h2>
       <div class="row g-4">
-        <div class="col-md-6 col-lg-3" data-aos="fade-up">
+        <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up">
           <div class="cause-card">
             <div class="icon">
               <img src="media/energy.png" alt="Icon" />
@@ -54,7 +54,7 @@
             <p><b>Fossil fuel</b> burning accounts for <b>75%</b> of global emissions</p>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
           <div class="cause-card">
             <div class="icon">
               <img src="media/transportation.png" alt="Icon" />
@@ -63,7 +63,7 @@
             <p><b>Cars, planes, and ships</b> contribute <b>24% of emissions</b></p>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
           <div class="cause-card">
             <div class="icon">
               <img src="media/factory.png" alt="Icon" />
@@ -72,7 +72,7 @@
             <p>Manufacturing and production create <b>21% of emissions</b></p>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="col-12 col-sm-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
           <div class="cause-card">
             <div class="icon">
               <img src="media/field.png" alt="Icon" />
@@ -110,19 +110,19 @@
       <div class="overlay"></div>
       <h2 class="section-title" data-aos="fade-up">Solutions</h2>
       <div class="row g-4">
-        <div class="col-md-4" data-aos="fade-up">
+        <div class="col-12 col-sm-6 col-md-4" data-aos="fade-up">
           <div class="solution-card">
             <h4>Renewable Energy</h4>
             <p>Transitioning to <b>solar, wind,</b> and other <b>clean energy sources</b></p>
           </div>
         </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-12 col-sm-6 col-md-4" data-aos="fade-up" data-aos-delay="100">
           <div class="solution-card">
             <h4>Electric Vehicles</h4>
             <p>Shifting to <b>zero-emission transportation</b> options</p>
           </div>
         </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-12 col-sm-6 col-md-4" data-aos="fade-up" data-aos-delay="200">
           <div class="solution-card">
             <h4>Carbon Capture</h4>
             <p>Implementing <b>technologies</b> to <b>remove CO2</b> from the atmosphere</p>
@@ -191,13 +191,15 @@ export default {
 }
 
 .container-fluid {
-  overflow: hidden;
+  overflow-x: hidden;
   width: 100%;
+  max-width: 100vw;
 }
 
 /* Hero Section */
 .hero {
   height: 100vh;
+  min-height: 500px;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -206,7 +208,7 @@ export default {
   justify-content: center;
   text-align: center;
   color: white;
-
+  padding: 1rem;
 }
 
 .overlay {
@@ -221,19 +223,23 @@ export default {
 .hero-content {
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .hero-title {
-  font-size: clamp(2.5rem, 8vw, 6rem);
-  margin-bottom: 1rem;
+  font-size: clamp(2rem, 6vw, 6rem);
+  margin-bottom: clamp(1rem, 3vw, 2rem);
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
+  gap: clamp(0.2rem, 1vw, 0.5rem);
+  flex-wrap: wrap;
   transition: transform 0.5s ease;
 }
 
-.hero-title:hover{
-transform: scale(1.25);
+.hero-title:hover {
+  transform: scale(1.15);
 }
 
 .hero-letter {
@@ -243,35 +249,12 @@ transform: scale(1.25);
   transform-origin: center;
 }
 
-@keyframes letterFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) scale(0.8);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 .hero-subtitle {
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-size: clamp(1rem, 2.5vw, 1.8rem);
   opacity: 0;
   animation: fadeInSubtitle 1s forwards;
   animation-delay: 1.5s;
-}
-
-@keyframes fadeInSubtitle {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  padding: 0 1rem;
 }
 
 /* Section Styles */
@@ -279,13 +262,12 @@ section {
   background-attachment: fixed !important;
   background-size: cover !important;
   background-position: center !important;
-  padding: 6rem 0;
+  padding: clamp(3rem, 8vw, 6rem) 1rem;
   position: relative;
 }
 
 img {
-  min-width: 4vw;
-  max-width: 4vw;
+  width: clamp(32px, 4vw, 48px);
   height: auto;
   margin-bottom: 1rem;
 }
@@ -301,15 +283,15 @@ section::before {
   z-index: 0;
 }
 
-section>* {
+section > * {
   position: relative;
   z-index: 1;
 }
 
 .section-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
   color: white;
 }
 
@@ -318,21 +300,22 @@ section>* {
 .cause-card,
 .solution-card {
   background: linear-gradient(145deg, #ffffff, #f5f7fa);
-  padding: 2rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
   border-radius: 15px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05),
     -5px -5px 15px rgba(255, 255, 255, 0.8);
   text-align: center;
   position: relative;
   overflow: hidden;
-  height: 200px;
+  height: clamp(160px, 30vh, 200px);
   transition: var(--transition);
-  font-size: 3.5vh;
+  font-size: clamp(14px, 2.5vh, 18px);
 }
 
 .stat-card h3,
 .cause-card h4,
 .solution-card h4 {
+  font-size: clamp(1.2rem, 3vw, 2rem);
   transition: var(--transition);
   opacity: 1;
   position: absolute;
@@ -340,11 +323,7 @@ section>* {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-}
-
-.stat-card h3 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  padding: 0 1rem;
 }
 
 .cause-card .icon {
@@ -363,38 +342,7 @@ section>* {
 .cause-card .icon img {
   width: clamp(32px, 4vw, 48px);
   height: auto;
-  min-width: auto;
-  max-width: none;
   margin-bottom: 0;
-}
-
-
-.stat-card:hover h3,
-.cause-card:hover h4,
-.cause-card:hover .icon,
-.solution-card:hover h4 {
-  opacity: 0;
-}
-
-.stat-card p,
-.cause-card p,
-.solution-card p {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  padding: 1rem;
-  transform: translate(-50%, 100%);
-  opacity: 0;
-  transition: all 0.5s ease-in-out;
-}
-
-.stat-card:hover p,
-.cause-card:hover p,
-.solution-card:hover p {
-  transform: translate(-50%, -50%);
-  opacity: 1;
-  transition: all 0.5s ease-in-out;
 }
 
 /* Timeline Styles */
@@ -402,25 +350,34 @@ section>* {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(1.5rem, 4vw, 2rem);
+  padding: 0 1rem;
 }
 
 .timeline-item {
   background: linear-gradient(145deg, #ffffff, #f5f7fa);
-  padding: 2rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
   border-radius: 15px;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
-  width: 80%;
+  width: 100%;
   max-width: 600px;
-  justify-content: center;
   text-align: center;
+}
+
+.timeline-item h4 {
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  margin-bottom: 1rem;
+}
+
+.timeline-item p {
+  font-size: clamp(14px, 2.5vh, 16px);
 }
 
 /* Footer Styles */
 .footer-section {
   background-color: var(--primary-color);
-  padding: 2rem 0;
+  padding: clamp(1rem, 2vw, 2rem) 0;
   text-align: center;
   position: fixed;
   bottom: 0;
@@ -432,30 +389,29 @@ section>* {
   background: black;
   color: white;
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1rem, 3vw, 1.5rem);
   border-radius: 30px;
   cursor: pointer;
   transition: var(--transition);
   font-weight: bold;
+  font-size: clamp(14px, 2vw, 16px);
 }
 
 .return-btn:hover {
   background: var(--secondary-color);
-  color: white;
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Animations */
 @keyframes letterFadeIn {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(50px) scale(0.8);
   }
-
-  to {
+  100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -464,31 +420,68 @@ section>* {
     opacity: 0;
     transform: translateY(20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  section {
-    padding: 4rem 0;
+/* Additional Responsive Breakpoints */
+@media (max-width: 576px) {
+  .hero-title {
+    padding: 0 1rem;
   }
-
+  
   .stat-card,
   .cause-card,
   .solution-card {
-    height: 160px;
+    height: clamp(140px, 25vh, 160px);
   }
-
-  .stat-card h3 {
-    font-size: 2rem;
-  }
-
+  
   .timeline-item {
-    width: 90%;
+    width: 95%;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .stat-card,
+  .cause-card,
+  .solution-card {
+    height: clamp(160px, 28vh, 180px);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .stat-card,
+  .cause-card,
+  .solution-card {
+    height: clamp(180px, 30vh, 200px);
+  }
+}
+
+@media (min-width: 993px) {
+  .container-fluid {
+    padding: 0;
+  }
+  
+  section {
+    padding: 6rem 2rem;
+  }
+}
+
+/* Print Media Query */
+@media print {
+  .hero {
+    height: auto;
+    min-height: auto;
+  }
+  
+  .footer-section {
+    position: static;
+  }
+  
+  .overlay {
+    display: none;
   }
 }
 </style>
