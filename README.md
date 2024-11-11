@@ -1,12 +1,7 @@
 # SavingGaia
-```
 
 Curious about how you can play your part in saving Earth?
-Find us live at :
-https://wad2proj-c747a.web.app/
-```
-
-Link to our deployed SavingGaia website: https://wad2proj-c747a.web.app/
+Find us live at: https://wad2proj-c747a.web.app/
 
 ## Project setup
 ```
